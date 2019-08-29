@@ -25,15 +25,12 @@
     <Image Include="Resource Files\vsDefault_small.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Resource Files\ExampleGame.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="cExampleGame.h" />
+    <ClInclude Include="cMyGame.h" />
     <ClInclude Include="Resource Files\Resource.h" />
     <ClInclude Include="Resource Files\targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="cExampleGame.cpp" />
+    <ClCompile Include="cMyGame.cpp" />
     <ClCompile Include="EntryPoint.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -53,11 +50,14 @@
       <Project>{193bb096-cd2c-48e8-8a28-99ecc2d019ad}</Project>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Resource Files\MyGame.rc" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{3AF30854-AAD3-425D-A764-B8196F66F97F}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>ExampleGame</RootNamespace>
+    <RootNamespace>MyGame</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.18362.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />

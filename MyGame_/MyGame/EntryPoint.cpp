@@ -6,7 +6,7 @@
 // Includes
 //=========
 
-#include "cExampleGame.h"
+#include "cMyGame.h"
 
 // Entry Point
 //============
