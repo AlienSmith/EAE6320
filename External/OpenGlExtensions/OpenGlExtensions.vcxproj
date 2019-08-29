@@ -47,7 +47,7 @@
     <ProjectGuid>{433F6D20-943A-4D7B-BFFE-BC9DFC932E6E}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>OpenGlExtensions</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.18362.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

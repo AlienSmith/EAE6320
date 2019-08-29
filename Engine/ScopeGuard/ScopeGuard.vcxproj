@@ -32,7 +32,7 @@
     <ProjectGuid>{B7ED3F7D-BFA1-42C9-9089-C6401FFDE3D4}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>ScopeGuard</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.18362.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

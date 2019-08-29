@@ -37,7 +37,7 @@
     <ProjectGuid>{5FE0EAD5-3429-4525-A533-8CF75C85D4F1}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>AssetBuildExe</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.18362.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
