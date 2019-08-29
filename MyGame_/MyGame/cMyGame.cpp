@@ -1,7 +1,7 @@
 // Includes
 //=========
 
-#include "cExampleGame.h"
+#include "cMyGame.h"
 
 #include <Engine/Asserts/Asserts.h>
 #include <Engine/UserInput/UserInput.h>
