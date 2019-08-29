@@ -35,4 +35,7 @@
   <ItemGroup>
     <ResourceCompile Include="Resource Files\MyGame.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="eae6320.log" />
+  </ItemGroup>
 </Project>

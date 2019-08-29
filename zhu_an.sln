@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29201.188
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.757
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ExampleGame", "ExampleGame", "{AC0EBDC3-8723-4A43-9112-DB863C2C3694}"
 EndProject
@@ -76,6 +76,13 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MyGame", "MyGame", "{71494D7A-9E85-4CA6-AEF8-05E648BEC714}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MyGame", "MyGame_\MyGame\MyGame.vcxproj", "{3AF30854-AAD3-425D-A764-B8196F66F97F}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BuildMyGameAssets", "MyGame_\BuildMyGameAssets\BuildMyGameAssets.vcxproj", "{A839B786-6A87-4EDF-941A-5F8804EB090C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{08EFE31C-CA8A-4271-B255-6F92BD2ADA4B} = {08EFE31C-CA8A-4271-B255-6F92BD2ADA4B}
+		{54116086-BD9D-4DAC-B791-EC675B9CADAB} = {54116086-BD9D-4DAC-B791-EC675B9CADAB}
+		{5FE0EAD5-3429-4525-A533-8CF75C85D4F1} = {5FE0EAD5-3429-4525-A533-8CF75C85D4F1}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -301,6 +308,14 @@ Global
 		{3AF30854-AAD3-425D-A764-B8196F66F97F}.Release|x64.Build.0 = Release|x64
 		{3AF30854-AAD3-425D-A764-B8196F66F97F}.Release|x86.ActiveCfg = Release|Win32
 		{3AF30854-AAD3-425D-A764-B8196F66F97F}.Release|x86.Build.0 = Release|Win32
+		{A839B786-6A87-4EDF-941A-5F8804EB090C}.Debug|x64.ActiveCfg = Debug|x64
+		{A839B786-6A87-4EDF-941A-5F8804EB090C}.Debug|x64.Build.0 = Debug|x64
+		{A839B786-6A87-4EDF-941A-5F8804EB090C}.Debug|x86.ActiveCfg = Debug|Win32
+		{A839B786-6A87-4EDF-941A-5F8804EB090C}.Debug|x86.Build.0 = Debug|Win32
+		{A839B786-6A87-4EDF-941A-5F8804EB090C}.Release|x64.ActiveCfg = Release|x64
+		{A839B786-6A87-4EDF-941A-5F8804EB090C}.Release|x64.Build.0 = Release|x64
+		{A839B786-6A87-4EDF-941A-5F8804EB090C}.Release|x86.ActiveCfg = Release|Win32
+		{A839B786-6A87-4EDF-941A-5F8804EB090C}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -334,6 +349,7 @@ Global
 		{B7ED3F7D-BFA1-42C9-9089-C6401FFDE3D4} = {E5C51EF7-81D3-4030-A4CE-0D2D666CEF4F}
 		{7852704E-6B03-4ECE-87AE-E1A2EAEF7F60} = {E5C51EF7-81D3-4030-A4CE-0D2D666CEF4F}
 		{3AF30854-AAD3-425D-A764-B8196F66F97F} = {71494D7A-9E85-4CA6-AEF8-05E648BEC714}
+		{A839B786-6A87-4EDF-941A-5F8804EB090C} = {71494D7A-9E85-4CA6-AEF8-05E648BEC714}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A89F366F-0B7F-464F-90A8-A4828B273298}
