@@ -3,7 +3,7 @@
 	(instead of the familiar main() in a console program)
 */
 
-// Includes
+// Include
 //=========
 
 #include "cExampleGame.h"
