@@ -41,10 +41,10 @@ void main(
 
 )
 {
-	// Output solid white
+	// Output solid red
 	o_color = float4(
 		// RGB (color)
-		1.0,1.0,1.0,
+		sin( g_elapsedSecondCount_simulationTime ), 1.0, cos( g_elapsedSecondCount_simulationTime ),
 		// Alpha (opacity)
 		1.0 );
 }
@@ -80,7 +80,7 @@ void main()
 	// Output solid white
 	o_color = vec4(
 		// RGB (color)
-		1.0, 1.0, 1.0,
+		sin( g_elapsedSecondCount_simulationTime ), 1.0, cos( g_elapsedSecondCount_simulationTime ),
 		// Alpha (opacity)
 		1.0 );
 }
