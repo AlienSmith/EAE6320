@@ -63,7 +63,6 @@ namespace
 
 	// Shading Data
 	//-------------
-
 	eae6320::Graphics::cShader::Handle s_vertexShader;
 	eae6320::Graphics::cShader::Handle s_fragmentShader;
 

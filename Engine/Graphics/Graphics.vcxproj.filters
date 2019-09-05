@@ -57,6 +57,12 @@
     <ClInclude Include="OpenGL\cDefaultGeometry.gl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="cEffect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Direct3D\cIEffect.d3d.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cConstantBuffer.cpp">
@@ -111,6 +117,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="OpenGL\cDefaultGeometry.gl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cEffect.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Direct3D\cIEffect.d3d.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
