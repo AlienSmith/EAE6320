@@ -5,13 +5,13 @@ namespace eae6320
 	namespace Graphics {
 		void  cIEffect::Bind(){
 			{
-				EAE6320_ASSERT(s_programId != 0);
+				EAE6320_ASSERT(m_programId != 0);
 				glUseProgram(m_programId);
 				EAE6320_ASSERT(glGetError() == GL_NO_ERROR);
 			}
 			// Render state
 			{
-				EAE6320_ASSERT(s_renderState);
+				EAE6320_ASSERT(m_renderState);
 				auto* const renderState = cRenderState::s_manager.Get(m_renderState);
 				EAE6320_ASSERT(renderState);
 				renderState->Bind();

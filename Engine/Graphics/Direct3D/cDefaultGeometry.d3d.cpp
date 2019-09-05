@@ -110,7 +110,7 @@ namespace eae6320 {
 			EAE6320_ASSERT(direct3dImmediateContext);
 			// Bind a specific vertex buffer to the device as a data source
 			{
-				EAE6320_ASSERT(s_defaultgeometry.m_vertexBuffer);
+				EAE6320_ASSERT(m_vertexBuffer);
 				constexpr unsigned int startingSlot = 0;
 				constexpr unsigned int vertexBufferCount = 1;
 				// The "stride" defines how large a single vertex is in the stream of data
@@ -123,7 +123,7 @@ namespace eae6320 {
 			{
 				// Bind the vertex format (which defines how to interpret a single vertex)
 				{
-					EAE6320_ASSERT(s_defaultgeometry.m_vertexFormat);
+					EAE6320_ASSERT(m_vertexFormat);
 					auto* const vertexFormat = cVertexFormat::s_manager.Get(m_vertexFormat);
 					EAE6320_ASSERT(vertexFormat);
 					vertexFormat->Bind();

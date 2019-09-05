@@ -29,14 +29,14 @@ namespace eae6320
 				constexpr unsigned int interfaceCount = 0;
 				// Vertex shader
 				{
-					EAE6320_ASSERT(s_ceffect.m_vertexShader);
+					EAE6320_ASSERT(m_vertexShader);
 					auto* const shader = cShader::s_manager.Get(m_vertexShader);
 					EAE6320_ASSERT(shader && shader->m_shaderObject.vertex);
 					direct3dImmediateContext->VSSetShader(shader->m_shaderObject.vertex, noInterfaces, interfaceCount);
 				}
 				// Fragment shader
 				{
-					EAE6320_ASSERT(s_ceffect.m_fragmentShader);
+					EAE6320_ASSERT(m_fragmentShader);
 					auto* const shader = cShader::s_manager.Get(m_fragmentShader);
 					EAE6320_ASSERT(shader && shader->m_shaderObject.fragment);
 					direct3dImmediateContext->PSSetShader(shader->m_shaderObject.fragment, noInterfaces, interfaceCount);
@@ -44,7 +44,7 @@ namespace eae6320
 			}
 			// Render state
 			{
-				EAE6320_ASSERT(s_ceffect.m_renderState);
+				EAE6320_ASSERT(m_renderState);
 				auto* const renderState = cRenderState::s_manager.Get(m_renderState);
 				EAE6320_ASSERT(renderState);
 				renderState->Bind();
