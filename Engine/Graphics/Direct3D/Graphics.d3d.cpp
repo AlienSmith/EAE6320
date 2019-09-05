@@ -1,8 +1,7 @@
 // Includes
 //=========
-
+#include "cDefaultGeometry.d3d.h"
 #include "../Graphics.h"
-
 #include "Includes.h"
 #include "../cConstantBuffer.h"
 #include "../ConstantBufferFormats.h"
@@ -70,6 +69,7 @@ namespace
 
 	eae6320::Graphics::cRenderState::Handle s_renderState;
 
+	eae6320::DefaultGeometry s_defaultgeometry;
 	// Geometry Data
 	//--------------
 

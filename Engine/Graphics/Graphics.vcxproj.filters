@@ -51,6 +51,9 @@
     <ClInclude Include="Direct3D\Includes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Direct3D\cDefaultGeometry.d3d.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cConstantBuffer.cpp">
@@ -99,6 +102,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Direct3D\sContext.d3d.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Direct3D\cDefaultGeometry.d3d.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenGL\cDefaultGeometry.gl.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
