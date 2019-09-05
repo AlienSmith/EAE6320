@@ -17,6 +17,7 @@
 #include <Engine/Time/Time.h>
 #include <Engine/UserOutput/UserOutput.h>
 #include <utility>
+#include "cIEffect.gl.h"
 
 // Static Data Initialization
 //===========================
@@ -55,12 +56,8 @@ namespace
 
 	// Shading Data
 	//-------------
-
-	eae6320::Graphics::cShader::Handle s_vertexShader;
-	eae6320::Graphics::cShader::Handle s_fragmentShader;
+	eae6320::Graphics::cIEffect s_cEffect;
 	GLuint s_programId = 0;
-
-	eae6320::Graphics::cRenderState::Handle s_renderState;
 	// Geometry Data
 	eae6320::DefaultGeometry s_defaultGeometry;
 }
@@ -184,7 +181,7 @@ void eae6320::Graphics::RenderFrame()
 		// Render state
 		{
 			EAE6320_ASSERT( s_renderState );
-			auto* const renderState = cRenderState::s_manager.Get( s_renderState );
+			auto* const renderState = cRenderState::s_manager.Get(s_cEffect.m_renderState);
 			EAE6320_ASSERT( renderState );
 			renderState->Bind();
 		}
@@ -311,42 +308,7 @@ eae6320::cResult eae6320::Graphics::CleanUp()
 		}
 		s_programId = 0;
 	}
-	if ( s_vertexShader )
-	{
-		const auto result_vertexShader = cShader::s_manager.Release( s_vertexShader );
-		if ( !result_vertexShader )
-		{
-			EAE6320_ASSERT( false );
-			if ( result )
-			{
-				result = result_vertexShader;
-			}
-		}
-	}
-	if ( s_fragmentShader )
-	{
-		const auto result_fragmentShader = cShader::s_manager.Release( s_fragmentShader );
-		if ( !result_fragmentShader )
-		{
-			EAE6320_ASSERT( false );
-			if ( result )
-			{
-				result = result_fragmentShader;
-			}
-		}
-	}
-	if ( s_renderState )
-	{
-		const auto result_renderState = cRenderState::s_manager.Release( s_renderState );
-		if ( !result_renderState )
-		{
-			EAE6320_ASSERT( false );
-			if ( result )
-			{
-				result = result_renderState;
-			}
-		}
-	}
+	s_cEffect.CleanUp();
 
 	{
 		const auto result_constantBuffer_frame = s_constantBuffer_frame.CleanUp();
@@ -412,26 +374,7 @@ namespace
 	{
 		auto result = eae6320::Results::Success;
 
-		if ( !( result = eae6320::Graphics::cShader::s_manager.Load( "data/Shaders/Vertex/standard.shader",
-			s_vertexShader, eae6320::Graphics::ShaderTypes::Vertex ) ) )
-		{
-			EAE6320_ASSERTF( false, "Can't initialize shading data without vertex shader" );
-			return result;
-		}
-		if ( !( result = eae6320::Graphics::cShader::s_manager.Load( "data/Shaders/Fragment/test.shader",
-			s_fragmentShader, eae6320::Graphics::ShaderTypes::Fragment ) ) )
-		{
-			EAE6320_ASSERTF( false, "Can't initialize shading data without fragment shader" );
-			return result;
-		}
-		{
-			constexpr uint8_t defaultRenderState = 0;
-			if ( !( result = eae6320::Graphics::cRenderState::s_manager.Load( defaultRenderState, s_renderState ) ) )
-			{
-				EAE6320_ASSERTF( false, "Can't initialize shading data without render state" );
-				return result;
-			}
-		}
+		s_cEffect.InitializeShadingData();
 
 		// Create a program
 		eae6320::cScopeGuard scopeGuard_program( [&result]
@@ -475,7 +418,7 @@ namespace
 		{
 			// Vertex
 			{
-				glAttachShader( s_programId, eae6320::Graphics::cShader::s_manager.Get( s_vertexShader )->m_shaderId );
+				glAttachShader( s_programId, eae6320::Graphics::cShader::s_manager.Get(s_cEffect.m_vertexShader)->m_shaderId );
 				const auto errorCode = glGetError();
 				if ( errorCode != GL_NO_ERROR )
 				{
@@ -488,7 +431,7 @@ namespace
 			}
 			// Fragment
 			{
-				glAttachShader( s_programId, eae6320::Graphics::cShader::s_manager.Get( s_fragmentShader )->m_shaderId );
+				glAttachShader( s_programId, eae6320::Graphics::cShader::s_manager.Get(s_cEffect.m_fragmentShader)->m_shaderId );
 				const auto errorCode = glGetError();
 				if ( errorCode != GL_NO_ERROR )
 				{
