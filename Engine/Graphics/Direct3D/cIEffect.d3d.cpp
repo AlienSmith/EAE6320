@@ -1,75 +1,64 @@
 #include "cIEffect.d3d.h"
+#include "../Graphics.h"
+#include "Includes.h"
+#include "../cConstantBuffer.h"
+#include "../ConstantBufferFormats.h"
+#include "../cRenderState.h"
+#include "../cShader.h"
+#include "../cVertexFormat.h"
+#include "../sContext.h"
+#include "../VertexFormats.h"
+
+#include <Engine/Asserts/Asserts.h>
+#include <Engine/Concurrency/cEvent.h>
+#include <Engine/Logging/Logging.h>
+#include <Engine/Platform/Platform.h>
+#include <Engine/ScopeGuard/cScopeGuard.h>
+#include <Engine/Time/Time.h>
+#include <Engine/UserOutput/UserOutput.h>
+#include <utility>
 namespace eae6320
 {
 	namespace Graphics {
+		void cIEffect::Bind()
+		{
+			auto* const direct3dImmediateContext = sContext::g_context.direct3dImmediateContext;
+			EAE6320_ASSERT(direct3dImmediateContext);
+			{
+				constexpr ID3D11ClassInstance* const* noInterfaces = nullptr;
+				constexpr unsigned int interfaceCount = 0;
+				// Vertex shader
+				{
+					EAE6320_ASSERT(s_ceffect.m_vertexShader);
+					auto* const shader = cShader::s_manager.Get(m_vertexShader);
+					EAE6320_ASSERT(shader && shader->m_shaderObject.vertex);
+					direct3dImmediateContext->VSSetShader(shader->m_shaderObject.vertex, noInterfaces, interfaceCount);
+				}
+				// Fragment shader
+				{
+					EAE6320_ASSERT(s_ceffect.m_fragmentShader);
+					auto* const shader = cShader::s_manager.Get(m_fragmentShader);
+					EAE6320_ASSERT(shader && shader->m_shaderObject.fragment);
+					direct3dImmediateContext->PSSetShader(shader->m_shaderObject.fragment, noInterfaces, interfaceCount);
+				}
+			}
+			// Render state
+			{
+				EAE6320_ASSERT(s_ceffect.m_renderState);
+				auto* const renderState = cRenderState::s_manager.Get(m_renderState);
+				EAE6320_ASSERT(renderState);
+				renderState->Bind();
+			}
+			return;
+		}
 		cResult eae6320::Graphics::cIEffect::CleanUp()
 		{
-			auto result = Results::Success;
-			if (m_vertexShader)
-			{
-				const auto result_vertexShader = cShader::s_manager.Release(m_vertexShader);
-				if (!result_vertexShader)
-				{
-					EAE6320_ASSERT(false);
-					if (result)
-					{
-						result = result_vertexShader;
-					}
-				}
-			}
-			if (m_fragmentShader)
-			{
-				const auto result_fragmentShader = cShader::s_manager.Release(m_fragmentShader);
-				if (!result_fragmentShader)
-				{
-					EAE6320_ASSERT(false);
-					if (result)
-					{
-						result = result_fragmentShader;
-					}
-				}
-			}
-			if (m_renderState)
-			{
-				const auto result_renderState = cRenderState::s_manager.Release(m_renderState);
-				if (!result_renderState)
-				{
-					EAE6320_ASSERT(false);
-					if (result)
-					{
-						result = result_renderState;
-					}
-				}
-			}
-			return cResult();
+			return cEffect::CleanUp();
 		}
 
 		cResult eae6320::Graphics::cIEffect::InitializeShadingData()
 		{
-			auto result = eae6320::Results::Success;
-
-			if (!(result = eae6320::Graphics::cShader::s_manager.Load("data/Shaders/Vertex/standard.shader",
-				m_vertexShader, eae6320::Graphics::ShaderTypes::Vertex)))
-			{
-				EAE6320_ASSERTF(false, "Can't initialize shading data without vertex shader");
-				return result;
-			}
-			if (!(result = eae6320::Graphics::cShader::s_manager.Load("data/Shaders/Fragment/test.shader",
-				m_fragmentShader, eae6320::Graphics::ShaderTypes::Fragment)))
-			{
-				EAE6320_ASSERTF(false, "Can't initialize shading data without fragment shader");
-				return result;
-			}
-			{
-				constexpr uint8_t defaultRenderState = 0;
-				if (!(result = eae6320::Graphics::cRenderState::s_manager.Load(defaultRenderState, m_renderState)))
-				{
-					EAE6320_ASSERTF(false, "Can't initialize shading data without render state");
-					return result;
-				}
-			}
-
-			return result;
+			return cEffect::InitializeShadingData();
 		}
 	}
 }

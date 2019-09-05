@@ -9,6 +9,7 @@ namespace eae6320 {
 			~DefaultGeometry() { CleanUp(); }
 			GLuint m_vertexBufferId = 0;
 			GLuint m_vertexArrayId = 0;
+			void Draw();
 			eae6320::cResult CleanUp();
 			eae6320::cResult InitializeGeometry();
 		};

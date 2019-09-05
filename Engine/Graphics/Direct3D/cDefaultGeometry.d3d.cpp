@@ -15,6 +15,7 @@
 #include <Engine/UserOutput/UserOutput.h>
 #include <utility>
 namespace eae6320 {
+	namespace Graphics {
 		eae6320::cResult DefaultGeometry::CleanUp() {
 			auto result = Results::Success;
 			if (m_vertexBuffer)
@@ -103,4 +104,46 @@ namespace eae6320 {
 		{
 			CleanUp();
 		}
+		void DefaultGeometry::Draw()
+		{
+			auto* const direct3dImmediateContext = sContext::g_context.direct3dImmediateContext;
+			EAE6320_ASSERT(direct3dImmediateContext);
+			// Bind a specific vertex buffer to the device as a data source
+			{
+				EAE6320_ASSERT(s_defaultgeometry.m_vertexBuffer);
+				constexpr unsigned int startingSlot = 0;
+				constexpr unsigned int vertexBufferCount = 1;
+				// The "stride" defines how large a single vertex is in the stream of data
+				constexpr unsigned int bufferStride = sizeof(VertexFormats::s3dObject);
+				// It's possible to start streaming data in the middle of a vertex buffer
+				constexpr unsigned int bufferOffset = 0;
+				direct3dImmediateContext->IASetVertexBuffers(startingSlot, vertexBufferCount, &m_vertexBuffer, &bufferStride, &bufferOffset);
+			}
+			// Specify what kind of data the vertex buffer holds
+			{
+				// Bind the vertex format (which defines how to interpret a single vertex)
+				{
+					EAE6320_ASSERT(s_defaultgeometry.m_vertexFormat);
+					auto* const vertexFormat = cVertexFormat::s_manager.Get(m_vertexFormat);
+					EAE6320_ASSERT(vertexFormat);
+					vertexFormat->Bind();
+				}
+				// Set the topology (which defines how to interpret multiple vertices as a single "primitive";
+				// the vertex buffer was defined as a triangle list
+				// (meaning that every primitive is a triangle and will be defined by three vertices)
+				direct3dImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+			}
+			// Render triangles from the currently-bound vertex buffer
+			{
+				// As of this comment only a single triangle is drawn
+				// (you will have to update this code in future assignments!)
+				constexpr unsigned int triangleCount = 1;
+				constexpr unsigned int vertexCountPerTriangle = 3;
+				constexpr auto vertexCountToRender = triangleCount * vertexCountPerTriangle;
+				// It's possible to start rendering primitives in the middle of the stream
+				constexpr unsigned int indexOfFirstVertexToRender = 0;
+				direct3dImmediateContext->Draw(vertexCountToRender, indexOfFirstVertexToRender);
+			}
+		}
+	}
 }

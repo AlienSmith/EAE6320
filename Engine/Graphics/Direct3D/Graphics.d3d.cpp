@@ -1,6 +1,7 @@
 // Includes
 //=========
 #include "cDefaultGeometry.d3d.h"
+#include "cIEffect.d3d.h"
 #include "../Graphics.h"
 #include "Includes.h"
 #include "../cConstantBuffer.h"
@@ -63,13 +64,10 @@ namespace
 
 	// Shading Data
 	//-------------
-	eae6320::Graphics::cShader::Handle s_vertexShader;
-	eae6320::Graphics::cShader::Handle s_fragmentShader;
-
-	eae6320::Graphics::cRenderState::Handle s_renderState;
+	eae6320::Graphics::cIEffect s_ceffect;
 	// Geometry Data
 	//--------------
-	eae6320::DefaultGeometry s_defaultgeometry;
+	eae6320::Graphics::DefaultGeometry s_defaultgeometry;
 }
 
 // Helper Function Declarations
@@ -175,70 +173,11 @@ void eae6320::Graphics::RenderFrame()
 
 	// Bind the shading data
 	{
-		{
-			constexpr ID3D11ClassInstance* const* noInterfaces = nullptr;
-			constexpr unsigned int interfaceCount = 0;
-			// Vertex shader
-			{
-				EAE6320_ASSERT( s_vertexShader );
-				auto* const shader = cShader::s_manager.Get( s_vertexShader );
-				EAE6320_ASSERT( shader && shader->m_shaderObject.vertex );
-				direct3dImmediateContext->VSSetShader( shader->m_shaderObject.vertex, noInterfaces, interfaceCount );
-			}
-			// Fragment shader
-			{
-				EAE6320_ASSERT( s_fragmentShader );
-				auto* const shader = cShader::s_manager.Get( s_fragmentShader );
-				EAE6320_ASSERT( shader && shader->m_shaderObject.fragment );
-				direct3dImmediateContext->PSSetShader( shader->m_shaderObject.fragment, noInterfaces, interfaceCount );
-			}
-		}
-		// Render state
-		{
-			EAE6320_ASSERT( s_renderState );
-			auto* const renderState = cRenderState::s_manager.Get( s_renderState );
-			EAE6320_ASSERT( renderState );
-			renderState->Bind();
-		}
+		s_ceffect.Bind();
 	}
 	// Draw the geometry
 	{
-		// Bind a specific vertex buffer to the device as a data source
-		{
-			EAE6320_ASSERT(s_defaultgeometry.m_vertexBuffer);
-			constexpr unsigned int startingSlot = 0;
-			constexpr unsigned int vertexBufferCount = 1;
-			// The "stride" defines how large a single vertex is in the stream of data
-			constexpr unsigned int bufferStride = sizeof( VertexFormats::s3dObject );
-			// It's possible to start streaming data in the middle of a vertex buffer
-			constexpr unsigned int bufferOffset = 0;
-			direct3dImmediateContext->IASetVertexBuffers( startingSlot, vertexBufferCount, &s_defaultgeometry.m_vertexBuffer, &bufferStride, &bufferOffset );
-		}
-		// Specify what kind of data the vertex buffer holds
-		{
-			// Bind the vertex format (which defines how to interpret a single vertex)
-			{
-				EAE6320_ASSERT(s_defaultgeometry.m_vertexFormat);
-				auto* const vertexFormat = cVertexFormat::s_manager.Get(s_defaultgeometry.m_vertexFormat);
-				EAE6320_ASSERT( vertexFormat );
-				vertexFormat->Bind();
-			}
-			// Set the topology (which defines how to interpret multiple vertices as a single "primitive";
-			// the vertex buffer was defined as a triangle list
-			// (meaning that every primitive is a triangle and will be defined by three vertices)
-			direct3dImmediateContext->IASetPrimitiveTopology( D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
-		}
-		// Render triangles from the currently-bound vertex buffer
-		{
-			// As of this comment only a single triangle is drawn
-			// (you will have to update this code in future assignments!)
-			constexpr unsigned int triangleCount = 1;
-			constexpr unsigned int vertexCountPerTriangle = 3;
-			constexpr auto vertexCountToRender = triangleCount * vertexCountPerTriangle;
-			// It's possible to start rendering primitives in the middle of the stream
-			constexpr unsigned int indexOfFirstVertexToRender = 0;
-			direct3dImmediateContext->Draw( vertexCountToRender, indexOfFirstVertexToRender );
-		}
+		s_defaultgeometry.Draw(); 
 	}
 
 	// Everything has been drawn to the "back buffer", which is just an image in memory.
@@ -364,42 +303,7 @@ eae6320::cResult eae6320::Graphics::CleanUp()
 		s_depthStencilView->Release();
 		s_depthStencilView = nullptr;
 	}
-	if ( s_vertexShader )
-	{
-		const auto result_vertexShader = cShader::s_manager.Release( s_vertexShader );
-		if ( !result_vertexShader )
-		{
-			EAE6320_ASSERT( false );
-			if ( result )
-			{
-				result = result_vertexShader;
-			}
-		}
-	}
-	if ( s_fragmentShader )
-	{
-		const auto result_fragmentShader = cShader::s_manager.Release( s_fragmentShader );
-		if ( !result_fragmentShader )
-		{
-			EAE6320_ASSERT( false );
-			if ( result )
-			{
-				result = result_fragmentShader;
-			}
-		}
-	}
-	if ( s_renderState )
-	{
-		const auto result_renderState = cRenderState::s_manager.Release( s_renderState );
-		if ( !result_renderState )
-		{
-			EAE6320_ASSERT( false );
-			if ( result )
-			{
-				result = result_renderState;
-			}
-		}
-	}
+	s_ceffect.CleanUp();
 
 	{
 		const auto result_constantBuffer_frame = s_constantBuffer_frame.CleanUp();
@@ -474,30 +378,7 @@ namespace
 
 	eae6320::cResult InitializeShadingData()
 	{
-		auto result = eae6320::Results::Success;
-
-		if ( !( result = eae6320::Graphics::cShader::s_manager.Load( "data/Shaders/Vertex/standard.shader",
-			s_vertexShader, eae6320::Graphics::ShaderTypes::Vertex ) ) )
-		{
-			EAE6320_ASSERTF( false, "Can't initialize shading data without vertex shader" );
-			return result;
-		}
-		if ( !( result = eae6320::Graphics::cShader::s_manager.Load( "data/Shaders/Fragment/test.shader",
-			s_fragmentShader, eae6320::Graphics::ShaderTypes::Fragment ) ) )
-		{
-			EAE6320_ASSERTF( false, "Can't initialize shading data without fragment shader" );
-			return result;
-		}
-		{
-			constexpr uint8_t defaultRenderState = 0;
-			if ( !( result = eae6320::Graphics::cRenderState::s_manager.Load( defaultRenderState, s_renderState ) ) )
-			{
-				EAE6320_ASSERTF( false, "Can't initialize shading data without render state" );
-				return result;
-			}
-		}
-
-		return result;
+		return s_ceffect.InitializeShadingData();
 	}
 
 	eae6320::cResult InitializeViews( const unsigned int i_resolutionWidth, const unsigned int i_resolutionHeight )

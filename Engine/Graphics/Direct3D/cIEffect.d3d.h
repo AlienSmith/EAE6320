@@ -4,14 +4,11 @@
 namespace eae6320
 {
 	namespace Graphics {
-		class cIEffect : public cBEffect {
+		class cIEffect : public cEffect {
 		public:
-			eae6320::Graphics::cShader::Handle m_vertexShader;
-			eae6320::Graphics::cShader::Handle m_fragmentShader;
-
-			eae6320::Graphics::cRenderState::Handle m_renderState;
-			cIEffect():cBEffect(){}
+			cIEffect():cEffect(){}
 			virtual ~cIEffect() override { CleanUp(); }
+			void Bind();
 			cResult CleanUp();
 			cResult InitializeShadingData();
 		};

@@ -202,4 +202,28 @@ namespace eae6320 {
 
 		return result;
 	}
+	void DefaultGeometry::Draw() {
+		// Bind a specific vertex buffer to the device as a data source
+		{
+			EAE6320_ASSERT(m_vertexArrayId != 0);
+			glBindVertexArray(m_vertexArrayId);
+			EAE6320_ASSERT(glGetError() == GL_NO_ERROR);
+		}
+		// Render triangles from the currently-bound vertex buffer
+		{
+			// The mode defines how to interpret multiple vertices as a single "primitive";
+			// a triangle list is defined
+			// (meaning that every primitive is a triangle and will be defined by three vertices)
+			constexpr GLenum mode = GL_TRIANGLES;
+			// As of this comment only a single triangle is drawn
+			// (you will have to update this code in future assignments!)
+			constexpr unsigned int triangleCount = 1;
+			constexpr unsigned int vertexCountPerTriangle = 3;
+			constexpr auto vertexCountToRender = triangleCount * vertexCountPerTriangle;
+			// It's possible to start rendering primitives in the middle of the stream
+			constexpr unsigned int indexOfFirstVertexToRender = 0;
+			glDrawArrays(mode, indexOfFirstVertexToRender, vertexCountToRender);
+			EAE6320_ASSERT(glGetError() == GL_NO_ERROR);
+		}
+	}
 }
