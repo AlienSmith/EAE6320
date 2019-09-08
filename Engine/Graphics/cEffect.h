@@ -21,8 +21,13 @@ namespace eae6320
 		public:
 			eae6320::Graphics::cShader::Handle m_vertexShader;
 			eae6320::Graphics::cShader::Handle m_fragmentShader;
-
 			eae6320::Graphics::cRenderState::Handle m_renderState;
+#ifdef EAE6320_PLATFORM_GL 
+			GLuint m_programId;
+#endif
+			void Bind();
+			cResult CommonCleanUp();
+			cResult commonInitializeShadingData();
 			cResult CleanUp();
 			cResult InitializeShadingData();
 			cEffect() {}

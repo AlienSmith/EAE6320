@@ -1,7 +1,7 @@
 // Includes
 //=========
 
-#include "cDefaultGeometry.gl.h"
+#include "../cDefaultGeometry.h"
 #include "../cConstantBuffer.h"
 #include "../ConstantBufferFormats.h"
 #include "../cRenderState.h"
@@ -17,7 +17,7 @@
 #include <Engine/Time/Time.h>
 #include <Engine/UserOutput/UserOutput.h>
 #include <utility>
-#include "cIEffect.gl.h"
+#include "../cEffect.h"
 
 // Static Data Initialization
 //===========================
@@ -56,9 +56,9 @@ namespace
 
 	// Shading Data
 	//-------------
-	eae6320::Graphics::cIEffect s_cEffect;
+	eae6320::Graphics::cEffect s_cEffect;
 	// Geometry Data
-	eae6320::DefaultGeometry s_defaultGeometry;
+	eae6320::Graphics::DefaultGeometry s_defaultGeometry;
 }
 
 // Helper Function Declarations

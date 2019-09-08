@@ -51,19 +51,10 @@
     <ClInclude Include="Direct3D\Includes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Direct3D\cDefaultGeometry.d3d.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="OpenGL\cDefaultGeometry.gl.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="cEffect.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Direct3D\cIEffect.d3d.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="OpenGL\cIEffect.gl.h">
+    <ClInclude Include="cDefaultGeometry.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

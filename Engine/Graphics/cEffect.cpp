@@ -2,7 +2,7 @@
 namespace eae6320
 {
 	namespace Graphics {
-		cResult eae6320::Graphics::cEffect::CleanUp()
+		cResult cEffect::CommonCleanUp()
 		{
 			auto result = Results::Success;
 			if (m_vertexShader)
@@ -43,8 +43,7 @@ namespace eae6320
 			}
 			return cResult();
 		}
-
-		cResult eae6320::Graphics::cEffect::InitializeShadingData()
+		cResult cEffect::commonInitializeShadingData()
 		{
 			auto result = eae6320::Results::Success;
 

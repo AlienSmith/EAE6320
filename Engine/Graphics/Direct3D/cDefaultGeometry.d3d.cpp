@@ -1,4 +1,4 @@
-#include "cDefaultGeometry.d3d.h"
+#include "../cDefaultGeometry.h"
 #include "../cConstantBuffer.h"
 #include "../ConstantBufferFormats.h"
 #include "../cRenderState.h"
@@ -16,6 +16,12 @@
 #include <utility>
 namespace eae6320 {
 	namespace Graphics {
+		DefaultGeometry::DefaultGeometry():m_vertexFormat(eae6320::Graphics::cVertexFormat::Handle()),
+			m_vertexBuffer(nullptr) {}
+		DefaultGeometry::~DefaultGeometry()
+		{
+			CleanUp();
+		}
 		eae6320::cResult DefaultGeometry::CleanUp() {
 			auto result = Results::Success;
 			if (m_vertexBuffer)
@@ -113,10 +119,6 @@ namespace eae6320 {
 			}
 
 			return result;
-		}
-		DefaultGeometry::~DefaultGeometry()
-		{
-			CleanUp();
 		}
 		void DefaultGeometry::Draw()
 		{

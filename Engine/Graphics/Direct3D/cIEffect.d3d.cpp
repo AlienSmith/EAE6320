@@ -1,4 +1,4 @@
-#include "cIEffect.d3d.h"
+#include "../cEffect.h"
 #include "../Graphics.h"
 #include "Includes.h"
 #include "../cConstantBuffer.h"
@@ -20,7 +20,7 @@
 namespace eae6320
 {
 	namespace Graphics {
-		void cIEffect::Bind()
+		void cEffect::Bind()
 		{
 			auto* const direct3dImmediateContext = sContext::g_context.direct3dImmediateContext;
 			EAE6320_ASSERT(direct3dImmediateContext);
@@ -51,14 +51,14 @@ namespace eae6320
 			}
 			return;
 		}
-		cResult eae6320::Graphics::cIEffect::CleanUp()
+		cResult eae6320::Graphics::cEffect::CleanUp()
 		{
-			return cEffect::CleanUp();
+			return cEffect::CommonCleanUp();
 		}
 
-		cResult eae6320::Graphics::cIEffect::InitializeShadingData()
+		cResult eae6320::Graphics::cEffect::InitializeShadingData()
 		{
-			return cEffect::InitializeShadingData();
+			return cEffect::commonInitializeShadingData();
 		}
 	}
 }

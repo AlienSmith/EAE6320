@@ -1,9 +1,9 @@
-#include "cIEffect.gl.h"
+#include "../cEffect.h"
 #include <Engine/ScopeGuard/cScopeGuard.h>
 namespace eae6320
 {
 	namespace Graphics {
-		void  cIEffect::Bind(){
+		void  cEffect::Bind(){
 			{
 				EAE6320_ASSERT(m_programId != 0);
 				glUseProgram(m_programId);
@@ -17,8 +17,8 @@ namespace eae6320
 				renderState->Bind();
 			}
 		}
-		cResult cIEffect::CleanUp(){
-			auto result = cEffect::CleanUp();
+		cResult cEffect::CleanUp(){
+			auto result = cEffect::CommonCleanUp();
 			if (m_programId != 0)
 			{
 				glDeleteProgram(m_programId);
@@ -37,8 +37,8 @@ namespace eae6320
 			}
 			return result;
 		}
-		cResult cIEffect::InitializeShadingData(){
-			auto result = cEffect::InitializeShadingData();
+		cResult cEffect::InitializeShadingData(){
+			auto result = cEffect::commonInitializeShadingData();
 			// Create a program 
 			// Notice I changed the code here to capture this 
 			eae6320::cScopeGuard scopeGuard_program([this,&result]

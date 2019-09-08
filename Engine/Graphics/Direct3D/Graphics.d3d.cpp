@@ -1,7 +1,7 @@
 // Includes
 //=========
-#include "cDefaultGeometry.d3d.h"
-#include "cIEffect.d3d.h"
+#include "../cDefaultGeometry.h"
+#include "../cEffect.h"
 #include "../Graphics.h"
 #include "Includes.h"
 #include "../cConstantBuffer.h"
@@ -64,7 +64,7 @@ namespace
 
 	// Shading Data
 	//-------------
-	eae6320::Graphics::cIEffect s_ceffect;
+	eae6320::Graphics::cEffect s_ceffect;
 	// Geometry Data
 	//--------------
 	eae6320::Graphics::DefaultGeometry s_defaultgeometry;
