@@ -9,8 +9,8 @@ namespace eae6320 {
 			m_whenDataForANewFrameCanBeSubmittedFromApplicationThread(eae6320::Concurrency::cEvent()),
 			m_cEffect(),
 			m_defaultGeometry(){}
-		void View::RenderFrame(){
-			// Wait for the application loop to submit data to be rendered
+		void View::RenderFrame()
+		{
 			if (!RenderFrameCheck()) {
 				return;
 			}
@@ -82,7 +82,8 @@ namespace eae6320 {
 				// (At this point in the class there isn't anything that needs to be cleaned up)
 			}
 		}
-		eae6320::cResult View::Initialize(const sInitializationParameters& i_initializationParameters) {
+		eae6320::cResult View::Initialize(const sInitializationParameters& i_initializationParameters)
+		{
 			auto result = Results::Success;
 
 			// Initialize the platform-specific context
@@ -153,7 +154,8 @@ namespace eae6320 {
 
 			return result;
 		}
-		eae6320::cResult View::CleanUp() {
+		eae6320::cResult View::CleanUp()
+		{
 			auto result = Results::Success;
 
 			result = m_defaultGeometry.CleanUp();
