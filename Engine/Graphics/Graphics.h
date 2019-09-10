@@ -16,7 +16,6 @@
 #if defined( EAE6320_PLATFORM_WINDOWS )
 	#include <Engine/Windows/Includes.h>
 #endif
-
 // Interface
 //==========
 

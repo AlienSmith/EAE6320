@@ -40,19 +40,17 @@ namespace eae6320 {
 			void RenderFrame();
 			eae6320::cResult Initialize(const sInitializationParameters& i_initializationParameters);
 			eae6320::cResult CleanUp();
-			eae6320::cResult InitializeGeometry();
-			eae6320::cResult InitializeShadingData();
-			eae6320::cResult InitializeViews(const unsigned int i_resolutionWidth, const unsigned int i_resolutionHeight);
 		private:
 #ifdef EAE6320_PLATFORM_D3D
+			eae6320::cResult InitializeViews(const unsigned int i_resolutionWidth, const unsigned int i_resolutionHeight);
 			ID3D11RenderTargetView* m_renderTargetView;
 			// A depth/stencil view allows a texture to have depth rendered to it
 			ID3D11DepthStencilView* m_depthStencilView;
 #endif
-			eae6320::Graphics::cConstantBuffer m_coustantBuffer_frame;
+			eae6320::Graphics::cConstantBuffer m_constantBuffer_frame;
 			sDataRequiredToRenderAFrame m_dataRequiredToRenderAFrame[2];
-			sDataRequiredToRenderAFrame* m_dataBeingSubmittedByApplicationThread = &s_dataRequiredToRenderAFrame[0];
-			sDataRequiredToRenderAFrame* m_dataBeingRenderedByRenderThread = &s_dataRequiredToRenderAFrame[1];
+			sDataRequiredToRenderAFrame* m_dataBeingSubmittedByApplicationThread;
+			sDataRequiredToRenderAFrame* m_dataBeingRenderedByRenderThread;
 			eae6320::Concurrency::cEvent m_whenAllDataHasBeenSubmittedFromApplicationThread;
 			eae6320::Concurrency::cEvent m_whenDataForANewFrameCanBeSubmittedFromApplicationThread;
 			eae6320::Graphics::cEffect m_cEffect;

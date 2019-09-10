@@ -1,10 +1,7 @@
 #include "View.h"
 namespace eae6320 {
 	namespace Graphics {
-		eae6320::cResult View::Initialize(const sInitializationParameters& i_initializationParameters)
-		{
-			return eae6320::cResult();
-		}
+		View::~View() { CleanUp(); }
 		eae6320::cResult View::InitializeGeometry() {
 			return m_defaultGeometry.InitializeGeometry();
 		}
