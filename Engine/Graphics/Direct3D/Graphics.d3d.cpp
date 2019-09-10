@@ -225,6 +225,7 @@ eae6320::cResult eae6320::Graphics::Initialize( const sInitializationParameters&
 			EAE6320_ASSERTF( false, "Can't initialize Graphics without the shader manager" );
 			return result;
 		}
+		//Extra
 		if ( !( result = cVertexFormat::s_manager.Initialize() ) )
 		{
 			EAE6320_ASSERTF( false, "Can't initialize Graphics without the vertex format manager" );

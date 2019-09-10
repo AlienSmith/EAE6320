@@ -1,0 +1,62 @@
+#pragma once
+#ifdef EAE6320_PLATFORM_GL
+#include "OpenGL/Includes.h"
+#else
+#include "Direct3D/Includes.h"
+#endif
+#include "cDefaultGeometry.h"
+#include "cConstantBuffer.h"
+#include "ConstantBufferFormats.h"
+#include "cRenderState.h"
+#include "cShader.h"
+#include "sContext.h"
+#include "VertexFormats.h"
+
+#include <Engine/Asserts/Asserts.h>
+#include <Engine/Concurrency/cEvent.h>
+#include <Engine/Logging/Logging.h>
+#include <Engine/Platform/Platform.h>
+#include <Engine/ScopeGuard/cScopeGuard.h>
+#include <Engine/Time/Time.h>
+#include <Engine/UserOutput/UserOutput.h>
+#include <utility>
+#include "cEffect.h"
+namespace eae6320 {
+	namespace Graphics {
+		struct sDataRequiredToRenderAFrame {
+			eae6320::Graphics::ConstantBufferFormats::sFrame constantData_frame;
+		};
+		class View {
+		public:
+			View();
+			~View();
+			eae6320::cResult InitializeGeometry();
+			eae6320::cResult InitializeShadingData();
+			void SubmitElapsedTime(const float i_elapsedSecondCount_systemTime, const float i_elapsedSecondCount_simulationTime);
+			eae6320::cResult WaitUntilDataForANewFrameCanBeSubmitted(const unsigned int i_timeToWait_inMilliseconds);
+			eae6320::cResult SignalThatAllDataForAFrameHasBeenSubmitted();
+			bool RenderFrameCheck();
+			//plate-form dependent
+			void RenderFrame();
+			eae6320::cResult Initialize(const sInitializationParameters& i_initializationParameters);
+			eae6320::cResult CleanUp();
+			eae6320::cResult InitializeGeometry();
+			eae6320::cResult InitializeShadingData();
+			eae6320::cResult InitializeViews(const unsigned int i_resolutionWidth, const unsigned int i_resolutionHeight);
+		private:
+#ifdef EAE6320_PLATFORM_D3D
+			ID3D11RenderTargetView* m_renderTargetView;
+			// A depth/stencil view allows a texture to have depth rendered to it
+			ID3D11DepthStencilView* m_depthStencilView;
+#endif
+			eae6320::Graphics::cConstantBuffer m_coustantBuffer_frame;
+			sDataRequiredToRenderAFrame m_dataRequiredToRenderAFrame[2];
+			sDataRequiredToRenderAFrame* m_dataBeingSubmittedByApplicationThread = &s_dataRequiredToRenderAFrame[0];
+			sDataRequiredToRenderAFrame* m_dataBeingRenderedByRenderThread = &s_dataRequiredToRenderAFrame[1];
+			eae6320::Concurrency::cEvent m_whenAllDataHasBeenSubmittedFromApplicationThread;
+			eae6320::Concurrency::cEvent m_whenDataForANewFrameCanBeSubmittedFromApplicationThread;
+			eae6320::Graphics::cEffect m_cEffect;
+			eae6320::Graphics::DefaultGeometry m_defaultGeometry;
+		};
+	}
+}

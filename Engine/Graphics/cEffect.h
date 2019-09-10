@@ -11,7 +11,7 @@
 #include"cRenderState.h"
 #ifdef EAE6320_PLATFORM_GL
 #include "OpenGL/Includes.h"
-#else
+#elif defined EAE6320_PLATFORM_D3D
 #include "Direct3D/Includes.h"
 #endif
 namespace eae6320
