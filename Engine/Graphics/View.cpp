@@ -1,11 +1,37 @@
 #include "View.h"
+#include "cDefaultGeometry.h"
 namespace eae6320 {
 	namespace Graphics {
+		//Define the data here
 		View::~View() { 
 			//CleanUp(); 
 		}
 		eae6320::cResult View::InitializeGeometry() {
-			return m_defaultGeometry.InitializeGeometry();
+			sDataRequriedToIntializeObject squre;
+			squre.indexcount = 6;
+			squre.vertexcount = 4;
+			eae6320::Graphics::VertexFormats::s3dObject temp_vertexData[4];
+			{
+				temp_vertexData[0].x = 0.0f;
+				temp_vertexData[0].y = 0.0f;
+				temp_vertexData[0].z = 0.0f;
+
+				temp_vertexData[1].x = 1.0f;
+				temp_vertexData[1].y = 0.0f;
+				temp_vertexData[1].z = 0.0f;
+
+				temp_vertexData[2].x = 1.0f;
+				temp_vertexData[2].y = 1.0f;
+				temp_vertexData[2].z = 0.0f;
+
+				temp_vertexData[3].x = 0.0f;
+				temp_vertexData[3].y = 1.0f;
+				temp_vertexData[3].z = 0.0f;
+			}
+			squre.vertexData = temp_vertexData;
+			uint16_t temp_indexData[6]{ 0,1,2,0,2,3 };
+			squre.indexdata = temp_indexData;
+			return m_defaultGeometry.InitializeGeometry(squre);
 		}
 		eae6320::cResult View::InitializeShadingData() {
 			return m_cEffect.InitializeShadingData();

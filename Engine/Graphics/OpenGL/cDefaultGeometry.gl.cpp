@@ -74,9 +74,30 @@ namespace eae6320 {
 				}
 				m_vertexBufferId = 0;
 			}
+			//Clean up the added indexbufferid and indexCountToRender
+			if (m_indexBufferId != 0)
+			{
+				constexpr GLsizei bufferCount = 1;
+				glDeleteBuffers(bufferCount, &m_indexBufferId);
+				const auto errorCode = glGetError();
+				if (errorCode != GL_NO_ERROR)
+				{
+					if (result)
+					{
+						result = Results::Failure;
+					}
+					EAE6320_ASSERTF(false, reinterpret_cast<const char*>(gluErrorString(errorCode)));
+					Logging::OutputError("OpenGL failed to delete the index buffer: %s",
+						reinterpret_cast<const char*>(gluErrorString(errorCode)));
+				}
+				m_indexBufferId = 0;
+			}
+			if (indexCountToRender != 0) {
+				indexCountToRender = 0;
+			}
 			return result;
 		}
-		eae6320::cResult DefaultGeometry::InitializeGeometry() {
+		eae6320::cResult DefaultGeometry::InitializeGeometry(const sDataRequriedToIntializeObject& data) {
 			auto result = eae6320::Results::Success;
 
 			// Create a vertex array object and make it active
@@ -137,28 +158,28 @@ namespace eae6320 {
 			{
 				//constexpr unsigned int triangleCount = 1;
 				//constexpr unsigned int vertexCountPerTriangle = 4;
-				const auto vertexCount = 4;
-				eae6320::Graphics::VertexFormats::s3dObject vertexData[vertexCount];
-				{
-					vertexData[0].x = 0.0f;
-					vertexData[0].y = 0.0f;
-					vertexData[0].z = 0.0f;
+				//const auto vertexCount = 4;
+				//eae6320::Graphics::VertexFormats::s3dObject vertexData[vertexCount];
+				//{
+				//	vertexData[0].x = 0.0f;
+				//	vertexData[0].y = 0.0f;
+				//	vertexData[0].z = 0.0f;
 
-					vertexData[1].x = 1.0f;
-					vertexData[1].y = 0.0f;
-					vertexData[1].z = 0.0f;
+				//	vertexData[1].x = 1.0f;
+				//	vertexData[1].y = 0.0f;
+				//	vertexData[1].z = 0.0f;
 
-					vertexData[2].x = 1.0f;
-					vertexData[2].y = 1.0f;
-					vertexData[2].z = 0.0f;
+				//	vertexData[2].x = 1.0f;
+				//	vertexData[2].y = 1.0f;
+				//	vertexData[2].z = 0.0f;
 
-					vertexData[3].x = 0.0f;
-					vertexData[3].y = 1.0f;
-					vertexData[3].z = 0.0f;
-				}
-				const auto bufferSize = vertexCount * sizeof(*vertexData);
+				//	vertexData[3].x = 0.0f;
+				//	vertexData[3].y = 1.0f;
+				//	vertexData[3].z = 0.0f;
+				//}
+				const auto bufferSize = data.vertexcount * sizeof(*data.vertexData);
 				EAE6320_ASSERT(bufferSize < (uint64_t(1u) << (sizeof(GLsizeiptr) * 8)));
-				glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizeiptr>(bufferSize), reinterpret_cast<GLvoid*>(vertexData),
+				glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizeiptr>(bufferSize), reinterpret_cast<GLvoid*>(data.vertexData),
 					// In our class we won't ever read from the buffer
 					GL_STATIC_DRAW);
 				const auto errorCode = glGetError();
@@ -200,12 +221,14 @@ namespace eae6320 {
 			}
 			// Assign the data to the buffer
 			{
-				constexpr unsigned int triangleCount = 2;
+				// Data need to draw
+				indexCountToRender = data.indexcount;
+				/*constexpr unsigned int triangleCount = 2;
 				constexpr unsigned int vertexCountPerTriangle = 3;
 				const auto indexCount = triangleCount * vertexCountPerTriangle;
-				uint16_t indexData[indexCount]{ 0,1,2,0,2,3 };
-				const auto bufferSize = indexCount * sizeof(*indexData);
-				glBufferData(GL_ELEMENT_ARRAY_BUFFER, static_cast<GLsizeiptr>(bufferSize), reinterpret_cast<GLvoid*>(indexData),
+				uint16_t indexData[indexCount]{ 0,1,2,0,2,3 };*/
+				const auto bufferSize = data.indexcount * sizeof(*data.indexdata);
+				glBufferData(GL_ELEMENT_ARRAY_BUFFER, static_cast<GLsizeiptr>(bufferSize), reinterpret_cast<GLvoid*>(data.indexdata),
 					// In our class we won't ever read from the buffer
 					GL_STATIC_DRAW);
 				const auto errorCode = glGetError();

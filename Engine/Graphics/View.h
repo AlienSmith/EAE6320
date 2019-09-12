@@ -25,12 +25,6 @@
 #include <cstdint>
 namespace eae6320 {
 	namespace Graphics {
-		struct sDataRequriedToIntializeObject {
-			int vertexcount;
-			eae6320::Graphics::VertexFormats::s3dObject* vertexData;
-			int indexcount;
-			uint16_t* indexdata;
-		};
 		struct sDataRequiredToRenderAFrame {
 			eae6320::Graphics::ConstantBufferFormats::sFrame constantData_frame;
 		};
