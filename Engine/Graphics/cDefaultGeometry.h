@@ -16,9 +16,11 @@ namespace eae6320 {
 			eae6320::cResult CleanUp();
 			eae6320::cResult InitializeGeometry();
 			~DefaultGeometry();
+			int indexCountToRender = 6;
 #ifdef EAE6320_PLATFORM_GL
 			GLuint m_vertexBufferId = 0;
 			GLuint m_vertexArrayId = 0;
+			GLuint m_indexBufferId = 0;
 #elif defined EAE6320_PLATFORM_D3D
 			eae6320::Graphics::cVertexFormat::Handle m_vertexFormat;
 			ID3D11Buffer* m_vertexBuffer = nullptr;

@@ -14,6 +14,7 @@
 #include <Engine/Time/Time.h>
 #include <Engine/UserOutput/UserOutput.h>
 #include <utility>
+#include <cstdint>
 namespace eae6320 {
 	namespace Graphics {
 		DefaultGeometry::DefaultGeometry() :m_vertexBufferId(0),
@@ -134,9 +135,9 @@ namespace eae6320 {
 			}
 			// Assign the data to the buffer
 			{
-				constexpr unsigned int triangleCount = 2;
-				constexpr unsigned int vertexCountPerTriangle = 3;
-				const auto vertexCount = triangleCount * vertexCountPerTriangle;
+				//constexpr unsigned int triangleCount = 1;
+				//constexpr unsigned int vertexCountPerTriangle = 4;
+				const auto vertexCount = 4;
 				eae6320::Graphics::VertexFormats::s3dObject vertexData[vertexCount];
 				{
 					vertexData[0].x = 0.0f;
@@ -152,20 +153,59 @@ namespace eae6320 {
 					vertexData[2].z = 0.0f;
 
 					vertexData[3].x = 0.0f;
-					vertexData[3].y = 0.0f;
+					vertexData[3].y = 1.0f;
 					vertexData[3].z = 0.0f;
-
-					vertexData[4].x = 1.0f;
-					vertexData[4].y = 1.0f;
-					vertexData[4].z = 0.0f;
-
-					vertexData[5].x = 0.0f;
-					vertexData[5].y = 1.0f;
-					vertexData[5].z = 0.0f;
 				}
 				const auto bufferSize = vertexCount * sizeof(*vertexData);
 				EAE6320_ASSERT(bufferSize < (uint64_t(1u) << (sizeof(GLsizeiptr) * 8)));
 				glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizeiptr>(bufferSize), reinterpret_cast<GLvoid*>(vertexData),
+					// In our class we won't ever read from the buffer
+					GL_STATIC_DRAW);
+				const auto errorCode = glGetError();
+				if (errorCode != GL_NO_ERROR)
+				{
+					result = eae6320::Results::Failure;
+					EAE6320_ASSERTF(false, reinterpret_cast<const char*>(gluErrorString(errorCode)));
+					eae6320::Logging::OutputError("OpenGL failed to allocate the vertex buffer: %s",
+						reinterpret_cast<const char*>(gluErrorString(errorCode)));
+					return result;
+				}
+			}
+			// Create a index buffer object and make it active
+			{
+				constexpr GLsizei bufferCount = 1;
+				glGenBuffers(bufferCount, &m_indexBufferId);
+				const auto errorCode = glGetError();
+				if (errorCode == GL_NO_ERROR)
+				{
+					glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_indexBufferId);
+					const auto errorCode = glGetError();
+					if (errorCode != GL_NO_ERROR)
+					{
+						result = eae6320::Results::Failure;
+						EAE6320_ASSERTF(false, reinterpret_cast<const char*>(gluErrorString(errorCode)));
+						eae6320::Logging::OutputError("OpenGL failed to bind a new vertex buffer: %s",
+							reinterpret_cast<const char*>(gluErrorString(errorCode)));
+						return result;
+					}
+				}
+				else
+				{
+					result = eae6320::Results::Failure;
+					EAE6320_ASSERTF(false, reinterpret_cast<const char*>(gluErrorString(errorCode)));
+					eae6320::Logging::OutputError("OpenGL failed to get an unused vertex buffer ID: %s",
+						reinterpret_cast<const char*>(gluErrorString(errorCode)));
+					return result;
+				}
+			}
+			// Assign the data to the buffer
+			{
+				constexpr unsigned int triangleCount = 2;
+				constexpr unsigned int vertexCountPerTriangle = 3;
+				const auto indexCount = triangleCount * vertexCountPerTriangle;
+				uint16_t indexData[indexCount]{ 0,1,2,0,2,3 };
+				const auto bufferSize = indexCount * sizeof(*indexData);
+				glBufferData(GL_ELEMENT_ARRAY_BUFFER, static_cast<GLsizeiptr>(bufferSize), reinterpret_cast<GLvoid*>(indexData),
 					// In our class we won't ever read from the buffer
 					GL_STATIC_DRAW);
 				const auto errorCode = glGetError();
@@ -227,22 +267,33 @@ namespace eae6320 {
 				glBindVertexArray(m_vertexArrayId);
 				EAE6320_ASSERT(glGetError() == GL_NO_ERROR);
 			}
-			// Render triangles from the currently-bound vertex buffer
+			//Render triangles from the currently-bound index buffer
 			{
 				// The mode defines how to interpret multiple vertices as a single "primitive";
 				// a triangle list is defined
 				// (meaning that every primitive is a triangle and will be defined by three vertices)
 				constexpr GLenum mode = GL_TRIANGLES;
-				// As of this comment only a single triangle is drawn
-				// (you will have to update this code in future assignments!)
-				constexpr unsigned int triangleCount = 2;
-				constexpr unsigned int vertexCountPerTriangle = 3;
-				constexpr auto vertexCountToRender = triangleCount * vertexCountPerTriangle;
 				// It's possible to start rendering primitives in the middle of the stream
-				constexpr unsigned int indexOfFirstVertexToRender = 0;
-				glDrawArrays(mode, indexOfFirstVertexToRender, vertexCountToRender);
+				const GLvoid* const offset = 0;
+				glDrawElements(mode, static_cast<GLsizei>(indexCountToRender), GL_UNSIGNED_SHORT, offset);
 				EAE6320_ASSERT(glGetError() == GL_NO_ERROR);
 			}
+			//// Render triangles from the currently-bound vertex buffer
+			//{
+			//	// The mode defines how to interpret multiple vertices as a single "primitive";
+			//	// a triangle list is defined
+			//	// (meaning that every primitive is a triangle and will be defined by three vertices)
+			//	constexpr GLenum mode = GL_TRIANGLES;
+			//	// As of this comment only a single triangle is drawn
+			//	// (you will have to update this code in future assignments!)
+			//	constexpr unsigned int triangleCount = 2;
+			//	constexpr unsigned int vertexCountPerTriangle = 3;
+			//	constexpr auto vertexCountToRender = triangleCount * vertexCountPerTriangle;
+			//	// It's possible to start rendering primitives in the middle of the stream
+			//	constexpr unsigned int indexOfFirstVertexToRender = 0;
+			//	glDrawArrays(mode, indexOfFirstVertexToRender, vertexCountToRender);
+			//	EAE6320_ASSERT(glGetError() == GL_NO_ERROR);
+			//}
 		}
 	}
 }
