@@ -17,6 +17,10 @@
 namespace eae6320
 {
 	namespace Graphics {
+		struct sDataRequriedToIntializeEffect {
+			const char* vertex_shader_path = nullptr;
+			const char* fragment_shader_path = nullptr;
+		};
 		class cEffect {
 		public:
 			eae6320::Graphics::cShader::Handle m_vertexShader;
