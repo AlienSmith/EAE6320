@@ -22,6 +22,7 @@ namespace eae6320 {
 #elif defined EAE6320_PLATFORM_D3D
 			eae6320::Graphics::cVertexFormat::Handle m_vertexFormat;
 			ID3D11Buffer* m_vertexBuffer = nullptr;
+			ID3D11Buffer* m_indexBuffer = nullptr;
 #endif
 		};
 	}
