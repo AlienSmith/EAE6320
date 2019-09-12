@@ -22,7 +22,7 @@ namespace eae6320 {
 			// Before drawing anything, then, the previous image will be erased
 			// by "clearing" the image buffer (filling it with a solid color)
 			{
-				EAE6320_ASSERT(s_renderTargetView);
+				EAE6320_ASSERT(m_renderTargetView);
 
 				// Black is usually used
 				constexpr float clearColor[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
@@ -32,14 +32,14 @@ namespace eae6320 {
 			// which is used to make it less important which order draw calls are made.
 			// It must also be "cleared" every frame just like the visible color buffer.
 			{
-				EAE6320_ASSERT(s_depthStencilView);
+				EAE6320_ASSERT(m_depthStencilView);
 
 				constexpr float clearToFarDepth = 1.0f;
 				constexpr uint8_t stencilValue = 0;	// Arbitrary if stencil isn't used
 				direct3dImmediateContext->ClearDepthStencilView(m_depthStencilView, D3D11_CLEAR_DEPTH, clearToFarDepth, stencilValue);
 			}
 
-			EAE6320_ASSERT(s_dataBeingRenderedByRenderThread);
+			EAE6320_ASSERT(m_dataBeingRenderedByRenderThread);
 
 			// Update the frame constant buffer
 			{

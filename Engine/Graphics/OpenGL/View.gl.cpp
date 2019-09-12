@@ -47,7 +47,7 @@ namespace eae6320 {
 				}
 			}
 
-			EAE6320_ASSERT(s_dataBeingRenderedByRenderThread);
+			EAE6320_ASSERT(m_dataBeingRenderedByRenderThread);
 
 			// Update the frame constant buffer
 			{

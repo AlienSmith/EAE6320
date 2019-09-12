@@ -1,7 +1,9 @@
 #include "View.h"
 namespace eae6320 {
 	namespace Graphics {
-		View::~View() { CleanUp(); }
+		View::~View() { 
+			//CleanUp(); 
+		}
 		eae6320::cResult View::InitializeGeometry() {
 			return m_defaultGeometry.InitializeGeometry();
 		}
@@ -9,7 +11,7 @@ namespace eae6320 {
 			return m_cEffect.InitializeShadingData();
 		}
 		void View::SubmitElapsedTime(const float i_elapsedSecondCount_systemTime, const float i_elapsedSecondCount_simulationTime) {
-			EAE6320_ASSERT(s_dataBeingSubmittedByApplicationThread);
+			EAE6320_ASSERT(m_dataBeingSubmittedByApplicationThread);
 			auto& constantData_frame = m_dataBeingSubmittedByApplicationThread->constantData_frame;
 			constantData_frame.g_elapsedSecondCount_systemTime = i_elapsedSecondCount_systemTime;
 			constantData_frame.g_elapsedSecondCount_simulationTime = i_elapsedSecondCount_simulationTime;
