@@ -43,9 +43,17 @@ namespace eae6320 {
 					}
 				}
 			}
+			//Clean up added variables
+			if (m_indexBuffer) {
+				m_indexBuffer->Release();
+				m_indexBuffer = nullptr;
+			}
+			if (indexCountToRender != 0) {
+				indexCountToRender = 0;
+			}
 			return result;
 		}
-		eae6320::cResult DefaultGeometry::InitializeGeometry() {
+		eae6320::cResult DefaultGeometry::InitializeGeometry(const sDataRequriedToIntializeObject& data) {
 			auto result = eae6320::Results::Success;
 
 			auto* const direct3dDevice = eae6320::Graphics::sContext::g_context.direct3dDevice;
@@ -63,31 +71,31 @@ namespace eae6320 {
 			// Vertex Buffer
 			//Change triangleCount to 2
 			{
-				constexpr unsigned int triangleCount = 2;
-				constexpr unsigned int vertexCountPerTriangle = 3;
-				constexpr auto vertexCount = triangleCount * vertexCountPerTriangle;
-				eae6320::Graphics::VertexFormats::s3dObject vertexData[vertexCount];
-				{ // 123 134
-					vertexData[0].x = 0.0f;
-					vertexData[0].y = 0.0f;
-					vertexData[0].z = 0.0f;
+				//constexpr unsigned int triangleCount = 2;
+				//constexpr unsigned int vertexCountPerTriangle = 3;
+				//constexpr auto vertexCount = triangleCount * vertexCountPerTriangle;
+				//eae6320::Graphics::VertexFormats::s3dObject vertexData[vertexCount];
+				//{ // 123 134
+				//	vertexData[0].x = 0.0f;
+				//	vertexData[0].y = 0.0f;
+				//	vertexData[0].z = 0.0f;
 
-					vertexData[1].x = 0.0f;
-					vertexData[1].y = 1.0f;
-					vertexData[1].z = 0.0f;
+				//	vertexData[1].x = 0.0f;
+				//	vertexData[1].y = 1.0f;
+				//	vertexData[1].z = 0.0f;
 
-					vertexData[2].x = 1.0f;
-					vertexData[2].y = 1.0f;
-					vertexData[2].z = 0.0f;
+				//	vertexData[2].x = 1.0f;
+				//	vertexData[2].y = 1.0f;
+				//	vertexData[2].z = 0.0f;
 
-					vertexData[3].x = 1.0f;
-					vertexData[3].y = 0.0f;
-					vertexData[3].z = 0.0f;
+				//	vertexData[3].x = 1.0f;
+				//	vertexData[3].y = 0.0f;
+				//	vertexData[3].z = 0.0f;
 
-				}
+				//}
 				D3D11_BUFFER_DESC bufferDescription{};
 				{
-					const auto bufferSize = vertexCount * sizeof(eae6320::Graphics::VertexFormats::s3dObject);
+					const auto bufferSize = data.vertexcount * sizeof(eae6320::Graphics::VertexFormats::s3dObject);
 					EAE6320_ASSERT(bufferSize < (uint64_t(1u) << (sizeof(bufferDescription.ByteWidth) * 8)));
 					bufferDescription.ByteWidth = static_cast<unsigned int>(bufferSize);
 					bufferDescription.Usage = D3D11_USAGE_IMMUTABLE;	// In our class the buffer will never change after it's been created
@@ -98,7 +106,7 @@ namespace eae6320 {
 				}
 				D3D11_SUBRESOURCE_DATA initialData{};
 				{
-					initialData.pSysMem = vertexData;
+					initialData.pSysMem = data.vertexData;
 					// (The other data members are ignored for non-texture buffers)
 				}
 
@@ -113,11 +121,17 @@ namespace eae6320 {
 			}
 			//index Buffer
 			{
-				constexpr unsigned int indexCount = 6;
-				uint16_t indexData[indexCount] = { 0,1,2,0,2,3 };
+				indexCountToRender = data.indexcount;
+				//constexpr unsigned int indexCount = 6;
+				//0,1,2,0,2,3 to 0,2,1,0,3,2 right handed to left handed
+				for (int i = 0; i < indexCountToRender / 3.0f; i++) {
+					uint16_t temp_int = data.indexdata[i * 3 + 1];
+					data.indexdata[i * 3 + 1] = data.indexdata[i * 3 + 2];
+					data.indexdata[i * 3 + 2] = temp_int;
+				}				
 				D3D11_BUFFER_DESC bufferDescription{};
 				{
-					const auto bufferSize = indexCount * sizeof(uint16_t);
+					const auto bufferSize = data.indexcount * sizeof(uint16_t);
 					bufferDescription.ByteWidth = static_cast<unsigned int>(bufferSize);
 					bufferDescription.Usage = D3D11_USAGE_IMMUTABLE;	// In our class the buffer will never change after it's been created
 					bufferDescription.BindFlags = D3D11_BIND_INDEX_BUFFER;
@@ -127,7 +141,7 @@ namespace eae6320 {
 				}
 				D3D11_SUBRESOURCE_DATA initialData{};
 				{
-					initialData.pSysMem = indexData;
+					initialData.pSysMem = data.indexdata;
 					// (The other data members are ignored for non-texture buffers)
 				}
 				const auto d3dResult = direct3dDevice->CreateBuffer(&bufferDescription, &initialData, &m_indexBuffer);
