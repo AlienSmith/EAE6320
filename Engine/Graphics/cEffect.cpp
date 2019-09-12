@@ -43,17 +43,16 @@ namespace eae6320
 			}
 			return cResult();
 		}
-		cResult cEffect::commonInitializeShadingData()
+		cResult cEffect::commonInitializeShadingData(const sDataRequriedToIntializeEffect& data)
 		{
 			auto result = eae6320::Results::Success;
-
-			if (!(result = eae6320::Graphics::cShader::s_manager.Load("data/Shaders/Vertex/standard.shader",
+			if (!(result = eae6320::Graphics::cShader::s_manager.Load(data.vertex_shader_path,
 				m_vertexShader, eae6320::Graphics::ShaderTypes::Vertex)))
 			{
 				EAE6320_ASSERTF(false, "Can't initialize shading data without vertex shader");
 				return result;
 			}
-			if (!(result = eae6320::Graphics::cShader::s_manager.Load("data/Shaders/Fragment/test.shader",
+			if (!(result = eae6320::Graphics::cShader::s_manager.Load(data.fragment_shader_path,
 				m_fragmentShader, eae6320::Graphics::ShaderTypes::Fragment)))
 			{
 				EAE6320_ASSERTF(false, "Can't initialize shading data without fragment shader");

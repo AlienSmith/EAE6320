@@ -31,9 +31,9 @@ namespace eae6320
 #endif
 			void Bind();
 			cResult CommonCleanUp();
-			cResult commonInitializeShadingData();
+			cResult commonInitializeShadingData(const sDataRequriedToIntializeEffect& data);
 			cResult CleanUp();
-			cResult InitializeShadingData();
+			cResult InitializeShadingData(const sDataRequriedToIntializeEffect& data);
 			cEffect() {}
 			virtual ~cEffect() {}
 		};

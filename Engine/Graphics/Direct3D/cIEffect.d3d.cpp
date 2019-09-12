@@ -56,9 +56,9 @@ namespace eae6320
 			return cEffect::CommonCleanUp();
 		}
 
-		cResult eae6320::Graphics::cEffect::InitializeShadingData()
+		cResult eae6320::Graphics::cEffect::InitializeShadingData(const sDataRequriedToIntializeEffect& data)
 		{
-			return cEffect::commonInitializeShadingData();
+			return cEffect::commonInitializeShadingData(data);
 		}
 	}
 }

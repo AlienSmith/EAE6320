@@ -1,5 +1,6 @@
 #include "View.h"
 #include "cDefaultGeometry.h"
+#include "cEffect.h"
 namespace eae6320 {
 	namespace Graphics {
 		//Define the data here
@@ -34,7 +35,10 @@ namespace eae6320 {
 			return m_defaultGeometry.InitializeGeometry(squre);
 		}
 		eae6320::cResult View::InitializeShadingData() {
-			return m_cEffect.InitializeShadingData();
+			sDataRequriedToIntializeEffect flesh_data;
+			flesh_data.vertex_shader_path = "data/Shaders/Vertex/standard.shader";
+			flesh_data.fragment_shader_path = "data/Shaders/Fragment/test.shader";
+			return m_cEffect.InitializeShadingData(flesh_data);
 		}
 		void View::SubmitElapsedTime(const float i_elapsedSecondCount_systemTime, const float i_elapsedSecondCount_simulationTime) {
 			EAE6320_ASSERT(m_dataBeingSubmittedByApplicationThread);

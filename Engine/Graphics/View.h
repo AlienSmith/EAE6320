@@ -57,6 +57,8 @@ namespace eae6320 {
 			eae6320::Concurrency::cEvent m_whenDataForANewFrameCanBeSubmittedFromApplicationThread;
 			eae6320::Graphics::cEffect m_cEffect;
 			eae6320::Graphics::DefaultGeometry m_defaultGeometry;
+			eae6320::Graphics::cEffect m_secondcEffect;
+			eae6320::Graphics::DefaultGeometry m_seconddefaultGeometry;
 		};
 	}
 }

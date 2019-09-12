@@ -37,8 +37,8 @@ namespace eae6320
 			}
 			return result;
 		}
-		cResult cEffect::InitializeShadingData(){
-			auto result = cEffect::commonInitializeShadingData();
+		cResult cEffect::InitializeShadingData(const sDataRequriedToIntializeEffect& data){
+			auto result = cEffect::commonInitializeShadingData(data);
 			// Create a program 
 			// Notice I changed the code here to capture this 
 			eae6320::cScopeGuard scopeGuard_program([this,&result]
