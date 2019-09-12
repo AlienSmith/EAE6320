@@ -32,13 +32,48 @@ namespace eae6320 {
 			squre.vertexData = temp_vertexData;
 			uint16_t temp_indexData[6]{ 0,1,2,0,2,3 };
 			squre.indexdata = temp_indexData;
-			return m_defaultGeometry.InitializeGeometry(squre);
+
+			sDataRequriedToIntializeObject triangle;
+			triangle.indexcount = 3;
+			triangle.vertexcount = 3;
+			eae6320::Graphics::VertexFormats::s3dObject triangle_vertexData[3];
+			{
+				triangle_vertexData[0].x = 0.0f;
+				triangle_vertexData[0].y = 0.0f;
+				triangle_vertexData[0].z = 0.0f;
+
+				triangle_vertexData[1].x = -1.0f;
+				triangle_vertexData[1].y = -1.0f;
+				triangle_vertexData[1].z = 0.0f;
+
+				triangle_vertexData[2].x = 0.0f;
+				triangle_vertexData[2].y = -1.0f;
+				triangle_vertexData[2].z = 0.0f;
+			}
+			triangle.vertexData = triangle_vertexData;
+			uint16_t triangle_indexData[3]{ 0,1,2 };
+			triangle.indexdata = triangle_indexData;
+			auto result = eae6320::Results::Success;
+			if (m_defaultGeometry.InitializeGeometry(squre) == eae6320::Results::Failure) {
+				return eae6320::Results::Failure;
+			}if (m_seconddefaultGeometry.InitializeGeometry(triangle) == eae6320::Results::Failure) {
+				return eae6320::Results::Failure;
+			}
+			return eae6320::Results::Success;
 		}
 		eae6320::cResult View::InitializeShadingData() {
 			sDataRequriedToIntializeEffect flesh_data;
 			flesh_data.vertex_shader_path = "data/Shaders/Vertex/standard.shader";
 			flesh_data.fragment_shader_path = "data/Shaders/Fragment/test.shader";
-			return m_cEffect.InitializeShadingData(flesh_data);
+			sDataRequriedToIntializeEffect white_data;
+			white_data.vertex_shader_path = "data/Shaders/Vertex/standard.shader";
+			white_data.fragment_shader_path = "data/Shaders/Fragment/standard.shader";
+			if (m_cEffect.InitializeShadingData(flesh_data) == eae6320::Results::Failure) {
+				return eae6320::Results::Failure;
+			}if (m_secondcEffect.InitializeShadingData(white_data) == eae6320::Results::Failure) {
+				return eae6320::Results::Failure;
+			}
+			return eae6320::Results::Success;
 		}
 		void View::SubmitElapsedTime(const float i_elapsedSecondCount_systemTime, const float i_elapsedSecondCount_simulationTime) {
 			EAE6320_ASSERT(m_dataBeingSubmittedByApplicationThread);
@@ -83,6 +118,16 @@ namespace eae6320 {
 				return false;
 			}
 			return true;
+		}
+		void View::BindAndDrawInRenderFrame()
+		{
+			// Bind the shading data
+				m_cEffect.Bind();
+			// Draw the geometry
+				m_defaultGeometry.Draw();
+				m_secondcEffect.Bind();
+				m_seconddefaultGeometry.Draw();
+			return;
 		}
 	}
 }

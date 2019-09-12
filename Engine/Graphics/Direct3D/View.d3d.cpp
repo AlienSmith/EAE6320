@@ -47,15 +47,8 @@ namespace eae6320 {
 				auto& constantData_frame = m_dataBeingRenderedByRenderThread->constantData_frame;
 				m_constantBuffer_frame.Update(&constantData_frame);
 			}
-
-			// Bind the shading data
-			{
-				m_cEffect.Bind();
-			}
-			// Draw the geometry
-			{
-				m_defaultGeometry.Draw();
-			}
+			//Bind and Draw staff
+			BindAndDrawInRenderFrame();
 
 			// Everything has been drawn to the "back buffer", which is just an image in memory.
 			// In order to display it the contents of the back buffer must be "presented"

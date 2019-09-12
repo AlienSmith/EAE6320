@@ -38,6 +38,7 @@ namespace eae6320 {
 			eae6320::cResult WaitUntilDataForANewFrameCanBeSubmitted(const unsigned int i_timeToWait_inMilliseconds);
 			eae6320::cResult SignalThatAllDataForAFrameHasBeenSubmitted();
 			bool RenderFrameCheck();
+			void BindAndDrawInRenderFrame();
 			//plate-form dependent
 			void RenderFrame();
 			eae6320::cResult Initialize(const sInitializationParameters& i_initializationParameters);
