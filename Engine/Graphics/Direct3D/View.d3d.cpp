@@ -156,6 +156,7 @@ namespace eae6320 {
 		eae6320::cResult View::CleanUp() {
 			auto result = Results::Success;
 			result = m_defaultGeometry.CleanUp();
+			result = m_seconddefaultGeometry.CleanUp();
 			if (m_renderTargetView)
 			{
 				m_renderTargetView->Release();
@@ -167,6 +168,7 @@ namespace eae6320 {
 				m_depthStencilView = nullptr;
 			}
 			m_cEffect.CleanUp();
+			m_secondcEffect.CleanUp();
 
 			{
 				const auto result_constantBuffer_frame = m_constantBuffer_frame.CleanUp();

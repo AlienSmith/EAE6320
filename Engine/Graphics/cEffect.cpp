@@ -41,7 +41,7 @@ namespace eae6320
 					}
 				}
 			}
-			return cResult();
+			return result;
 		}
 		cResult cEffect::commonInitializeShadingData(const sDataRequriedToIntializeEffect& data)
 		{

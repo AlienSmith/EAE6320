@@ -151,9 +151,10 @@ namespace eae6320 {
 		{
 			auto result = Results::Success;
 
-			result = m_defaultGeometry.CleanUp();
+			m_defaultGeometry.CleanUp();
+			m_seconddefaultGeometry.CleanUp();
 			m_cEffect.CleanUp();
-
+			m_secondcEffect.CleanUp();
 			{
 				const auto result_constantBuffer_frame = m_constantBuffer_frame.CleanUp();
 				if (!result_constantBuffer_frame)
@@ -200,7 +201,6 @@ namespace eae6320 {
 					}
 				}
 			}
-
 			return result;
 		}
 	}
