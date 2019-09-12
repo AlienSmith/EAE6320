@@ -43,6 +43,11 @@ namespace eae6320 {
 			void RenderFrame();
 			eae6320::cResult Initialize(const sInitializationParameters& i_initializationParameters);
 			eae6320::cResult CleanUp();
+			void SetClearColor(const float data[4]);
+			eae6320::Graphics::cEffect m_cEffect;
+			eae6320::Graphics::DefaultGeometry m_defaultGeometry;
+			eae6320::Graphics::cEffect m_secondcEffect;
+			eae6320::Graphics::DefaultGeometry m_seconddefaultGeometry;
 		private:
 #ifdef EAE6320_PLATFORM_D3D
 			eae6320::cResult InitializeViews(const unsigned int i_resolutionWidth, const unsigned int i_resolutionHeight);
@@ -56,10 +61,7 @@ namespace eae6320 {
 			sDataRequiredToRenderAFrame* m_dataBeingRenderedByRenderThread;
 			eae6320::Concurrency::cEvent m_whenAllDataHasBeenSubmittedFromApplicationThread;
 			eae6320::Concurrency::cEvent m_whenDataForANewFrameCanBeSubmittedFromApplicationThread;
-			eae6320::Graphics::cEffect m_cEffect;
-			eae6320::Graphics::DefaultGeometry m_defaultGeometry;
-			eae6320::Graphics::cEffect m_secondcEffect;
-			eae6320::Graphics::DefaultGeometry m_seconddefaultGeometry;
+			float clear_color[4]{ 0.0f,0.0f,0.0f,0.0f };
 		};
 	}
 }

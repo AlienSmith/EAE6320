@@ -20,7 +20,7 @@ namespace eae6320 {
 			{
 				// Black is usually used
 				{
-					glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+					glClearColor(clear_color[0], clear_color[1], clear_color[2], clear_color[3]);
 					EAE6320_ASSERT(glGetError() == GL_NO_ERROR);
 				}
 				{

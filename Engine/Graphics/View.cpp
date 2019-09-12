@@ -7,8 +7,16 @@ namespace eae6320 {
 		View::~View() { 
 			//CleanUp(); 
 		}
+		void View::SetClearColor(const float data[4])
+		{
+			clear_color[0] = data[0];
+			clear_color[1] = data[1];
+			clear_color[2] = data[2];
+			clear_color[3] = data[3];
+			return;
+		}
 		eae6320::cResult View::InitializeGeometry() {
-			sDataRequriedToIntializeObject squre;
+			/*sDataRequriedToIntializeObject squre;
 			squre.indexcount = 6;
 			squre.vertexcount = 4;
 			eae6320::Graphics::VertexFormats::s3dObject temp_vertexData[4];
@@ -58,11 +66,11 @@ namespace eae6320 {
 				return eae6320::Results::Failure;
 			}if (m_seconddefaultGeometry.InitializeGeometry(triangle) == eae6320::Results::Failure) {
 				return eae6320::Results::Failure;
-			}
+			}*/
 			return eae6320::Results::Success;
 		}
 		eae6320::cResult View::InitializeShadingData() {
-			sDataRequriedToIntializeEffect flesh_data;
+			/*sDataRequriedToIntializeEffect flesh_data;
 			flesh_data.vertex_shader_path = "data/Shaders/Vertex/standard.shader";
 			flesh_data.fragment_shader_path = "data/Shaders/Fragment/test.shader";
 			sDataRequriedToIntializeEffect white_data;
@@ -72,7 +80,7 @@ namespace eae6320 {
 				return eae6320::Results::Failure;
 			}if (m_secondcEffect.InitializeShadingData(white_data) == eae6320::Results::Failure) {
 				return eae6320::Results::Failure;
-			}
+			}*/
 			return eae6320::Results::Success;
 		}
 		void View::SubmitElapsedTime(const float i_elapsedSecondCount_systemTime, const float i_elapsedSecondCount_simulationTime) {

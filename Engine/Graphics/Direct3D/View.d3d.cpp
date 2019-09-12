@@ -25,8 +25,8 @@ namespace eae6320 {
 				EAE6320_ASSERT(m_renderTargetView);
 
 				// Black is usually used
-				constexpr float clearColor[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
-				direct3dImmediateContext->ClearRenderTargetView(m_renderTargetView, clearColor);
+				//constexpr float clearColor[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
+				direct3dImmediateContext->ClearRenderTargetView(m_renderTargetView, clear_color);
 			}
 			// In addition to the color buffer there is also a hidden image called the "depth buffer"
 			// which is used to make it less important which order draw calls are made.
