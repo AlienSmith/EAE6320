@@ -45,7 +45,7 @@ namespace eae6320
 #endif
 			EAE6320_ASSETS_DECLAREREFERENCECOUNT()
 			void Bind();
-			virtual ~cEffect() {}
+			~cEffect() { CleanUp(); }
 		};
 		class cBEffect {
 		public:

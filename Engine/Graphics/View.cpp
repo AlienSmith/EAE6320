@@ -97,6 +97,10 @@ namespace eae6320 {
 			t_backgroundcolor[2] = b;
 			t_backgroundcolor[3] = alpha;
 		}
+		void View::SubmitEffectWithObject(cEffect* effect, DefaultGeometry* geometry)
+		{
+			return;
+		}
 		eae6320::cResult View::WaitUntilDataForANewFrameCanBeSubmitted(const unsigned int i_timeToWait_inMilliseconds)
 		{
 			return Concurrency::WaitForEvent(m_whenDataForANewFrameCanBeSubmittedFromApplicationThread, i_timeToWait_inMilliseconds);

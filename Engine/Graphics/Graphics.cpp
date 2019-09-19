@@ -9,6 +9,10 @@ namespace eae6320 {
 		{
 			view.SubmitBackGroundColor(r, g, b, alpha);
 		}
+		void SubmitEffectWithObject(cEffect* effect, DefaultGeometry* geometry)
+		{
+			view.SubmitEffectWithObject(effect, geometry);
+		}
 		cResult WaitUntilDataForANewFrameCanBeSubmitted(const unsigned int i_timeToWait_inMilliseconds) {
 			return view.WaitUntilDataForANewFrameCanBeSubmitted(i_timeToWait_inMilliseconds);
 		}
@@ -20,8 +24,8 @@ namespace eae6320 {
 		}
 		cResult Initialize(const sInitializationParameters& i_initializationParameters) {
 			cResult result = eae6320::Results::Success;
-			float color[4] = { 1.0f,0.0f,0.0f,0.0f };
-			view.SetClearColor(color);
+			//float color[4] = { 1.0f,0.0f,0.0f,0.0f };
+			//view.SetClearColor(color);
 			view.Initialize(i_initializationParameters);
 			sDataRequriedToIntializeObject squre;
 			squre.indexcount = 6;

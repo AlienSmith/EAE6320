@@ -10,6 +10,8 @@
 
 #include <Engine/Application/cbApplication.h>
 #include <Engine/Results/Results.h>
+#include <Engine/Graphics/cEffect.h>
+#include <Engine/Graphics/cDefaultGeometry.h>
 
 #if defined( EAE6320_PLATFORM_WINDOWS )
 	#include "Resource Files/Resource.h"
@@ -78,7 +80,10 @@ namespace eae6320
 
 		virtual cResult Initialize() override;
 		virtual cResult CleanUp() override;
-
+		Graphics::cEffect* m_white_Effect = nullptr;
+		Graphics::cEffect* m_flash_Effect = nullptr;
+		Graphics::DefaultGeometry* m_quard = nullptr;
+		Graphics::DefaultGeometry* m_triangle = nullptr;
 	};
 }
 

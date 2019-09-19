@@ -38,6 +38,7 @@ namespace eae6320 {
 			void SubmitElapsedTime(const float i_elapsedSecondCount_systemTime, const float i_elapsedSecondCount_simulationTime);
 			// Submit BackGround Color
 			void SubmitBackGroundColor(float r, float g, float b, float alpha);
+			void SubmitEffectWithObject(cEffect* effect, DefaultGeometry* geometry);
 			eae6320::cResult WaitUntilDataForANewFrameCanBeSubmitted(const unsigned int i_timeToWait_inMilliseconds);
 			eae6320::cResult SignalThatAllDataForAFrameHasBeenSubmitted();
 			//Plateform Independent

@@ -12,7 +12,8 @@
 
 #include <cstdint>
 #include <Engine/Results/Results.h>
-
+#include "cEffect.h"
+#include "cDefaultGeometry.h"
 #if defined( EAE6320_PLATFORM_WINDOWS )
 	#include <Engine/Windows/Includes.h>
 #endif
@@ -34,6 +35,7 @@ namespace eae6320
 		// for the frame currently being submitted
 		void SubmitElapsedTime( const float i_elapsedSecondCount_systemTime, const float i_elapsedSecondCount_simulationTime );
 		void SubmitClearColor(float r, float g, float b, float alpha);
+		void SubmitEffectWithObject(cEffect* effect, DefaultGeometry* geometry);
 		// When the application is ready to submit data for a new frame
 		// it should call this before submitting anything
 		// (or, said another way, it is not safe to submit data for a new frame
