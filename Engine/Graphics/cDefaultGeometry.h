@@ -16,17 +16,18 @@ namespace eae6320 {
 			uint16_t * indexdata = nullptr;
 		};
 		class DefaultGeometry {
-			static eae6320::cResult Create(const sDataRequriedToIntializeObject& data, DefaultGeometry* i_instance) {
+		private:
+			DefaultGeometry();
+			eae6320::cResult InitializeGeometry(const sDataRequriedToIntializeObject& data);
+			eae6320::cResult CleanUp();
+		public:
+			static eae6320::cResult Create(const sDataRequriedToIntializeObject& data, DefaultGeometry* & i_instance) {
 				DefaultGeometry* instance = new DefaultGeometry();
 				eae6320::cResult result = instance->InitializeGeometry(data);
 				i_instance = instance;
 				return result;
 			}
-		public:
 			//TODO change these to private
-			DefaultGeometry();
-			eae6320::cResult InitializeGeometry(const sDataRequriedToIntializeObject& data);
-			eae6320::cResult CleanUp();
 
 			EAE6320_ASSETS_DECLAREREFERENCECOUNTINGFUNCTIONS()
 			EAE6320_ASSETS_DECLAREDELETEDREFERENCECOUNTEDFUNCTIONS(DefaultGeometry)

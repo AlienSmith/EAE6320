@@ -47,7 +47,7 @@ namespace eae6320 {
 			squre.vertexData = temp_vertexData;
 			uint16_t temp_indexData[6]{ 0,1,2,0,2,3 };
 			squre.indexdata = temp_indexData;
-			result = view.m_defaultGeometry.InitializeGeometry(squre);
+			DefaultGeometry::Create(squre, view.m_Geometry_Array[0]);
 
 			sDataRequriedToIntializeObject triangle;
 			triangle.indexcount = 3;
@@ -69,17 +69,17 @@ namespace eae6320 {
 			triangle.vertexData = triangle_vertexData;
 			uint16_t triangle_indexData[3]{ 0,1,2 };
 			triangle.indexdata = triangle_indexData;
-			result = view.m_seconddefaultGeometry.InitializeGeometry(triangle);
+			DefaultGeometry::Create(triangle, view.m_Geometry_Array[1]);
 
 			sDataRequriedToIntializeEffect flesh_data;
 			flesh_data.vertex_shader_path = "data/Shaders/Vertex/standard.shader";
 			flesh_data.fragment_shader_path = "data/Shaders/Fragment/test.shader";
-			result = view.m_cEffect.InitializeShadingData(flesh_data);
+			cEffect::Create(flesh_data, view.m_Effect_Array[0]);
 
 			sDataRequriedToIntializeEffect white_data;
 			white_data.vertex_shader_path = "data/Shaders/Vertex/standard.shader";
 			white_data.fragment_shader_path = "data/Shaders/Fragment/standard.shader";
-			result = view.m_secondcEffect.InitializeShadingData(white_data);
+			cEffect::Create(white_data, view.m_Effect_Array[1]);
 			return result;
 		}
 		cResult CleanUp() {

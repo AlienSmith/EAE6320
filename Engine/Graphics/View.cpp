@@ -137,13 +137,17 @@ namespace eae6320 {
 			return true;
 		}
 		void View::BindAndDrawInRenderFrame()
-		{				
-			// Bind the shading data
-				m_cEffect.Bind();
-			// Draw the geometry
-				m_defaultGeometry.Draw();
-				m_secondcEffect.Bind();
-				m_seconddefaultGeometry.Draw();
+		{
+			m_Effect_Array[0]->Bind();
+			m_Geometry_Array[0]->Draw();
+			m_Effect_Array[1]->Bind();
+			m_Geometry_Array[1]->Draw();
+			//// Bind the shading data
+			//	m_cEffect.Bind();
+			//// Draw the geometry
+			//	m_defaultGeometry.Draw();
+			//	m_secondcEffect.Bind();
+			//	m_seconddefaultGeometry.Draw();
 			return;
 		}
 		bool View::CleanSubmittedData()

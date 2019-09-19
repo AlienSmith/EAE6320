@@ -34,6 +34,7 @@ void eae6320::cExampleGame::UpdateBasedOnInput()
 
 eae6320::cResult eae6320::cExampleGame::Initialize()
 {
+
 	return Results::Success;
 }
 
