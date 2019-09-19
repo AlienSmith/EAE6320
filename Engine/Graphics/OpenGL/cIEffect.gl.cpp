@@ -82,7 +82,12 @@ namespace eae6320
 			{
 				// Vertex
 				{
-					glAttachShader(m_programId, eae6320::Graphics::cShader::s_manager.Get(m_vertexShader)->m_shaderId);
+					if (m_vertexShader) {
+						glAttachShader(m_programId, eae6320::Graphics::cShader::s_manager.Get(m_vertexShader)->m_shaderId);
+					}
+					else {
+						eae6320::Logging::OutputError("vertexShader is not provided");
+					}
 					const auto errorCode = glGetError();
 					if (errorCode != GL_NO_ERROR)
 					{
@@ -95,7 +100,12 @@ namespace eae6320
 				}
 				// Fragment
 				{
-					glAttachShader(m_programId, eae6320::Graphics::cShader::s_manager.Get(m_fragmentShader)->m_shaderId);
+					if (m_fragmentShader) {
+						glAttachShader(m_programId, eae6320::Graphics::cShader::s_manager.Get(m_fragmentShader)->m_shaderId);
+					}
+					else {
+						eae6320::Logging::OutputError("fragmentShader is not provided");
+					}
 					const auto errorCode = glGetError();
 					if (errorCode != GL_NO_ERROR)
 					{
