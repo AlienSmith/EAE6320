@@ -81,6 +81,7 @@ eae6320::Application::cbApplication* eae6320::Application::cbApplication::GetApp
 // Run
 //----
 
+
 eae6320::cResult eae6320::Application::cbApplication::RenderFramesWhileWaitingForApplicationToExit( int& o_exitCode )
 {
 	// Enter an infinite loop that will continue until a WM_QUIT message is received from Windows

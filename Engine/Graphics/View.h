@@ -27,6 +27,7 @@ namespace eae6320 {
 	namespace Graphics {
 		struct sDataRequiredToRenderAFrame {
 			eae6320::Graphics::ConstantBufferFormats::sFrame constantData_frame;
+			float clear_color[4] = {0.0f,1.0f,0.0f,1.0f};
 		};
 		class View {
 		public:
@@ -35,10 +36,14 @@ namespace eae6320 {
 			eae6320::cResult InitializeGeometry();
 			eae6320::cResult InitializeShadingData();
 			void SubmitElapsedTime(const float i_elapsedSecondCount_systemTime, const float i_elapsedSecondCount_simulationTime);
+			// Submit BackGround Color
+			void SubmitBackGroundColor(float r, float g, float b, float alpha);
 			eae6320::cResult WaitUntilDataForANewFrameCanBeSubmitted(const unsigned int i_timeToWait_inMilliseconds);
 			eae6320::cResult SignalThatAllDataForAFrameHasBeenSubmitted();
+			//Plateform Independent
 			bool RenderFrameCheck();
 			void BindAndDrawInRenderFrame();
+			bool CleanSubmittedData();
 			//plate-form dependent
 			void RenderFrame();
 			eae6320::cResult Initialize(const sInitializationParameters& i_initializationParameters);

@@ -5,6 +5,10 @@ namespace eae6320 {
 		void SubmitElapsedTime(const float i_elapsedSecondCount_systemTime, const float i_elapsedSecondCount_simulationTime) {
 			return view.SubmitElapsedTime(i_elapsedSecondCount_systemTime, i_elapsedSecondCount_simulationTime);
 		}
+		void SubmitClearColor(float r, float g, float b, float alpha)
+		{
+			view.SubmitBackGroundColor(r, g, b, alpha);
+		}
 		cResult WaitUntilDataForANewFrameCanBeSubmitted(const unsigned int i_timeToWait_inMilliseconds) {
 			return view.WaitUntilDataForANewFrameCanBeSubmitted(i_timeToWait_inMilliseconds);
 		}

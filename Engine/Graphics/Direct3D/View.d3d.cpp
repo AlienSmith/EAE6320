@@ -63,6 +63,7 @@ namespace eae6320 {
 			}
 			// Once everything has been drawn the data that was submitted for this frame
 			// should be cleaned up and cleared.
+			CleanSubmittedData();
 			// so that the struct can be re-used (i.e. so that data for a new frame can be submitted to it)
 			{
 				// (At this point in the class there isn't anything that needs to be cleaned up)

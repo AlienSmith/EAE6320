@@ -4,7 +4,6 @@
 	It exposes virtual platform-independent functions for the actual application
 	and takes care of platform-specific application tasks.
 */
-
 #ifndef EAE6320_APPLICATION_CBAPPLICATION_H
 #define EAE6320_APPLICATION_CBAPPLICATION_H
 
@@ -181,7 +180,7 @@ namespace eae6320
 
 			// Your application should override the following function
 			// to instuct the Graphics system what to render for the next frame
-			virtual void SubmitDataToBeRendered( const float i_elapsedSecondCount_systemTime, const float i_elapsedSecondCount_sinceLastSimulationUpdate ) {}
+			virtual void SubmitDataToBeRendered(const float i_elapsedSecondCount_systemTime, const float i_elapsedSecondCount_sinceLastSimulationUpdate) {}
 
 			// Initialization / Clean Up
 			//--------------------------

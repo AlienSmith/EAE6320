@@ -89,6 +89,14 @@ namespace eae6320 {
 			constantData_frame.g_elapsedSecondCount_systemTime = i_elapsedSecondCount_systemTime;
 			constantData_frame.g_elapsedSecondCount_simulationTime = i_elapsedSecondCount_simulationTime;
 		}
+		void View::SubmitBackGroundColor(float r, float g, float b, float alpha)
+		{
+			auto& t_backgroundcolor = m_dataBeingSubmittedByApplicationThread->clear_color;
+			t_backgroundcolor[0] = r;
+			t_backgroundcolor[1] = g;
+			t_backgroundcolor[2] = b;
+			t_backgroundcolor[3] = alpha;
+		}
 		eae6320::cResult View::WaitUntilDataForANewFrameCanBeSubmitted(const unsigned int i_timeToWait_inMilliseconds)
 		{
 			return Concurrency::WaitForEvent(m_whenDataForANewFrameCanBeSubmittedFromApplicationThread, i_timeToWait_inMilliseconds);
@@ -125,10 +133,11 @@ namespace eae6320 {
 					" The application is probably in a bad state and should be exited");
 				return false;
 			}
+			SetClearColor(m_dataBeingRenderedByRenderThread->clear_color);
 			return true;
 		}
 		void View::BindAndDrawInRenderFrame()
-		{
+		{				
 			// Bind the shading data
 				m_cEffect.Bind();
 			// Draw the geometry
@@ -136,6 +145,10 @@ namespace eae6320 {
 				m_secondcEffect.Bind();
 				m_seconddefaultGeometry.Draw();
 			return;
+		}
+		bool View::CleanSubmittedData()
+		{
+			return true;
 		}
 	}
 }
