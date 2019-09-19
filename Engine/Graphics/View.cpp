@@ -99,6 +99,15 @@ namespace eae6320 {
 		}
 		void View::SubmitEffectWithObject(cEffect* effect, DefaultGeometry* geometry)
 		{
+			//TODO Check for numbers of objects in the array 
+			auto& t_effects = m_dataBeingSubmittedByApplicationThread->m_Effect_Array;
+			auto& t_objects = m_dataBeingSubmittedByApplicationThread->m_Geometry_Array;
+			auto& t_index = m_dataBeingSubmittedByApplicationThread->size;
+			t_effects[t_index] = effect;
+			t_objects[t_index] = geometry;
+			t_index++;
+			effect->IncrementReferenceCount();
+			geometry->IncrementReferenceCount();
 			return;
 		}
 		eae6320::cResult View::WaitUntilDataForANewFrameCanBeSubmitted(const unsigned int i_timeToWait_inMilliseconds)
@@ -142,10 +151,13 @@ namespace eae6320 {
 		}
 		void View::BindAndDrawInRenderFrame()
 		{
-			m_Effect_Array[0]->Bind();
-			m_Geometry_Array[0]->Draw();
-			m_Effect_Array[1]->Bind();
-			m_Geometry_Array[1]->Draw();
+			auto& count = m_dataBeingRenderedByRenderThread->size;
+			auto& effects = m_dataBeingRenderedByRenderThread->m_Effect_Array;
+			auto& objects = m_dataBeingRenderedByRenderThread->m_Geometry_Array;
+			for (int i = 0; i < count; i++) {
+				effects[i]->Bind();
+				objects[i]->Draw();
+			}
 			//// Bind the shading data
 			//	m_cEffect.Bind();
 			//// Draw the geometry
@@ -156,6 +168,14 @@ namespace eae6320 {
 		}
 		bool View::CleanSubmittedData()
 		{
+			auto& count = m_dataBeingRenderedByRenderThread->size;
+			auto& effects = m_dataBeingRenderedByRenderThread->m_Effect_Array;
+			auto& objects = m_dataBeingRenderedByRenderThread->m_Geometry_Array;
+			for (int i = 0; i < count; i++) {
+				effects[i]->DecrementReferenceCount();
+				objects[i]->DecrementReferenceCount();
+			}
+			count = 0;
 			return true;
 		}
 	}

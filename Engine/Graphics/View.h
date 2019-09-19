@@ -28,6 +28,9 @@ namespace eae6320 {
 		struct sDataRequiredToRenderAFrame {
 			eae6320::Graphics::ConstantBufferFormats::sFrame constantData_frame;
 			float clear_color[4] = {0.0f,1.0f,0.0f,1.0f};
+			eae6320::Graphics::cEffect* m_Effect_Array[4];
+			eae6320::Graphics::DefaultGeometry* m_Geometry_Array[4];
+			int size = 0;
 		};
 		class View {
 		public:
@@ -50,8 +53,6 @@ namespace eae6320 {
 			eae6320::cResult Initialize(const sInitializationParameters& i_initializationParameters);
 			eae6320::cResult CleanUp();
 			void SetClearColor(const float data[4]);
-			eae6320::Graphics::cEffect* m_Effect_Array[4];
-			eae6320::Graphics::DefaultGeometry*m_Geometry_Array[4];
 		private:
 #ifdef EAE6320_PLATFORM_D3D
 			eae6320::cResult InitializeViews(const unsigned int i_resolutionWidth, const unsigned int i_resolutionHeight);

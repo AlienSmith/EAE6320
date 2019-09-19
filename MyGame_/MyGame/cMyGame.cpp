@@ -16,6 +16,15 @@
 void eae6320::cExampleGame::SubmitDataToBeRendered(const float i_elapsedSecondCount_systemTime, const float i_elapsedSecondCount_sinceLastSimulationUpdate)
 {
 	Graphics::SubmitClearColor(0.0f, 0.0f, 1.0f, 1.0f);
+	if (m_changeeffect) {
+		Graphics::SubmitEffectWithObject(m_flash_Effect, m_quard);
+	}
+	else {
+		Graphics::SubmitEffectWithObject(m_white_Effect, m_quard);
+	}
+	if (m_showotherobject) {
+		Graphics::SubmitEffectWithObject(m_white_Effect, m_triangle);
+	}
 }
 
 void eae6320::cExampleGame::UpdateBasedOnInput()
@@ -26,6 +35,18 @@ void eae6320::cExampleGame::UpdateBasedOnInput()
 		// Exit the application
 		const auto result = Exit( EXIT_SUCCESS );
 		EAE6320_ASSERT( result );
+	}
+	if (UserInput::IsKeyPressed(UserInput::KeyCodes::Space)) {
+		m_showotherobject = true;
+	}
+	else {
+		m_showotherobject = false;
+	}
+	if (UserInput::IsKeyPressed(UserInput::KeyCodes::Enter)) {
+		m_changeeffect = true;
+	}
+	else {
+		m_changeeffect = false;
 	}
 }
 
@@ -97,6 +118,10 @@ eae6320::cResult eae6320::cExampleGame::Initialize()
 
 eae6320::cResult eae6320::cExampleGame::CleanUp()
 {
+	m_flash_Effect->DecrementReferenceCount();
+	m_white_Effect->DecrementReferenceCount();
+	m_quard->DecrementReferenceCount();
+	m_triangle->DecrementReferenceCount();
 	m_flash_Effect->DecrementReferenceCount();
 	m_white_Effect->DecrementReferenceCount();
 	m_quard->DecrementReferenceCount();

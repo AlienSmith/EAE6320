@@ -84,6 +84,8 @@ namespace eae6320
 		Graphics::cEffect* m_flash_Effect = nullptr;
 		Graphics::DefaultGeometry* m_quard = nullptr;
 		Graphics::DefaultGeometry* m_triangle = nullptr;
+		bool m_showotherobject = false;
+		bool m_changeeffect = false;
 	};
 }
 
