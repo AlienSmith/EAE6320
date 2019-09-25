@@ -85,6 +85,7 @@ namespace eae6320
 		Graphics::DefaultGeometry* m_quard = nullptr;
 		Graphics::DefaultGeometry* m_triangle = nullptr;
 		eae6320::Physics::sRigidBodyState m_camera;
+		eae6320::Physics::sRigidBodyState m_object;
 		bool m_showotherobject = false;
 		bool m_changeeffect = false;
 	};

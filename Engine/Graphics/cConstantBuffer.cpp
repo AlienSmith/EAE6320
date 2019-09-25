@@ -25,8 +25,9 @@ eae6320::cResult eae6320::Graphics::cConstantBuffer::Initialize( const void* con
 			switch ( m_type )
 			{
 				case ConstantBufferTypes::Frame: m_size = sizeof( ConstantBufferFormats::sFrame ); break;
+//				case ConstantBufferTypes::DrawCall: m_size = sizeof(ConstantBufferFormats::sDrawCall); break;
 //				case ConstantBufferTypes::Material: m_size = sizeof( ConstantBufferFormats::sMaterial ); break;
-//				case ConstantBufferTypes::DrawCall: m_size = sizeof( ConstantBufferFormats::sDrawCall ); break;
+				case ConstantBufferTypes::DrawCall: m_size = sizeof( ConstantBufferFormats::sDrawCall ); break;
 
 			// This should never happen
 			default:

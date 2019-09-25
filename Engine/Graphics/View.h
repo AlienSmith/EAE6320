@@ -64,6 +64,7 @@ namespace eae6320 {
 			ID3D11DepthStencilView* m_depthStencilView;
 #endif
 			eae6320::Graphics::cConstantBuffer m_constantBuffer_frame;
+			eae6320::Graphics::cConstantBuffer m_constantbuffer_drawcall;
 			sDataRequiredToRenderAFrame m_dataRequiredToRenderAFrame[2];
 			sDataRequiredToRenderAFrame* m_dataBeingSubmittedByApplicationThread;
 			sDataRequiredToRenderAFrame* m_dataBeingRenderedByRenderThread;

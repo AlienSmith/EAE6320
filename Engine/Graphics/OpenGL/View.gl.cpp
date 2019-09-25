@@ -2,6 +2,7 @@
 namespace eae6320 {
 	namespace Graphics {
 		View::View() :m_constantBuffer_frame(eae6320::Graphics::cConstantBuffer(eae6320::Graphics::ConstantBufferTypes::Frame)),
+			m_constantbuffer_drawcall(eae6320::Graphics::cConstantBuffer(eae6320::Graphics::ConstantBufferTypes::DrawCall)),
 			m_dataRequiredToRenderAFrame{ sDataRequiredToRenderAFrame(),sDataRequiredToRenderAFrame() },
 			m_dataBeingSubmittedByApplicationThread(&m_dataRequiredToRenderAFrame[0]),
 			m_dataBeingRenderedByRenderThread(&m_dataRequiredToRenderAFrame[1]),

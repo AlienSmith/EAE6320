@@ -14,6 +14,8 @@
 
 void eae6320::cExampleGame::SubmitDataToBeRendered(const float i_elapsedSecondCount_systemTime, const float i_elapsedSecondCount_sinceLastSimulationUpdate)
 {
+	//Update position
+	m_camera.position += m_camera.velocity * i_elapsedSecondCount_sinceLastSimulationUpdate;
 	Graphics::SubmitClearColor(0.0f, 0.0f, 1.0f, 1.0f);
 	eae6320::Graphics::sCameranPerspective temp;
 	temp.kinematic = &m_camera;
@@ -31,6 +33,21 @@ void eae6320::cExampleGame::SubmitDataToBeRendered(const float i_elapsedSecondCo
 
 void eae6320::cExampleGame::UpdateBasedOnInput()
 {
+	//Make the trasform
+	Math::sVector temp_vol = Math::sVector(0.0f, 0.0f, 0.0f);
+	if (UserInput::IsKeyPressed(UserInput::KeyCodes::Up)) {
+		temp_vol.z = -1.0f;
+	}
+	else if (UserInput::IsKeyPressed(UserInput::KeyCodes::Down)) {
+		temp_vol.z = 1.0f;
+	}
+	if (UserInput::IsKeyPressed(UserInput::KeyCodes::Left)) {
+		temp_vol.x = -1.0f;
+	}
+	else if (UserInput::IsKeyPressed(UserInput::KeyCodes::Right)) {
+		temp_vol.x = 1.0f;
+	}
+	m_camera.velocity = temp_vol;
 	// Is the user pressing the ESC key?
 	if ( UserInput::IsKeyPressed( UserInput::KeyCodes::Escape ) )
 	{
