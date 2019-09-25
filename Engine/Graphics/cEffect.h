@@ -41,7 +41,7 @@ namespace eae6320
 			eae6320::Graphics::cShader::Handle m_fragmentShader;
 			eae6320::Graphics::cRenderState::Handle m_renderState;
 #ifdef EAE6320_PLATFORM_GL 
-			GLuint m_programId;
+			GLuint m_programId  = 0;
 #endif
 			EAE6320_ASSETS_DECLAREREFERENCECOUNT()
 			void Bind();

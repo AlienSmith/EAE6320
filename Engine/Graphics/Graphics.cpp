@@ -13,7 +13,7 @@ namespace eae6320 {
 		{
 			view.SubmitEffectWithObject(effect, geometry);
 		}
-		void SubmitCameraData(const sCameradata& cameradata)
+		void SubmitCameraData(const sCameranPerspective& cameradata)
 		{
 			view.SubmitCameraPerspectiveData(cameradata);
 		}

@@ -25,12 +25,7 @@ namespace eae6320
 {
 	namespace Graphics
 	{
-		struct sCameradata {
-			//const eae6320::Physics::sRigidBodyState* m_camera;
-			//float feild_of_view = 45;
-			//float near_plane = 0.1;
-			//float far_palane = 100;
-		};
+		
 		// Submission
 		//-----------
 
@@ -43,7 +38,14 @@ namespace eae6320
 		void SubmitElapsedTime( const float i_elapsedSecondCount_systemTime, const float i_elapsedSecondCount_simulationTime );
 		void SubmitClearColor(float r, float g, float b, float alpha);
 		void SubmitEffectWithObject(cEffect* effect, DefaultGeometry* geometry);
-		void SubmitCameraData(const sCameradata& cameradata);
+		struct sCameranPerspective {
+			const Physics::sRigidBodyState* kinematic = nullptr;
+			float field_of_view_radians = 0.785398;// 45
+			float near_plane = 0.1;
+			float far_plane = 100.0f;
+			float aspect_ratio = 1.0f;
+		};
+		void SubmitCameraData(const sCameranPerspective& cameradata);
 		// When the application is ready to submit data for a new frame
 		// it should call this before submitting anything
 		// (or, said another way, it is not safe to submit data for a new frame
@@ -75,7 +77,6 @@ namespace eae6320
 	#endif
 #endif
 		};
-
 		cResult Initialize( const sInitializationParameters& i_initializationParameters );
 		cResult CleanUp();
 	}

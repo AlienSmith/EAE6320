@@ -1,6 +1,7 @@
 #include "View.h"
 #include "cDefaultGeometry.h"
 #include "cEffect.h"
+#include "Graphics.h"
 namespace eae6320 {
 	namespace Graphics {
 		//Define the data here
@@ -122,14 +123,17 @@ namespace eae6320 {
 			geometry->IncrementReferenceCount();
 			return;
 		}
-		void View::SubmitCameraPerspectiveData(const sCameradata& data)
+		void View::SubmitCameraPerspectiveData(const sCameranPerspective& cameradata)
 		{
 			auto& t_constantData = m_dataBeingSubmittedByApplicationThread->constantData_frame;
 			//t_constantData.g_transform_worldToCamera =	
-				 //Math::cMatrix_transformation::CreateWorldToCameraTransform(data.m_camera.orientation, data.m_camera.position);
-			/*t_constantData.g_transform_cameraToProjected =
-				 Math::cMatrix_transformation::CreateCameraToProjectedTransform_perspective(data.feild_of_view,data.)*/
-
+			//	 Math::cMatrix_transformation::CreateWorldToCameraTransform(cameradata.kinematic->orientation, cameradata.kinematic->position);
+			//t_constantData.g_transform_cameraToProjected =
+			//	Math::cMatrix_transformation::CreateCameraToProjectedTransform_perspective(
+			//		cameradata.field_of_view_radians,
+			//		cameradata.aspect_ratio,
+			//		cameradata.near_plane,
+			//		cameradata.far_plane);
 		}
 		eae6320::cResult View::WaitUntilDataForANewFrameCanBeSubmitted(const unsigned int i_timeToWait_inMilliseconds)
 		{

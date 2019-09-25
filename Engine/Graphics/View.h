@@ -23,9 +23,9 @@
 #include "cEffect.h"
 #include "ConstantBufferFormats.h"
 #include <cstdint>
-#include "Graphics.h"
 namespace eae6320 {
 	namespace Graphics {
+		struct sCameranPerspective;
 		struct sDataRequiredToRenderAFrame {
 			eae6320::Graphics::ConstantBufferFormats::sFrame constantData_frame;
 			float clear_color[4] = {0.0f,1.0f,0.0f,1.0f};
@@ -43,7 +43,7 @@ namespace eae6320 {
 			// Submit BackGround Color
 			void SubmitBackGroundColor(float r, float g, float b, float alpha);
 			void SubmitEffectWithObject(cEffect* effect, DefaultGeometry* geometry);
-			void SubmitCameraPerspectiveData(const sCameradata& data);
+			void SubmitCameraPerspectiveData(const sCameranPerspective& cameradata);
 			eae6320::cResult WaitUntilDataForANewFrameCanBeSubmitted(const unsigned int i_timeToWait_inMilliseconds);
 			eae6320::cResult SignalThatAllDataForAFrameHasBeenSubmitted();
 			//Plateform Independent
