@@ -154,6 +154,7 @@ namespace eae6320 {
 			return result;
 		}
 		eae6320::cResult View::CleanUp() {
+			CommonCleanUp();
 			auto result = Results::Success;
 			if (m_renderTargetView)
 			{

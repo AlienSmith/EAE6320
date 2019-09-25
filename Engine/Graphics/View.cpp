@@ -7,6 +7,18 @@ namespace eae6320 {
 		View::~View() { 
 			//CleanUp(); 
 		}
+		void View::CommonCleanUp()
+		{
+			auto& count = m_dataBeingSubmittedByApplicationThread->size;
+			auto& effects = m_dataBeingSubmittedByApplicationThread->m_Effect_Array;
+			auto& objects = m_dataBeingSubmittedByApplicationThread->m_Geometry_Array;
+			for (int i = 0; i < count; i++) {
+				effects[i]->DecrementReferenceCount();
+				objects[i]->DecrementReferenceCount();
+			}
+			count = 0;
+			return;
+		}
 		void View::SetClearColor(const float data[4])
 		{
 			clear_color[0] = data[0];

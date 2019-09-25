@@ -113,6 +113,8 @@ eae6320::cResult eae6320::cExampleGame::Initialize()
 	white_data.vertex_shader_path = "data/Shaders/Vertex/standard.shader";
 	white_data.fragment_shader_path = "data/Shaders/Fragment/standard.shader";
 	cEffect::Create(white_data, m_white_Effect);
+	int a = sizeof(cEffect);
+	int b = sizeof(DefaultGeometry);
 	return Results::Success;
 }
 

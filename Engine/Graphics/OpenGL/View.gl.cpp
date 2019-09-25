@@ -148,6 +148,7 @@ namespace eae6320 {
 		}
 		eae6320::cResult View::CleanUp()
 		{
+			CommonCleanUp();
 			auto result = Results::Success;
 			{
 				const auto result_constantBuffer_frame = m_constantBuffer_frame.CleanUp();

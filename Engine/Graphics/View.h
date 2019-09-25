@@ -52,6 +52,7 @@ namespace eae6320 {
 			void RenderFrame();
 			eae6320::cResult Initialize(const sInitializationParameters& i_initializationParameters);
 			eae6320::cResult CleanUp();
+			void CommonCleanUp();
 			void SetClearColor(const float data[4]);
 		private:
 #ifdef EAE6320_PLATFORM_D3D
