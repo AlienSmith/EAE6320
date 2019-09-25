@@ -17,6 +17,7 @@
 #if defined( EAE6320_PLATFORM_WINDOWS )
 	#include <Engine/Windows/Includes.h>
 #endif
+#include"Engine/Physics/sRigidBodyState.h"
 // Interface
 //==========
 
@@ -24,6 +25,12 @@ namespace eae6320
 {
 	namespace Graphics
 	{
+		struct sCameradata {
+			//const eae6320::Physics::sRigidBodyState* m_camera;
+			//float feild_of_view = 45;
+			//float near_plane = 0.1;
+			//float far_palane = 100;
+		};
 		// Submission
 		//-----------
 
@@ -36,6 +43,7 @@ namespace eae6320
 		void SubmitElapsedTime( const float i_elapsedSecondCount_systemTime, const float i_elapsedSecondCount_simulationTime );
 		void SubmitClearColor(float r, float g, float b, float alpha);
 		void SubmitEffectWithObject(cEffect* effect, DefaultGeometry* geometry);
+		void SubmitCameraData(const sCameradata& cameradata);
 		// When the application is ready to submit data for a new frame
 		// it should call this before submitting anything
 		// (or, said another way, it is not safe to submit data for a new frame

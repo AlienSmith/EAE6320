@@ -13,6 +13,10 @@ namespace eae6320 {
 		{
 			view.SubmitEffectWithObject(effect, geometry);
 		}
+		void SubmitCameraData(const sCameradata& cameradata)
+		{
+			view.SubmitCameraPerspectiveData(cameradata);
+		}
 		cResult WaitUntilDataForANewFrameCanBeSubmitted(const unsigned int i_timeToWait_inMilliseconds) {
 			return view.WaitUntilDataForANewFrameCanBeSubmitted(i_timeToWait_inMilliseconds);
 		}

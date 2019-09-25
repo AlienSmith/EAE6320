@@ -27,6 +27,7 @@
       <Filter>Resource Files</Filter>
     </ClInclude>
     <ClInclude Include="cMyGame.h" />
+    <ClInclude Include="GameObject.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EntryPoint.cpp" />

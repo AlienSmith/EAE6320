@@ -115,6 +115,7 @@ eae6320::cResult eae6320::cExampleGame::Initialize()
 	cEffect::Create(white_data, m_white_Effect);
 	int a = sizeof(cEffect);
 	int b = sizeof(DefaultGeometry);
+	m_camera.position = Math::sVector(0.0f,0.0f,10.0f);
 	return Results::Success;
 }
 

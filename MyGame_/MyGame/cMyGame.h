@@ -1,13 +1,12 @@
 /*
 	This class is your specific game
 */
-
 #ifndef EAE6320_CMyGame_H
 #define EAE6320_CMyGame_H
 
 // Includes
 //=========
-
+#include"Engine/Physics/sRigidBodyState.h"
 #include <Engine/Application/cbApplication.h>
 #include <Engine/Results/Results.h>
 #include <Engine/Graphics/cEffect.h>
@@ -84,6 +83,7 @@ namespace eae6320
 		Graphics::cEffect* m_flash_Effect = nullptr;
 		Graphics::DefaultGeometry* m_quard = nullptr;
 		Graphics::DefaultGeometry* m_triangle = nullptr;
+		eae6320::Physics::sRigidBodyState m_camera;
 		bool m_showotherobject = false;
 		bool m_changeeffect = false;
 	};

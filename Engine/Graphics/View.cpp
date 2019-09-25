@@ -122,6 +122,15 @@ namespace eae6320 {
 			geometry->IncrementReferenceCount();
 			return;
 		}
+		void View::SubmitCameraPerspectiveData(const sCameradata& data)
+		{
+			auto& t_constantData = m_dataBeingSubmittedByApplicationThread->constantData_frame;
+			//t_constantData.g_transform_worldToCamera =	
+				 //Math::cMatrix_transformation::CreateWorldToCameraTransform(data.m_camera.orientation, data.m_camera.position);
+			/*t_constantData.g_transform_cameraToProjected =
+				 Math::cMatrix_transformation::CreateCameraToProjectedTransform_perspective(data.feild_of_view,data.)*/
+
+		}
 		eae6320::cResult View::WaitUntilDataForANewFrameCanBeSubmitted(const unsigned int i_timeToWait_inMilliseconds)
 		{
 			return Concurrency::WaitForEvent(m_whenDataForANewFrameCanBeSubmittedFromApplicationThread, i_timeToWait_inMilliseconds);

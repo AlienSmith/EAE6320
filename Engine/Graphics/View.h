@@ -23,6 +23,7 @@
 #include "cEffect.h"
 #include "ConstantBufferFormats.h"
 #include <cstdint>
+#include "Graphics.h"
 namespace eae6320 {
 	namespace Graphics {
 		struct sDataRequiredToRenderAFrame {
@@ -42,6 +43,7 @@ namespace eae6320 {
 			// Submit BackGround Color
 			void SubmitBackGroundColor(float r, float g, float b, float alpha);
 			void SubmitEffectWithObject(cEffect* effect, DefaultGeometry* geometry);
+			void SubmitCameraPerspectiveData(const sCameradata& data);
 			eae6320::cResult WaitUntilDataForANewFrameCanBeSubmitted(const unsigned int i_timeToWait_inMilliseconds);
 			eae6320::cResult SignalThatAllDataForAFrameHasBeenSubmitted();
 			//Plateform Independent
