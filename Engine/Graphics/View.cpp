@@ -126,14 +126,14 @@ namespace eae6320 {
 		void View::SubmitCameraPerspectiveData(const sCameranPerspective& cameradata)
 		{
 			auto& t_constantData = m_dataBeingSubmittedByApplicationThread->constantData_frame;
-			//t_constantData.g_transform_worldToCamera =	
-			//	 Math::cMatrix_transformation::CreateWorldToCameraTransform(cameradata.kinematic->orientation, cameradata.kinematic->position);
-			//t_constantData.g_transform_cameraToProjected =
-			//	Math::cMatrix_transformation::CreateCameraToProjectedTransform_perspective(
-			//		cameradata.field_of_view_radians,
-			//		cameradata.aspect_ratio,
-			//		cameradata.near_plane,
-			//		cameradata.far_plane);
+			t_constantData.g_transform_worldToCamera =	
+				 Math::cMatrix_transformation::CreateWorldToCameraTransform(cameradata.kinematic->orientation, cameradata.kinematic->position);
+			t_constantData.g_transform_cameraToProjected =
+				Math::cMatrix_transformation::CreateCameraToProjectedTransform_perspective(
+					cameradata.field_of_view_radians,
+					cameradata.aspect_ratio,
+					cameradata.near_plane,
+					cameradata.far_plane);
 		}
 		eae6320::cResult View::WaitUntilDataForANewFrameCanBeSubmitted(const unsigned int i_timeToWait_inMilliseconds)
 		{

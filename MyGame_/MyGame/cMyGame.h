@@ -11,6 +11,7 @@
 #include <Engine/Results/Results.h>
 #include <Engine/Graphics/cEffect.h>
 #include <Engine/Graphics/cDefaultGeometry.h>
+#include <Engine/Graphics/Graphics.h>
 
 #if defined( EAE6320_PLATFORM_WINDOWS )
 	#include "Resource Files/Resource.h"

@@ -23,9 +23,9 @@
 #include "cEffect.h"
 #include "ConstantBufferFormats.h"
 #include <cstdint>
+#include "Graphics.h"
 namespace eae6320 {
 	namespace Graphics {
-		struct sCameranPerspective;
 		struct sDataRequiredToRenderAFrame {
 			eae6320::Graphics::ConstantBufferFormats::sFrame constantData_frame;
 			float clear_color[4] = {0.0f,1.0f,0.0f,1.0f};

@@ -18,6 +18,7 @@
 	#include <Engine/Windows/Includes.h>
 #endif
 #include"Engine/Physics/sRigidBodyState.h"
+#include"Engine/Math/sVector.h"
 // Interface
 //==========
 
@@ -40,11 +41,18 @@ namespace eae6320
 		void SubmitEffectWithObject(cEffect* effect, DefaultGeometry* geometry);
 		struct sCameranPerspective {
 			const Physics::sRigidBodyState* kinematic = nullptr;
-			float field_of_view_radians = 0.785398;// 45
-			float near_plane = 0.1;
+			float field_of_view_radians = 0.785398f;// 45
+			float near_plane = 0.1f;
 			float far_plane = 100.0f;
 			float aspect_ratio = 1.0f;
 		};
+		
+		//	//const Math::sVector* kinematic = nullptr;
+		//	float field_of_view_radians = 0.785398;// 45
+		//	float near_plane = 0.1;
+		//	float far_plane = 100.0f;
+		//	float aspect_ratio = 1.0f;
+		//};
 		void SubmitCameraData(const sCameranPerspective& cameradata);
 		// When the application is ready to submit data for a new frame
 		// it should call this before submitting anything

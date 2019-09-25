@@ -23,7 +23,7 @@ namespace eae6320
 		};
 		class cEffect {
 		private:
-			cEffect() {}
+			cEffect() :m_programId(0) {}
 			cResult CommonCleanUp();
 			cResult commonInitializeShadingData(const sDataRequriedToIntializeEffect& data);
 			cResult CleanUp();
