@@ -22,6 +22,11 @@
 
 namespace eae6320
 {
+	struct RenderAbleObject {
+		eae6320::Physics::sRigidBodyState* m_ridgebody;
+		Graphics::cEffect* m_effect;
+		Graphics::DefaultGeometry* m_Geometry;
+	};
 	class cExampleGame : public Application::cbApplication
 	{
 		// Inherited Implementation

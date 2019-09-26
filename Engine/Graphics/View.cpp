@@ -22,6 +22,7 @@ namespace eae6320 {
 		}
 		void View::SetClearColor(const float data[4])
 		{
+			//float a = sizeof(sDataRequiredToRenderAFrame);
 			clear_color[0] = data[0];
 			clear_color[1] = data[1];
 			clear_color[2] = data[2];

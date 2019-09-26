@@ -13,8 +13,10 @@ namespace eae6320
 			{
 				EAE6320_ASSERT(m_renderState);
 				auto* const renderState = cRenderState::s_manager.Get(m_renderState);
-				EAE6320_ASSERT(renderState);
-				renderState->Bind();
+				if (renderState)
+					renderState->Bind();
+				else
+					EAE6320_ASSERTF(false, "rederstate was null");
 			}
 		}
 		cResult cEffect::CleanUp(){

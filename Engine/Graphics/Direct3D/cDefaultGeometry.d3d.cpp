@@ -185,7 +185,10 @@ namespace eae6320 {
 					EAE6320_ASSERT(m_vertexFormat);
 					auto* const vertexFormat = cVertexFormat::s_manager.Get(m_vertexFormat);
 					EAE6320_ASSERT(vertexFormat);
-					vertexFormat->Bind();
+					if (vertexFormat)
+						vertexFormat->Bind();
+					else
+						EAE6320_ASSERTF(false, "vertexFromat is nullptr");
 				}
 				// Set the topology (which defines how to interpret multiple vertices as a single "primitive";
 				// the vertex buffer was defined as a triangle list

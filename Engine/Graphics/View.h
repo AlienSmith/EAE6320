@@ -29,7 +29,7 @@ namespace eae6320 {
 		struct sDataRequiredToRenderAFrame {
 			eae6320::Graphics::ConstantBufferFormats::sFrame constantData_frame;
 			eae6320::Graphics::ConstantBufferFormats::sDrawCall constantData_drawCall;
-			float clear_color[4] = {0.0f,1.0f,0.0f,1.0f};
+			float clear_color[4] = {0.0f,0.0f,0.0f,1.0f};
 			eae6320::Graphics::cEffect* m_Effect_Array[4];
 			eae6320::Graphics::DefaultGeometry* m_Geometry_Array[4];
 			int size = 0;
@@ -43,10 +43,12 @@ namespace eae6320 {
 			void SubmitElapsedTime(const float i_elapsedSecondCount_systemTime, const float i_elapsedSecondCount_simulationTime);
 			// Submit BackGround Color
 			void SubmitBackGroundColor(float r, float g, float b, float alpha);
+			//RenderableOjbectInfo
 			void SubmitEffectWithObject(cEffect* effect, DefaultGeometry* geometry);
+			void SubmitdrawCallConstant(const Math::cMatrix_transformation& data);
+			//Cameradata
 			void SubmitCameraPerspectiveData(const Math::cMatrix_transformation& data);
 			void SubmitWorldToCameraData(const Math::cMatrix_transformation& data);
-			void SubmitdrawCallConstant(const Math::cMatrix_transformation& data);
 			eae6320::cResult WaitUntilDataForANewFrameCanBeSubmitted(const unsigned int i_timeToWait_inMilliseconds);
 			eae6320::cResult SignalThatAllDataForAFrameHasBeenSubmitted();
 			//Plateform Independent

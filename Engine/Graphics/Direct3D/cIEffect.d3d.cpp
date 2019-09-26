@@ -31,23 +31,29 @@ namespace eae6320
 				{
 					EAE6320_ASSERT(m_vertexShader);
 					auto* const shader = cShader::s_manager.Get(m_vertexShader);
-					EAE6320_ASSERT(shader && shader->m_shaderObject.vertex);
-					direct3dImmediateContext->VSSetShader(shader->m_shaderObject.vertex, noInterfaces, interfaceCount);
+					if (shader && shader->m_shaderObject.vertex)
+						direct3dImmediateContext->VSSetShader(shader->m_shaderObject.vertex, noInterfaces, interfaceCount);
+					else
+						EAE6320_ASSERTF(false, "VertexShader failed");
 				}
 				// Fragment shader
 				{
 					EAE6320_ASSERT(m_fragmentShader);
 					auto* const shader = cShader::s_manager.Get(m_fragmentShader);
-					EAE6320_ASSERT(shader && shader->m_shaderObject.fragment);
-					direct3dImmediateContext->PSSetShader(shader->m_shaderObject.fragment, noInterfaces, interfaceCount);
+					if(shader && shader->m_shaderObject.fragment)
+						direct3dImmediateContext->PSSetShader(shader->m_shaderObject.fragment, noInterfaces, interfaceCount);
+					else
+						EAE6320_ASSERTF(false, "FragmentShader failed");
 				}
 			}
 			// Render state
 			{
 				EAE6320_ASSERT(m_renderState);
 				auto* const renderState = cRenderState::s_manager.Get(m_renderState);
-				EAE6320_ASSERT(renderState);
-				renderState->Bind();
+				if (renderState)
+					renderState->Bind();
+				else
+					EAE6320_ASSERTF(false, "Render state is nullptr");
 			}
 			return;
 		}
