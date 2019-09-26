@@ -123,17 +123,20 @@ namespace eae6320 {
 			geometry->IncrementReferenceCount();
 			return;
 		}
-		void View::SubmitCameraPerspectiveData(const sCameranPerspective& cameradata)
+		void View::SubmitCameraPerspectiveData(const Math::cMatrix_transformation& data)
 		{
 			auto& t_constantData = m_dataBeingSubmittedByApplicationThread->constantData_frame;
-			t_constantData.g_transform_worldToCamera =	
-				 Math::cMatrix_transformation::CreateWorldToCameraTransform(cameradata.kinematic->orientation, cameradata.kinematic->position);
-			t_constantData.g_transform_cameraToProjected =
-				Math::cMatrix_transformation::CreateCameraToProjectedTransform_perspective(
-					cameradata.field_of_view_radians,
-					cameradata.aspect_ratio,
-					cameradata.near_plane,
-					cameradata.far_plane);
+			t_constantData.g_transform_cameraToProjected = data;
+		}
+		void View::SubmitWorldToCameraData(const Math::cMatrix_transformation& data)
+		{
+			auto& t_constantData = m_dataBeingSubmittedByApplicationThread->constantData_frame;
+			t_constantData.g_transform_worldToCamera = data;
+		}
+		void View::SubmitdrawCallConstant(const Math::cMatrix_transformation& data)
+		{
+			auto& t_constantdata = m_dataBeingSubmittedByApplicationThread->constantData_drawCall;
+			t_constantdata.g_transform_localToWorld = data;
 		}
 		eae6320::cResult View::WaitUntilDataForANewFrameCanBeSubmitted(const unsigned int i_timeToWait_inMilliseconds)
 		{

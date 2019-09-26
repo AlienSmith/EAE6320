@@ -42,9 +42,9 @@ namespace eae6320
 		struct sCameranPerspective {
 			const Physics::sRigidBodyState* kinematic = nullptr;
 			float field_of_view_radians = 0.785398f;// 45
-			float near_plane = 0.1f;
-			float far_plane = 100.0f;
-			float aspect_ratio = 1.0f;
+			float near_plane =				0.1f;
+			float far_plane =			100.0f;
+			float aspect_ratio =		 1.0f;
 		};
 		
 		//	//const Math::sVector* kinematic = nullptr;
@@ -53,7 +53,9 @@ namespace eae6320
 		//	float far_plane = 100.0f;
 		//	float aspect_ratio = 1.0f;
 		//};
-		void SubmitCameraData(const sCameranPerspective& cameradata);
+		void SubmitCameraPerspectiveData(const Math::cMatrix_transformation& data);
+		void SubmitWorldToCameraData(const Math::cMatrix_transformation& data);
+		void SubmitdrawCallConstant(const Math::cMatrix_transformation& data);
 		// When the application is ready to submit data for a new frame
 		// it should call this before submitting anything
 		// (or, said another way, it is not safe to submit data for a new frame

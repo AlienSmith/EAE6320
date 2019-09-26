@@ -34,7 +34,6 @@ namespace eae6320
 		{
 			// Data
 			//=====
-
 			Math::sVector position;	// In arbitrary units determined by the applicaton's convention
 			Math::sVector velocity;	// Distance per-second
 			Math::sVector acceleration;	// Distance per-second^2

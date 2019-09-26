@@ -13,9 +13,17 @@ namespace eae6320 {
 		{
 			view.SubmitEffectWithObject(effect, geometry);
 		}
-		void SubmitCameraData(const sCameranPerspective& cameradata)
+		void SubmitCameraPerspectiveData(const Math::cMatrix_transformation& data)
 		{
-			view.SubmitCameraPerspectiveData(cameradata);
+			view.SubmitCameraPerspectiveData(data);
+		}
+		void SubmitWorldToCameraData(const Math::cMatrix_transformation& data)
+		{
+			view.SubmitWorldToCameraData(data);
+		}
+		void SubmitdrawCallConstant(const Math::cMatrix_transformation& data)
+		{
+			view.SubmitdrawCallConstant(data);
 		}
 		cResult WaitUntilDataForANewFrameCanBeSubmitted(const unsigned int i_timeToWait_inMilliseconds) {
 			return view.WaitUntilDataForANewFrameCanBeSubmitted(i_timeToWait_inMilliseconds);

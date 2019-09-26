@@ -46,6 +46,8 @@ namespace eae6320 {
 				// Copy the data from the system memory that the application owns to GPU memory
 				auto& constantData_frame = m_dataBeingRenderedByRenderThread->constantData_frame;
 				m_constantBuffer_frame.Update(&constantData_frame);
+				auto& constantData_drawCall = m_dataBeingRenderedByRenderThread->constantData_drawCall;
+				m_constantbuffer_drawcall.Update(&constantData_drawCall);
 			}
 			//Bind and Draw staff
 			BindAndDrawInRenderFrame();
@@ -113,6 +115,21 @@ namespace eae6320 {
 					return result;
 				}
 			}
+			{
+				if (result = m_constantbuffer_drawcall.Initialize())
+				{
+					// There is only a single frame constant buffer that is reused
+					// and so it can be bound at initialization time and never unbound
+					m_constantbuffer_drawcall.Bind(
+						// In our class both vertex and fragment shaders use per-frame constant data
+						ShaderTypes::Vertex | ShaderTypes::Fragment);
+				}
+				else
+				{
+					EAE6320_ASSERTF(false, "Can't initialize Graphics without drawcall constant buffer");
+					return result;
+				}
+			}
 			// Initialize the events
 			{
 				if (!(result = m_whenAllDataHasBeenSubmittedFromApplicationThread.Initialize(Concurrency::EventType::ResetAutomaticallyAfterBeingSignaled)))
@@ -176,6 +193,17 @@ namespace eae6320 {
 					if (result)
 					{
 						result = result_constantBuffer_frame;
+					}
+				}
+			}
+			{
+				const auto result_constantBuffer_drawcall = m_constantbuffer_drawcall.CleanUp();
+				if (!result_constantBuffer_drawcall)
+				{
+					EAE6320_ASSERT(false);
+					if (result)
+					{
+						result = result_constantBuffer_drawcall;
 					}
 				}
 			}

@@ -68,6 +68,7 @@ namespace eae6320
 		virtual const WORD* GetLargeIconId() const override { static constexpr WORD iconId_large = IDI_EAEALIEN; return &iconId_large; }
 		virtual const WORD* GetSmallIconId() const override { static constexpr WORD iconId_small = IDI_EAEALIEN; return &iconId_small; }
 		virtual void SubmitDataToBeRendered(const float i_elapsedSecondCount_systemTime, const float i_elapsedSecondCount_sinceLastSimulationUpdate);
+		virtual void UpdateSimulationBasedOnTime(const float i_elapsedSecondCount_sinceLastUpdate);
 #endif
 
 		// Run
