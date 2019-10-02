@@ -1,5 +1,6 @@
 --[[
 	This file lists every asset that must be built by the AssetBuildSystem
+	F:\Users\HP\Documents\zhu_an\MyGame_\Content\Shaders\Fragment
 ]]
 
 return
@@ -10,5 +11,8 @@ return
 		{ path = "Shaders/Fragment/standard.shader", arguments = { "fragment" } },
 		{ path = "Shaders/Fragment/test.shader", arguments = { "fragment" } },
 		{ path = "Shaders/Vertex/vertexInputLayout_3dObject.shader", arguments = { "vertex" } },
+	},
+	geometry ={
+		{ path = "Geometry/Triangle.geometry"},
 	},
 }

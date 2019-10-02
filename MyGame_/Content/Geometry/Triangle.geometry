@@ -1,0 +1,4 @@
+return{
+	VertexData = {{0.0f,0.0f,0.0f},{1.0f,0.0f,0.0f},{1.0f,1.0f,0.0f}},
+	IndexData  = {0,1,2},
+}

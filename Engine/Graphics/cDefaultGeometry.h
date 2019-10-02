@@ -4,8 +4,12 @@
 #else
 #include "Direct3D/Includes.h"
 #endif
+#include <Engine/Assets/cHandle.h>
+#include <Engine/Assets/cManager.h>
 #include "cVertexFormat.h"
 #include "VertexFormats.h"
+#include <Engine/Platform/Platform.h>
+#include <Engine/ScopeGuard/cScopeGuard.h>
 #include <Engine/Assets/ReferenceCountedAssets.h>
 namespace eae6320 {
 	namespace Graphics {
@@ -16,11 +20,57 @@ namespace eae6320 {
 			uint16_t * indexdata = nullptr;
 		};
 		class DefaultGeometry {
-		private:
-			DefaultGeometry();
-			eae6320::cResult InitializeGeometry(const sDataRequriedToIntializeObject& data);
-			eae6320::cResult CleanUp();
 		public:
+			static Assets::cManager<DefaultGeometry> s_manager;
+			static cResult Load(const std::string& i_path, DefaultGeometry*& o_instance) {
+				auto result = Results::Success;
+				Platform::sDataFromFile dataFromFile;
+				DefaultGeometry* newGeometry = nullptr;
+				cScopeGuard scopeGuard([&o_instance, &result, &dataFromFile, &newGeometry]
+					{
+						if (result)
+						{
+							EAE6320_ASSERT(newShader != nullptr);
+							o_instance = newGeometry;
+						}
+						else
+						{
+							if (newGeometry)
+							{
+								newGeometry->DecrementReferenceCount();
+								newGeometry = nullptr;
+							}
+							o_instance = nullptr;
+						}
+					});
+				// Load the binary data
+				{
+					std::string errorMessage;
+					if (!(result = Platform::LoadBinaryFile(i_path.c_str(), dataFromFile, &errorMessage)))
+					{
+						EAE6320_ASSERTF(false, errorMessage.c_str());
+						Logging::OutputError("Failed to load shader from file %s: %s", i_path.c_str(), errorMessage.c_str());
+						return result;
+					}
+				}
+				// Allocate new geoemtry
+				{
+					newGeometry = new (std::nothrow) DefaultGeometry();
+					if (!newGeometry)
+					{
+						result = Results::OutOfMemory;
+						EAE6320_ASSERTF(false, "Couldn't allocate memory for the shader %s", i_path.c_str());
+						Logging::OutputError("Failed to allocate memory for the shader %s", i_path.c_str());
+						return result;
+					}
+				}
+				/*if (!(result = ->Initialize(i_path, dataFromFile)))
+				{
+					EAE6320_ASSERTF(false, "Initialization of new shader failed");
+					return result;
+				}*/
+				return result;
+			}
 			static eae6320::cResult Create(const sDataRequriedToIntializeObject& data, DefaultGeometry* & i_instance) {
 				DefaultGeometry* instance = new DefaultGeometry();
 				eae6320::cResult result = instance->InitializeGeometry(data);
@@ -47,6 +97,10 @@ namespace eae6320 {
 			ID3D11Buffer* m_indexBuffer = nullptr;
 #endif
 			EAE6320_ASSETS_DECLAREREFERENCECOUNT()
+		private:
+			DefaultGeometry();
+			eae6320::cResult InitializeGeometry(const sDataRequriedToIntializeObject& data);
+			eae6320::cResult CleanUp();
 		};
 	}
 }
