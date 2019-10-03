@@ -25,7 +25,7 @@ void eae6320::cExampleGame::SubmitDataToBeRendered(const float i_elapsedSecondCo
 	Math::cMatrix_transformation trans = m_object.PredictFutureTransform(i_elapsedSecondCount_sinceLastSimulationUpdate);
 	Graphics::SubmitdrawCallConstant(m_object.PredictFutureTransform(i_elapsedSecondCount_sinceLastSimulationUpdate));
 	if (m_showotherobject) {
-		Graphics::SubmitEffectWithObject(m_flash_Effect, m_triangle);
+		Graphics::SubmitEffectWithObject(m_flash_Effect, Graphics::DefaultGeometry::s_manager.Get(m_triangle_handle));
 	}
 	else {
 		Graphics::SubmitEffectWithObject(m_flash_Effect, m_quard);
@@ -95,6 +95,8 @@ void eae6320::cExampleGame::UpdateBasedOnInput()
 
 eae6320::cResult eae6320::cExampleGame::Initialize()
 {
+	//data/geometry/trangle.geometry
+	Graphics::DefaultGeometry::s_manager.Load("data/geometry/triangle.geometry", m_triangle_handle);
 	using namespace Graphics;
 	sDataRequriedToIntializeObject squre;
 	squre.indexcount = 6;
@@ -165,6 +167,7 @@ eae6320::cResult eae6320::cExampleGame::Initialize()
 
 eae6320::cResult eae6320::cExampleGame::CleanUp()
 {
+	Graphics::DefaultGeometry::s_manager.Release(m_triangle_handle);
 	m_flash_Effect->DecrementReferenceCount();
 	m_white_Effect->DecrementReferenceCount();
 	m_quard->DecrementReferenceCount();
