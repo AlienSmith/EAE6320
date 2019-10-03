@@ -96,7 +96,7 @@ void eae6320::cExampleGame::UpdateBasedOnInput()
 eae6320::cResult eae6320::cExampleGame::Initialize()
 {
 	//data/geometry/trangle.geometry
-	Graphics::DefaultGeometry::s_manager.Load("data/geometry/triangle.geometry", m_triangle_handle);
+	Graphics::DefaultGeometry::s_manager.Load("data/geometry/triangle.lua", m_triangle_handle);
 	using namespace Graphics;
 	sDataRequriedToIntializeObject squre;
 	squre.indexcount = 6;

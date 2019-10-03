@@ -13,6 +13,6 @@ return
 		{ path = "Shaders/Vertex/vertexInputLayout_3dObject.shader", arguments = { "vertex" } },
 	},
 	geometry ={
-		{ path = "Geometry/Triangle.geometry"},
+		{ path = "Geometry/Triangle.lua"},
 	},
 }
