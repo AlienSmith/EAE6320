@@ -18,7 +18,9 @@ int TCPserver() {
 		acceptor.listen(BACKLOG_SIZE);
 		//Create Active Socket
 		asio::ip::tcp::socket sock(ios);
+		std::cout << "Waiting for connection" << std::endl;
 		acceptor.accept(sock);
+		std::cout << "Connected" << std::endl;
 	}catch(asio::system_error & e){
 		std::cout << "Error occured! Error code = " << e.code() << ".Message" << e.what();
 	}
@@ -211,10 +213,15 @@ int main()
 	//CreateAndBindSocket();
 	//TCPClient();
 	//CreateAndBindAcceptor();
-	/*TCPserver();*/
-	TCPClient();
+	//TCPserver();
+	//TCPClient();
+	//writesomeToTCPsocket();
+	//ReadSomeTCPServer();
+	writeToTCPsocketAsync();
+	//StreamBuf();
 	// the endpoint is ready to go.
     std::cout << "Hello World!\n";
+	char a = std::getchar();
 	return 0;
 }
 
