@@ -23,5 +23,8 @@
     <ClInclude Include="Chapter2.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="ThreadGuard.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

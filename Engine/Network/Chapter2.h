@@ -1,6 +1,111 @@
 #pragma once
 #include <iostream>
 #include <External/Asio/asio.hpp>
+#include "ThreadGuard.h"
+// Read Async
+struct ARead_Session {
+	std::shared_ptr<asio::ip::tcp::socket> sock;
+	std::unique_ptr<char[]> buf;
+	unsigned int buf_size;
+};
+void AReadCallBack(const asio::error_code& e,std::shared_ptr<ARead_Session> s){
+	if (e == asio::error::eof) {
+		//client has cut the connection
+		std::string output(s->buf.get());
+		std::cout << output << std::endl;
+		return;
+	}
+	else if (e.value() != 0) {
+		std::cout << "Error occured! Error Code =" << e << ".Message" << e.message();
+		return;
+	}
+	else {
+		//client has cut the connection
+		std::string output(s->buf.get());
+		std::cout << output << std::endl;
+		return;
+	}
+}
+void AshcReadTCP(std::shared_ptr<asio::ip::tcp::socket> sock) {
+	const unsigned int BACK_BUFFER_SIZE = 7;
+	std::shared_ptr<ARead_Session> s(new ARead_Session());
+	s->buf.reset(new char[BACK_BUFFER_SIZE]);
+	s->buf_size = BACK_BUFFER_SIZE;
+	s->sock = sock;
+}
+struct Read_Session {
+	std::shared_ptr<asio::ip::tcp::socket> sock;
+	std::unique_ptr<char[]> buf;
+	std::size_t total_bytes_read;
+	unsigned int buf_size;
+};
+void ReadCallBack(const asio::error_code& e,
+	std::size_t bytes_transfered, 
+	std::shared_ptr<Read_Session> s){
+	if (e == asio::error::eof) {
+		//TODO This is success?
+		std::string output(s->buf.get());
+		std::cout << output << std::endl;
+		return;
+	}
+	if (e.value() != 0) {
+		std::cout << "Error occured! Error Code =" << e << ".Message" << e.message();
+		return;
+	}
+	s->total_bytes_read += bytes_transfered;
+
+	if (s->total_bytes_read == s->buf_size) {
+		std::string output(s->buf.get());
+		std::cout << output << std::endl;
+		return;
+	}
+
+	s->sock->async_read_some(
+		asio::buffer(s->buf.get() + s->total_bytes_read, s->buf_size - s->total_bytes_read),
+		std::bind(ReadCallBack,
+			std::placeholders::_1,
+			std::placeholders::_2,
+			s));
+}
+int ReadSomeAsyncTCP(std::shared_ptr<asio::ip::tcp::socket> sock) {
+	std::shared_ptr<Read_Session> s(new Read_Session());
+	const unsigned int MESSAGE_SIZE = 7;
+	s->buf.reset(new char[MESSAGE_SIZE]);
+	s->total_bytes_read = 0;
+	s->sock = sock;
+	s->buf_size = MESSAGE_SIZE;
+	s->sock->async_read_some(
+		asio::buffer(s->buf.get(), s->buf_size),
+		std::bind(ReadCallBack, std::placeholders::_1, std::placeholders::_2, s));
+	return 0;
+}
+int ReadSomeAsyncTCPPrintServer() {
+	const unsigned char BACK_BLOCK_SIZE = 30;
+	unsigned int port_num = 3333;
+	asio::ip::tcp::endpoint ep(asio::ip::address_v4::any(), port_num);
+	asio::io_service ios;
+	try {
+		//Create and open
+		asio::ip::tcp::acceptor acceptor(ios, ep.protocol());
+		//Bind
+		acceptor.bind(ep);
+		std::cout << "Waiting to Connect" << std::endl;
+		acceptor.listen(BACK_BLOCK_SIZE);
+		//Do not open it
+		std::shared_ptr<asio::ip::tcp::socket> sock(new asio::ip::tcp::socket(ios));
+		acceptor.accept(*sock);
+		std::cout << "Connected" << std::endl;
+		ReadSomeAsyncTCP(sock);
+		ios.run();
+		/*std::thread t{ [&ios] {ios.run(); } };
+		Networking::thread_guard g(t);*/
+		std::cout << "Wait for socket thread to join" << std::endl;
+	}
+	catch (asio::system_error& e) {
+		std::cout << "Error occured! Error code = " << e.code() << ".Message" << e.what();
+	}
+	return 0;
+}
 struct Session {
 	//Used for async TCP write_some
 	std::shared_ptr<asio::ip::tcp::socket> sock;
@@ -122,7 +227,7 @@ int writesomeToTCPsocket() {
 
 }
 int ReadAndPrint(asio::ip::tcp::socket& sock) {
-	const unsigned char MESSAGE_SIZE = 100;
+	const unsigned char MESSAGE_SIZE = 10;
 	char buf[MESSAGE_SIZE];
 	try {
 		asio::read(sock, asio::buffer(buf, MESSAGE_SIZE));
@@ -177,14 +282,17 @@ int ReadSomeAndPrint(asio::ip::tcp::socket& sock) {
 	std::cout << message.c_str() << std::endl;
 	return 0;
 }
-int ReadSomeTCPServer() {
-	//IPv4
+void function() { return; }
+int ReadTCPServer() {
+//IPv4
 //queue contain the pending connection request 
+	int accepted_applications_left = 5;
 	const int BACKLOG_SIZE = 30;
 	unsigned int port_num = 3333;
 	asio::ip::tcp::endpoint ep(asio::ip::address_v4::any(), port_num);
 	asio::io_service ios;
 	try {
+		std::vector<std::thread*> thread_pool;
 		//Open acceptor
 		asio::ip::tcp::acceptor acceptor(ios, ep.protocol());
 		//Bind Acceptor
@@ -192,13 +300,49 @@ int ReadSomeTCPServer() {
 		//StartListen
 		acceptor.listen(BACKLOG_SIZE);
 		//Create Active Socket
-		asio::ip::tcp::socket sock(ios);
+		while (accepted_applications_left >= 0) {
+			std::cout << "Waiting for connection" << std::endl;
+			asio::ip::tcp::socket* temp_socket(new asio::ip::tcp::socket(ios));
+			acceptor.accept(*temp_socket);
+			std::thread* t(new std::thread([temp_socket] {
+				std::cout << "Connected" << std::endl;
+				ReadAndPrint(*temp_socket);
+				delete temp_socket;
+				}));
+			thread_pool.push_back(t);
+			accepted_applications_left--;
+		}
+		//Acts like a barrier everythread terminate here before the mainthread moves on
+		std::for_each(thread_pool.begin(), thread_pool.end(),[](std::thread* t) {
+			t->join();
+			delete t;
+		});
+	}
+	catch (asio::system_error& e) {
+		std::cout << "Error occured! Error code = " << e.code() << ".Message" << e.what();
+	}
+	return 0;
+}
+int ReadSomeTCPServer() {
+	//IPv4
+//queue contain the pending connection request 
+	int accepted_applications_left = 5;
+	const int BACKLOG_SIZE = 30;
+	unsigned int port_num = 3333;
+	asio::ip::tcp::endpoint ep(asio::ip::address_v4::any(), port_num);
+	asio::io_service ios;
+	try {
+		std::vector<std::thread> thread_pool;
+		//Open acceptor
+		asio::ip::tcp::acceptor acceptor(ios, ep.protocol());
+		//Bind Acceptor
+		acceptor.bind(ep);
+		//StartListen
+		acceptor.listen(BACKLOG_SIZE);
 		std::cout << "Waiting for connection" << std::endl;
+		asio::ip::tcp::socket sock(ios);
 		acceptor.accept(sock);
-		std::cout << "Connected" << std::endl;
-		//has EOF problem
-		ReadSomeAndPrint(sock);
-		//ReadAndPrint(sock);
+		ReadAndPrint(sock);
 	}
 	catch (asio::system_error& e) {
 		std::cout << "Error occured! Error code = " << e.code() << ".Message" << e.what();
@@ -226,6 +370,28 @@ int writeToTCPsocket() {
 	//no recreate buffer object again and again
 	//underling it it is the same implementation as the while loop
 	asio::write(sock, asio::buffer(buf));
+	return 0;
+}
+int multithreadwritetoTCP() {
+	std::string raw_ip_address = "127.0.0.1";
+	unsigned int port_num = 3333;
+	asio::ip::tcp::endpoint ep(asio::ip::address::from_string(raw_ip_address), port_num);
+	asio::io_service ios;
+	std::shared_ptr<asio::ip::tcp::socket> sock(new asio::ip::tcp::socket(ios, ep.protocol()));
+	asio::error_code ec;
+	// one client this connect func will bind the active socket to a ip and port_num chosen by the os before try to connect with the remote server
+	sock->connect(ep, ec);
+	if (ec.value() != 0) {
+		std::cout << "Failed to Connect to Acceptor. Error Code = " << ec.value() << ".Message: " << ec.message();
+		return ec.value();
+	}
+	AsyncwriteToSocket(sock);
+	//lambda function
+	std::thread t{ [&ios] {ios.run(); } };
+	//functor
+	//std::thread t( asio::io_service::run,std::ref(ios) );
+	Networking::thread_guard g(t);
+	std::cout << "End here" << std::endl;
 	return 0;
 }
 int writeToTCPsocketAsync() {

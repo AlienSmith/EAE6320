@@ -217,7 +217,10 @@ int main()
 	//TCPClient();
 	//writesomeToTCPsocket();
 	//ReadSomeTCPServer();
-	writeToTCPsocketAsync();
+	//ReadTCPServer();
+	ReadSomeAsyncTCPPrintServer();
+	//writeToTCPsocketAsync();
+	//multithreadwritetoTCP();
 	//StreamBuf();
 	// the endpoint is ready to go.
     std::cout << "Hello World!\n";
