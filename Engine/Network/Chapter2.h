@@ -2,8 +2,101 @@
 #include <iostream>
 #include <External/Asio/asio.hpp>
 #include "ThreadGuard.h"
+//Shut down and close
+void ClientSendData(asio::ip::tcp::socket& sock) {
+	const char requrest_buf[] = { 0x48,0x65,0x6c,0x6c,0x6f };
+	//sync write
+	asio::write(sock, asio::buffer(requrest_buf));
+	sock.shutdown(asio::socket_base::shutdown_send);
+	asio::streambuf response_buf;
+	asio::error_code ec;
+	asio::read(sock, response_buf, ec);
+	if (ec == asio::error::eof) {
+		//All response message has been recieved;
+	}
+	else {
+		throw asio::system_error(ec);
+	}
+	return;
+}
+void Client() {
+	std::string host = "127.0.0.1";
+	unsigned short port_num = 3333;
+	asio::io_service ios;
+	try {
+		asio::ip::tcp::endpoint ep(asio::ip::address::from_string(host), port_num);
+		asio::ip::tcp::socket sock(ios, ep.protocol());
+		sock.connect(ep);
+		ClientSendData(sock);
+	}
+	catch (asio::system_error& e) {
+		std::cout << "Error occured!"
+			<< "Error code =" << e.code() << ".Message:" << e.what();
+	}
+	return;
+}
+void ServerRecieveData(asio::ip::tcp::socket& sock) {
+	asio::streambuf request_buf;
+	asio::error_code ec;
+	asio::read(sock, request_buf,ec);
+	if (ec != asio::error::eof) {
+		throw asio::system_error(ec);
+	}
+}
+void Server(){}
+void ShutdownAndCloseEntrance() {
+
+}
+//Cancel Async calls
+void Cancel_Async_Call() {
+	//Client
+	std::string host = "127.0.0.1";
+	unsigned int port = 3333;
+	try {
+		asio::ip::tcp::endpoint ep(asio::ip::address::from_string(host), port);
+		asio::io_service ios;
+		std::shared_ptr<asio::ip::tcp::socket> sock(new asio::ip::tcp::socket(ios, ep.protocol()));
+		//async connect with lambda callback function
+		sock->async_connect(ep, [sock](const asio::error_code ec) {
+				//if canceled or error occured this ec will have error code
+			if (ec.value() != 0) {
+				if (ec == asio::error::operation_aborted) {
+					std::cout << "Operation canceled"<<std::endl;
+				}
+				else {
+					std::cout << "Error occured!"
+						<< "Error code =" << ec << ".Message:" << ec.message();
+				}
+				return;
+			}
+			else {
+				std::cout << "Connect success"<<std::endl;
+			}
+			});
+		std::thread worker_thread([&ios]() {try {
+			ios.run();
+		}
+		catch (asio::system_error& e) {
+			std::cout << "Error occured!"
+				<< "Error code =" << e.code() << ".Message:" << e.what();
+		}});
+		//wait for connection for 2 seconds 
+		//std::this_thread::sleep_for(std::chrono::seconds(2));
+		//Cancel whatever operation on the socket
+#pragma warning(suppress : 4996)
+		sock->cancel();
+		//Since the function has been canceled it will return imidiately
+		worker_thread.join();
+	}
+	catch (asio::system_error& e) {
+		std::cout << "Error occured!"
+			<< "Error code =" << e.code() << ".Message:" << e.what();
+	}
+	return;
+}
 // Read Async
 struct ARead_Session {
+	//Async read 
 	std::shared_ptr<asio::ip::tcp::socket> sock;
 	std::unique_ptr<char[]> buf;
 	unsigned int buf_size;

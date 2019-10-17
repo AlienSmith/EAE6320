@@ -218,7 +218,8 @@ int main()
 	//writesomeToTCPsocket();
 	//ReadSomeTCPServer();
 	//ReadTCPServer();
-	ReadSomeAsyncTCPPrintServer();
+	//ReadSomeAsyncTCPPrintServer();
+	Cancel_Async_Call();
 	//writeToTCPsocketAsync();
 	//multithreadwritetoTCP();
 	//StreamBuf();
