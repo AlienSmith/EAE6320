@@ -92,7 +92,11 @@ namespace eae6320
 		Graphics::DefaultGeometry* m_triangle = nullptr;
 		eae6320::Physics::sRigidBodyState m_camera;
 		eae6320::Physics::sRigidBodyState m_object;
+		eae6320::Physics::sRigidBodyState m_Plane;
 		Assets::cHandle<Graphics::DefaultGeometry> m_triangle_handle;
+		Assets::cHandle<Graphics::DefaultGeometry> m_tour_handle;
+		Assets::cHandle<Graphics::DefaultGeometry> m_sphere_handle;
+		Assets::cHandle<Graphics::DefaultGeometry> m_plane_handle;
 		bool m_showotherobject = false;
 		bool m_changeeffect = false;
 	};

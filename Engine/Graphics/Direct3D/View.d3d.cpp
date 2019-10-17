@@ -41,14 +41,6 @@ namespace eae6320 {
 
 			EAE6320_ASSERT(m_dataBeingRenderedByRenderThread);
 
-			// Update the frame constant buffer
-			{
-				// Copy the data from the system memory that the application owns to GPU memory
-				auto& constantData_frame = m_dataBeingRenderedByRenderThread->constantData_frame;
-				m_constantBuffer_frame.Update(&constantData_frame);
-				auto& constantData_drawCall = m_dataBeingRenderedByRenderThread->constantData_drawCall;
-				m_constantbuffer_drawcall.Update(&constantData_drawCall);
-			}
 			//Bind and Draw staff
 			BindAndDrawInRenderFrame();
 

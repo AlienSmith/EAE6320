@@ -95,6 +95,8 @@ namespace eae6320 {
 				const auto VertexCount = luaL_len(&io_luaState, -1);
 				vertex_count = (int)VertexCount;
 				eae6320::Graphics::VertexFormats::s3dObject* object = new eae6320::Graphics::VertexFormats::s3dObject[vertex_count];
+				EAE6320_ASSERTF(vertex_count <500, "Too Many Vertex");
+				Logging::OutputError("Too Many Vertex");
 				for (int i = 1; i <= vertex_count; ++i) {
 					lua_pushinteger(&io_luaState, i);
 					lua_gettable(&io_luaState, -2);

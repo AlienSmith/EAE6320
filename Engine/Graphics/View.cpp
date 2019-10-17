@@ -22,9 +22,6 @@ namespace eae6320 {
 		}
 		void View::SetClearColor(const float data[4])
 		{
-			//float a = siz
-			
-			(sDataRequiredToRenderAFrame);
 			clear_color[0] = data[0];
 			clear_color[1] = data[1];
 			clear_color[2] = data[2];
@@ -139,7 +136,8 @@ namespace eae6320 {
 		void View::SubmitdrawCallConstant(const Math::cMatrix_transformation& data)
 		{
 			auto& t_constantdata = m_dataBeingSubmittedByApplicationThread->constantData_drawCall;
-			t_constantdata.g_transform_localToWorld = data;
+			auto& t_index = m_dataBeingSubmittedByApplicationThread->size;
+			t_constantdata[t_index].g_transform_localToWorld = data;
 		}
 		eae6320::cResult View::WaitUntilDataForANewFrameCanBeSubmitted(const unsigned int i_timeToWait_inMilliseconds)
 		{
@@ -182,10 +180,18 @@ namespace eae6320 {
 		}
 		void View::BindAndDrawInRenderFrame()
 		{
+			// Update the frame constant buffer
+			{
+				// Copy the data from the system memory that the application owns to GPU memory
+				auto& constantData_frame = m_dataBeingRenderedByRenderThread->constantData_frame;
+				m_constantBuffer_frame.Update(&constantData_frame);
+			}
 			auto& count = m_dataBeingRenderedByRenderThread->size;
 			auto& effects = m_dataBeingRenderedByRenderThread->m_Effect_Array;
 			auto& objects = m_dataBeingRenderedByRenderThread->m_Geometry_Array;
 			for (int i = 0; i < count; i++) {
+				auto& constantData_drawCall = m_dataBeingRenderedByRenderThread->constantData_drawCall[i];
+				m_constantbuffer_drawcall.Update(&constantData_drawCall);
 				effects[i]->Bind();
 				objects[i]->Draw();
 			}

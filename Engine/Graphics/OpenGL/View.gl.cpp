@@ -48,16 +48,6 @@ namespace eae6320 {
 
 			EAE6320_ASSERT(m_dataBeingRenderedByRenderThread);
 
-			// Update the frame constant buffer
-			{
-				// Copy the data from the system memory that the application owns to GPU memory
-				auto& constantData_frame = m_dataBeingRenderedByRenderThread->constantData_frame;
-				m_constantBuffer_frame.Update(&constantData_frame);
-				//Upload the data to gpu here
-				auto& constantData_drawcall = m_dataBeingRenderedByRenderThread->constantData_drawCall;
-				m_constantbuffer_drawcall.Update(&constantData_drawcall);
-			}
-
 			BindAndDrawInRenderFrame();
 
 			// Everything has been drawn to the "back buffer", which is just an image in memory.

@@ -187,6 +187,11 @@
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">ALWAYS_RUN</Outputs>
     </CustomBuild>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Tools\GeometryBuilder\GeometryBuilder.vcxproj">
+      <Project>{6fd39ed1-d936-4e55-81cf-4231a83f9455}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

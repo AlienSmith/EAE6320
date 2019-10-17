@@ -18,23 +18,6 @@
     <ClInclude Include="cMayaGeometryExporter.h" />
     <ClInclude Include="Windows\ExternalLibraries.win.h" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Engine\Asserts\Asserts.vcxproj">
-      <Project>{464a6551-fca9-4027-bd9e-2b26914782ab}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Engine\ScopeGuard\ScopeGuard.vcxproj">
-      <Project>{b7ed3f7d-bfa1-42c9-9089-c6401ffde3d4}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Engine\Windows\Windows.vcxproj">
-      <Project>{6ff846d1-2377-4601-b2f6-83e31748cb16}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\External\Mcpp\Mcpp.vcxproj">
-      <Project>{dd1b3bf3-3c86-49f6-abf4-e021ebcdaf80}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\AssetBuildLibrary\AssetBuildLibrary.vcxproj">
-      <Project>{4438bc28-0c79-4907-bd5c-abad0dd78aec}</Project>
-    </ProjectReference>
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{29932845-9B7B-4E7D-9194-AD4EE1A035C7}</ProjectGuid>
@@ -72,12 +55,12 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <TargetName>eae6320_OWNBY_JOHN-PAUL_geometry_DEBUG</TargetName>
+    <TargetName>eae6320_OWNBY_ZHU-AN_geometry_DEBUG</TargetName>
     <TargetExt>.mll</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <TargetName>eae6320_OWNBY_JOHN-PAUL_geometry</TargetName>
+    <TargetName>eae6320_OWNBY_ZHU-AN_geometry</TargetName>
     <TargetExt>.mll</TargetExt>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

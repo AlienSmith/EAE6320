@@ -28,7 +28,7 @@ namespace eae6320 {
 	namespace Graphics {
 		struct sDataRequiredToRenderAFrame {
 			eae6320::Graphics::ConstantBufferFormats::sFrame constantData_frame;
-			eae6320::Graphics::ConstantBufferFormats::sDrawCall constantData_drawCall;
+			eae6320::Graphics::ConstantBufferFormats::sDrawCall constantData_drawCall[4];
 			float clear_color[4] = {0.0f,0.0f,0.0f,1.0f};
 			eae6320::Graphics::cEffect* m_Effect_Array[4];
 			eae6320::Graphics::DefaultGeometry* m_Geometry_Array[4];

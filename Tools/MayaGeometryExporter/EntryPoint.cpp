@@ -19,7 +19,7 @@
 namespace
 {
 	// This will be displayed in Maya's dropdown list of available export formats
-	constexpr auto* const s_pluginName = EAE6320_TODO "[YOUR NAME HERE]'s EAE6320 Geometry Format"
+	constexpr auto* const s_pluginName = "[ZHU_AN]'s EAE6320 Geometry Format"
 #ifdef _DEBUG
 		" -- DEBUG"
 #endif

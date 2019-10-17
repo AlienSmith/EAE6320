@@ -796,7 +796,19 @@ namespace
 			fout << "return" "\n"
 				"{" "\n";
 			{
-				EAE6320_TODO
+				fout << "--VertexCount =" << i_vertexArray.size() << "\n";
+				fout << "VertexData = {";
+				for (int i = 0; i< i_vertexArray.size(); ++i)
+				{
+					fout << "{" << i_vertexArray[i].vertex.x << "," << i_vertexArray[i].vertex.y << "," << i_vertexArray[i].vertex.z << "},\n";
+				}
+				fout << "}"",""\n";
+				fout << "--IndexCount =" << i_indexArray.size() << "\n";
+				fout << "IndexData  = {";
+				for (int i = 0; i < i_indexArray.size(); ++i) {
+					fout << i_indexArray[i] << ",";
+				}
+				fout << "}"",""\n";
 			}
 			// Close table
 			fout << "}" "\n";

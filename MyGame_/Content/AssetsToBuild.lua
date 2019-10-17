@@ -14,5 +14,8 @@ return
 	},
 	geometry ={
 		{ path = "Geometry/Triangle.lua"},
+		{ path = "Geometry/Plane.lua"},
+		{ path = "Geometry/Tour.lua"},
+		{ path = "Geometry/Sphere.lua"},
 	},
 }
