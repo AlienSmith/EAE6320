@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|x64">
@@ -17,6 +17,23 @@
   <ItemGroup>
     <ClInclude Include="cMayaGeometryExporter.h" />
     <ClInclude Include="Windows\ExternalLibraries.win.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Engine\Asserts\Asserts.vcxproj">
+      <Project>{464a6551-fca9-4027-bd9e-2b26914782ab}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Engine\ScopeGuard\ScopeGuard.vcxproj">
+      <Project>{b7ed3f7d-bfa1-42c9-9089-c6401ffde3d4}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Engine\Windows\Windows.vcxproj">
+      <Project>{6ff846d1-2377-4601-b2f6-83e31748cb16}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\External\Mcpp\Mcpp.vcxproj">
+      <Project>{dd1b3bf3-3c86-49f6-abf4-e021ebcdaf80}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\AssetBuildLibrary\AssetBuildLibrary.vcxproj">
+      <Project>{4438bc28-0c79-4907-bd5c-abad0dd78aec}</Project>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
