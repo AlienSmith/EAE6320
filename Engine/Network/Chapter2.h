@@ -7,17 +7,32 @@ void ClientSendData(asio::ip::tcp::socket& sock) {
 	const char requrest_buf[] = { 0x48,0x65,0x6c,0x6c,0x6f };
 	//sync write
 	asio::write(sock, asio::buffer(requrest_buf));
+	//Shut down the send part of the socket can no longer write anymore
 	sock.shutdown(asio::socket_base::shutdown_send);
 	asio::streambuf response_buf;
 	asio::error_code ec;
+	//this will be blocked until all info has been read
 	asio::read(sock, response_buf, ec);
 	if (ec == asio::error::eof) {
 		//All response message has been recieved;
+		//Handle it here
 	}
 	else {
 		throw asio::system_error(ec);
 	}
 	return;
+}
+void ServerRecieveData(asio::ip::tcp::socket& sock) {
+	asio::streambuf request_buf;
+	asio::error_code ec;
+	asio::read(sock, request_buf, ec);
+	//eof means the client finished sending data
+	if (ec != asio::error::eof) {
+		throw asio::system_error(ec);
+		const char response_buf[] = { 0x48,0x69,0x21 };
+		asio::write(sock, asio::buffer(response_buf));
+		sock.shutdown(asio::socket_base::shutdown_send);
+	}
 }
 void Client() {
 	std::string host = "127.0.0.1";
@@ -35,17 +50,32 @@ void Client() {
 	}
 	return;
 }
-void ServerRecieveData(asio::ip::tcp::socket& sock) {
-	asio::streambuf request_buf;
-	asio::error_code ec;
-	asio::read(sock, request_buf,ec);
-	if (ec != asio::error::eof) {
-		throw asio::system_error(ec);
+void Server(){
+	std::cout << "Server Start" << std::endl;
+	unsigned short port_num = 3333;
+	const unsigned short BACK_BUF_SIZE = 30;
+	try {
+		asio::ip::tcp::endpoint ep(asio::ip::address_v4::any(), port_num);
+		asio::io_service ios;
+		//Create open and bind
+		asio::ip::tcp::acceptor acceptor = asio::ip::tcp::acceptor(ios, ep);
+		asio::ip::tcp::socket sock(ios);
+		acceptor.listen(BACK_BUF_SIZE);
+		acceptor.accept(sock);
+		ServerRecieveData(sock);
+	}
+	catch (asio::system_error& e) {
+			std::cout << "Error occured! Error code" << e.code() << ".Message" << e.what();
 	}
 }
-void Server(){}
 void ShutdownAndCloseEntrance() {
-
+	//Server();
+	//std::thread server([] {Server(); });Server()
+	//std::this_thread::sleep_for(std::chrono::seconds(2));
+	Client();
+	//std::thread cliant([] {Client(); });
+	std::cout << "Thread started" << std::endl;
+	return;
 }
 //Cancel Async calls
 void Cancel_Async_Call() {
@@ -81,7 +111,7 @@ void Cancel_Async_Call() {
 				<< "Error code =" << e.code() << ".Message:" << e.what();
 		}});
 		//wait for connection for 2 seconds 
-		//std::this_thread::sleep_for(std::chrono::seconds(2));
+		std::this_thread::sleep_for(std::chrono::seconds(2));
 		//Cancel whatever operation on the socket
 #pragma warning(suppress : 4996)
 		sock->cancel();

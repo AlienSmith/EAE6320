@@ -218,12 +218,24 @@ int main()
 	//writesomeToTCPsocket();
 	//ReadSomeTCPServer();
 	//ReadTCPServer();
-	//ReadSomeAsyncTCPPrintServer();
-	Cancel_Async_Call();
-	//writeToTCPsocketAsync();
+	//Cancel_Async_Call();
+	//{
+	//	std::thread server([] { ReadSomeAsyncTCPPrintServer(); });
+	//	std::this_thread::sleep_for(std::chrono::seconds(1));
+	//	std::thread client([] {writeToTCPsocketAsync(); }); 
+	//}
+	//The following wil trigger a breakpoint 
+	//TODO Do not use synchoronized read and write in threads? If so why?
+
+	//{
+	//	std::thread server([] {ReadSomeTCPServer(); });
+	//	std::this_thread::sleep_for(std::chrono::seconds(1));
+	//	std::thread client([] {writesomeToTCPsocket(); });
+	//}
 	//multithreadwritetoTCP();
 	//StreamBuf();
 	// the endpoint is ready to go.
+	//ShutdownAndCloseEntrance();
     std::cout << "Hello World!\n";
 	char a = std::getchar();
 	return 0;
