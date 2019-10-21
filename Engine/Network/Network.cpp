@@ -2,6 +2,7 @@
 //
 
 #include "Chapter2.h"
+#include "Chapter3.h"
 int TCPserver() {
 	//IPv4
 	//queue contain the pending connection request 
@@ -226,7 +227,6 @@ int main()
 	//}
 	//The following wil trigger a breakpoint 
 	//TODO Do not use synchoronized read and write in threads? If so why?
-
 	//{
 	//	std::thread server([] {ReadSomeTCPServer(); });
 	//	std::this_thread::sleep_for(std::chrono::seconds(1));
@@ -236,6 +236,8 @@ int main()
 	//StreamBuf();
 	// the endpoint is ready to go.
 	//ShutdownAndCloseEntrance();
+	Networking::OO::SyncTCPServer::Run_TEST();
+	//Networking::OO::SyncTCPClient::RUN_TEST();
     std::cout << "Hello World!\n";
 	char a = std::getchar();
 	return 0;
