@@ -28,14 +28,14 @@ void eae6320::cExampleGame::SubmitDataToBeRendered(const float i_elapsedSecondCo
 	Math::cMatrix_transformation trans = m_object.PredictFutureTransform(i_elapsedSecondCount_sinceLastSimulationUpdate);
 	Graphics::SubmitdrawCallConstant(m_object.PredictFutureTransform(i_elapsedSecondCount_sinceLastSimulationUpdate));
 	if (m_showotherobject) {
-		Graphics::SubmitEffectWithObject(m_flash_Effect, Graphics::DefaultGeometry::s_manager.Get(m_triangle_handle));
+		Graphics::SubmitEffectWithObject(m_flash_Effect, Graphics::DefaultGeometry::s_manager.Get(m_sphere_handle));
 	}
 	else {
 		Graphics::SubmitEffectWithObject(m_flash_Effect, m_quard);
 	}
 	//Plane
 	Graphics::SubmitdrawCallConstant(m_Plane.PredictFutureTransform(i_elapsedSecondCount_sinceLastSimulationUpdate));
-	Graphics::SubmitEffectWithObject(m_flash_Effect, Graphics::DefaultGeometry::s_manager.Get(m_plane_handle));
+	Graphics::SubmitEffectWithObject(m_flash_Effect, Graphics::DefaultGeometry::s_manager.Get(m_tour_handle));
 }
 
 void eae6320::cExampleGame::UpdateSimulationBasedOnTime(const float i_elapsedSecondCount_sinceLastUpdate)
