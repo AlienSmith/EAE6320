@@ -31,11 +31,11 @@ void eae6320::cExampleGame::SubmitDataToBeRendered(const float i_elapsedSecondCo
 		Graphics::SubmitEffectWithObject(m_flash_Effect, Graphics::DefaultGeometry::s_manager.Get(m_sphere_handle));
 	}
 	else {
-		Graphics::SubmitEffectWithObject(m_flash_Effect, m_quard);
+		Graphics::SubmitEffectWithObject(m_flash_Effect, Graphics::DefaultGeometry::s_manager.Get(m_cube_handle));
 	}
 	//Plane
 	Graphics::SubmitdrawCallConstant(m_Plane.PredictFutureTransform(i_elapsedSecondCount_sinceLastSimulationUpdate));
-	Graphics::SubmitEffectWithObject(m_flash_Effect, Graphics::DefaultGeometry::s_manager.Get(m_tour_handle));
+	Graphics::SubmitEffectWithObject(m_flash_Effect, Graphics::DefaultGeometry::s_manager.Get(m_plane_handle));
 }
 
 void eae6320::cExampleGame::UpdateSimulationBasedOnTime(const float i_elapsedSecondCount_sinceLastUpdate)
@@ -102,10 +102,10 @@ void eae6320::cExampleGame::UpdateBasedOnInput()
 eae6320::cResult eae6320::cExampleGame::Initialize()
 {
 	//data/geometry/trangle.geometry
+	Graphics::DefaultGeometry::s_manager.Load("data/geometry/cube.lua", m_cube_handle);
 	Graphics::DefaultGeometry::s_manager.Load("data/geometry/triangle.lua", m_triangle_handle);
 	Graphics::DefaultGeometry::s_manager.Load("data/geometry/plane.lua", m_plane_handle);
 	Graphics::DefaultGeometry::s_manager.Load("data/geometry/sphere.lua", m_sphere_handle);
-	Graphics::DefaultGeometry::s_manager.Load("data/geometry/tour.lua", m_tour_handle);
 	using namespace Graphics;
 	sDataRequriedToIntializeObject squre;
 	squre.indexcount = 6;
@@ -180,7 +180,7 @@ eae6320::cResult eae6320::cExampleGame::CleanUp()
 	Graphics::DefaultGeometry::s_manager.Release(m_triangle_handle);
 	Graphics::DefaultGeometry::s_manager.Release(m_plane_handle);
 	Graphics::DefaultGeometry::s_manager.Release(m_sphere_handle);
-	Graphics::DefaultGeometry::s_manager.Release(m_tour_handle);
+	Graphics::DefaultGeometry::s_manager.Release(m_cube_handle);
 	m_flash_Effect->DecrementReferenceCount();
 	m_white_Effect->DecrementReferenceCount();
 	m_quard->DecrementReferenceCount();

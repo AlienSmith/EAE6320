@@ -3,6 +3,13 @@
 
 #include "Chapter2.h"
 #include "Chapter3.h"
+#include <iostream>
+class background_task {
+public:
+	void operator()() const {
+		std::cout << "C++" << std::endl;
+	}
+};
 int TCPserver() {
 	//IPv4
 	//queue contain the pending connection request 
@@ -236,9 +243,10 @@ int main()
 	//StreamBuf();
 	// the endpoint is ready to go.
 	//ShutdownAndCloseEntrance();
-	Networking::OO::SyncTCPServer::Run_TEST();
+	//Networking::OO::SyncTCPServer::Run_TEST();
 	//Networking::OO::SyncTCPClient::RUN_TEST();
-    std::cout << "Hello World!\n";
+	std::thread my_thread{ background_task ()};
+	std::cout << "Hello World!\n";
 	char a = std::getchar();
 	return 0;
 }
