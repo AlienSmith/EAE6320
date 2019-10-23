@@ -122,6 +122,7 @@ namespace eae6320 {
 			//index Buffer
 			{
 				indexCountToRender = data.indexcount;
+				//indexCountToRender = data.indexcount > 3? 6:data.indexcount;
 				//constexpr unsigned int indexCount = 6;
 				//0,1,2,0,2,3 to 0,2,1,0,3,2 right handed to left handed
 				for (int i = 0; i < indexCountToRender / 3.0f; i++) {
@@ -131,7 +132,7 @@ namespace eae6320 {
 				}				
 				D3D11_BUFFER_DESC bufferDescription{};
 				{
-					const auto bufferSize = data.indexcount * sizeof(uint16_t);
+					const auto bufferSize = indexCountToRender * sizeof(uint16_t);
 					bufferDescription.ByteWidth = static_cast<unsigned int>(bufferSize);
 					bufferDescription.Usage = D3D11_USAGE_IMMUTABLE;	// In our class the buffer will never change after it's been created
 					bufferDescription.BindFlags = D3D11_BIND_INDEX_BUFFER;
@@ -200,7 +201,7 @@ namespace eae6320 {
 			{
 				constexpr unsigned int indexOfFirstIndexToUse = 0;
 				constexpr unsigned int offsetToAddToEachIndex = 0;
-				direct3dImmediateContext->DrawIndexed(static_cast<unsigned int>(6), indexOfFirstIndexToUse, offsetToAddToEachIndex);
+				direct3dImmediateContext->DrawIndexed(static_cast<unsigned int>(indexCountToRender), indexOfFirstIndexToUse, offsetToAddToEachIndex);
 			}
 			//// Render triangles from the currently-bound vertex buffer
 			//{
