@@ -241,14 +241,14 @@ namespace eae6320 {
 			char* buffer = new char[1000000];
 			infile.read(buffer, 1000000);
 			sDataRequriedToIntializeObject geometry;
-			geometry.vertexcount = *(uint16_t*)buffer;
+			geometry.vertexcount = *reinterpret_cast<uint16_t*>(buffer);
 			// a uint16_t is two byte
-			geometry.indexcount = *(uint16_t*)(buffer + 2);
+			geometry.indexcount = *reinterpret_cast<uint16_t*>(buffer + 2);
 			// two uint16_t is 4 byte
-			geometry.vertexData = (eae6320::Graphics::VertexFormats::s3dObject*)(buffer + 4);
+			geometry.vertexData = reinterpret_cast<eae6320::Graphics::VertexFormats::s3dObject*>(buffer + 4);
 			// two uint16_t and vertexdata
 			size_t vertexdata_size = sizeof(eae6320::Graphics::VertexFormats::s3dObject) * geometry.vertexcount;
-			geometry.indexdata = (uint16_t*)(buffer + 4 + vertexdata_size);
+			geometry.indexdata = reinterpret_cast<uint16_t*>(buffer + 4 + vertexdata_size);
 			DefaultGeometry::Create(geometry, o_instance);
 			delete[] buffer;
 			return result;
