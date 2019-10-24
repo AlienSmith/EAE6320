@@ -102,10 +102,10 @@ void eae6320::cExampleGame::UpdateBasedOnInput()
 eae6320::cResult eae6320::cExampleGame::Initialize()
 {
 	//data/geometry/trangle.geometry
+	Graphics::DefaultGeometry::s_manager.Load("data/geometry/sphere.lua", m_sphere_handle);
 	Graphics::DefaultGeometry::s_manager.Load("data/geometry/cube.lua", m_cube_handle);
 	Graphics::DefaultGeometry::s_manager.Load("data/geometry/triangle.lua", m_triangle_handle);
 	Graphics::DefaultGeometry::s_manager.Load("data/geometry/plane.lua", m_plane_handle);
-	Graphics::DefaultGeometry::s_manager.Load("data/geometry/sphere.lua", m_sphere_handle);
 	using namespace Graphics;
 	sDataRequriedToIntializeObject squre;
 	squre.indexcount = 6;
