@@ -512,7 +512,7 @@ int multithreadwritetoTCP() {
 	//lambda function
 	std::thread t{ [&ios] {ios.run(); } };
 	//functor
-	//std::thread t( asio::io_service::run,std::ref(ios) );
+	std::thread t2( &asio::io_service::run, &ios );
 	Networking::thread_guard g(t);
 	std::cout << "End here" << std::endl;
 	return 0;

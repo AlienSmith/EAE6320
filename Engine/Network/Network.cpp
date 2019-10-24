@@ -239,7 +239,7 @@ int main()
 	//	std::this_thread::sleep_for(std::chrono::seconds(1));
 	//	std::thread client([] {writesomeToTCPsocket(); });
 	//}
-	//multithreadwritetoTCP();
+	multithreadwritetoTCP();
 	//StreamBuf();
 	// the endpoint is ready to go.
 	//ShutdownAndCloseEntrance();

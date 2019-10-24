@@ -125,11 +125,11 @@ namespace eae6320 {
 				//indexCountToRender = data.indexcount > 3? 6:data.indexcount;
 				//constexpr unsigned int indexCount = 6;
 				//0,1,2,0,2,3 to 0,2,1,0,3,2 right handed to left handed
-				for (int i = 0; i < indexCountToRender / 3.0f; i++) {
+				/*for (int i = 0; i < indexCountToRender / 3.0f; i++) {
 					uint16_t temp_int = data.indexdata[i * 3 + 1];
 					data.indexdata[i * 3 + 1] = data.indexdata[i * 3 + 2];
 					data.indexdata[i * 3 + 2] = temp_int;
-				}				
+				}*/				
 				D3D11_BUFFER_DESC bufferDescription{};
 				{
 					const auto bufferSize = indexCountToRender * sizeof(uint16_t);

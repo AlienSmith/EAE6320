@@ -192,6 +192,13 @@ eae6320::cResult eae6320::Assets::cGeometryBuilder::Load(const std::string& i_pa
 	LoadTableValues_Vertexs(*temp_state, vertexData, vertexcount);
 	LoadTableValues_Index(*temp_state, indexdata, indexcount);
 	//Write out the bineray file here
+#ifdef EAE6320_PLATFORM_D3D
+	for (int i = 0; i < indexcount / 3.0f; i++) {
+		uint16_t temp_int = indexdata[i * 3 + 1];
+		indexdata[i * 3 + 1] = indexdata[i * 3 + 2];
+		indexdata[i * 3 + 2] = temp_int;
+	}
+#endif
 	std::ofstream outfile(o_path, std::ofstream::binary);
 	outfile.write((const char*)& vertexcount, sizeof(uint16_t));
 	outfile.write((const char*)& indexcount,sizeof(uint16_t));
