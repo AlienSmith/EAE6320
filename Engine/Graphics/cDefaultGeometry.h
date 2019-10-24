@@ -27,6 +27,7 @@ namespace eae6320 {
 			static eae6320::cResult LoadTableValues_Index(lua_State& io_luaState, uint16_t* & index_Data, int& index_Count);
 			static Assets::cManager<DefaultGeometry> s_manager;
 			static cResult Load(const std::string& i_path, DefaultGeometry*& o_instance);
+			static cResult LoadBinary(const std::string& i_path, DefaultGeometry*& o_instance);
 			static eae6320::cResult Create(const sDataRequriedToIntializeObject& data, DefaultGeometry* & i_instance) {
 				DefaultGeometry* instance = new DefaultGeometry();
 				eae6320::cResult result = instance->InitializeGeometry(data);

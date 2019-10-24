@@ -1,5 +1,6 @@
 #include "cDefaultGeometry.h"
 #include <iostream>
+#include <fstream> 
 namespace eae6320 {
 	namespace Graphics {
 		eae6320::Assets::cManager<eae6320::Graphics::DefaultGeometry> eae6320::Graphics::DefaultGeometry::s_manager;
@@ -163,8 +164,9 @@ namespace eae6320 {
 		}
 		cResult eae6320::Graphics::DefaultGeometry::Load(const std::string& i_path, DefaultGeometry*& o_instance)
 		{
-			auto result = Results::Success;
+			return LoadBinary(i_path, o_instance);
 
+			auto result = Results::Success;
 			//Platform::sDataFromFile dataFromFile;
 			//// Load the binary data
 			//{
@@ -228,6 +230,27 @@ namespace eae6320 {
 			// Call the create function here
 			//test data
 			DefaultGeometry::Create(geometry, o_instance);
+			return result;
+		}
+		cResult DefaultGeometry::LoadBinary(const std::string& i_path, DefaultGeometry*& o_instance)
+		{	
+			auto result = Results::Success;
+			//Read the binary files from the address
+			std::ifstream infile(i_path.c_str(), std::ofstream::binary);
+			//The buffer to store all the inputs Hard limite 10000 bytes 
+			char* buffer = new char[1000000];
+			infile.read(buffer, 1000000);
+			sDataRequriedToIntializeObject geometry;
+			geometry.vertexcount = *(uint16_t*)buffer;
+			// a uint16_t is two byte
+			geometry.indexcount = *(uint16_t*)(buffer + 2);
+			// two uint16_t is 4 byte
+			geometry.vertexData = (eae6320::Graphics::VertexFormats::s3dObject*)(buffer + 4);
+			// two uint16_t and vertexdata
+			size_t vertexdata_size = sizeof(eae6320::Graphics::VertexFormats::s3dObject) * geometry.vertexcount;
+			geometry.indexdata = (uint16_t*)(buffer + 4 + vertexdata_size);
+			DefaultGeometry::Create(geometry, o_instance);
+			delete[] buffer;
 			return result;
 		}
 	}
