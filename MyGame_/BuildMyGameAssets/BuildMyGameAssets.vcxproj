@@ -188,6 +188,15 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Engine\Asserts\Asserts.vcxproj">
+      <Project>{464a6551-fca9-4027-bd9e-2b26914782ab}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Tools\AssetBuildExe\AssetBuildExe.vcxproj">
+      <Project>{5fe0ead5-3429-4525-a533-8cf75c85d4f1}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Tools\AssetBuildLibrary\AssetBuildLibrary.vcxproj">
+      <Project>{4438bc28-0c79-4907-bd5c-abad0dd78aec}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\Tools\EffectBuilder\EffectBuilder.vcxproj">
       <Project>{514096a5-7834-420d-a145-a44d2616b449}</Project>
     </ProjectReference>
