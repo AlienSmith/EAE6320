@@ -4,3 +4,8 @@ eae6320::cResult eae6320::Assets::cEffectBuilder::Load(const std::string& i_path
 {
 	return eae6320::cResult();
 }
+
+eae6320::cResult eae6320::Assets::cEffectBuilder::Build(const std::vector<std::string>& i_arguments)
+{
+	return cResult();
+}
