@@ -249,7 +249,7 @@ end
 -- Shader Asset Type
 --------------------
 
-NewAssetTypeInfo( "shaders",
+--[[NewAssetTypeInfo( "shaders",
 	{
 		ConvertSourceRelativePathToBuiltRelativePath = function( i_sourceRelativePath )
 			-- Change the source file extension to the binary version
@@ -270,7 +270,12 @@ NewAssetTypeInfo( "shaders",
 			return lastWriteTime_includeFile > i_lastWriteTime_builtAsset
 		end
 	}
-)
+)]]--
+NewAssetTypeInfo( "shaders",
+	{
+		RegisterAssetToBeBuilt( "Shaders/Vertex/standard.shader", "shaders", { "vertex" } )
+        RegisterAssetToBeBuilt( "Shaders/Fragment/standard.shader", "shaders", { "fragment" } )
+	}
 -- Geometry Asset Type
 --------------------
 NewAssetTypeInfo( "geometry",
@@ -287,6 +292,23 @@ NewAssetTypeInfo( "geometry",
 		GetBuilderRelativePath = function()
 			return "GeometryBuilder.exe"
 		end,
+	}
+)
+-- Effects Asset Type
+-------------------
+NewAssetTypeInfo( "effect",
+	{
+	RegisterReferencedAssets = function( i_sourceRelativePath )
+      local sourceAbsolutePath = FindSourceContentAbsolutePathFromRelativePath( i_sourceRelativePath )
+      if DoesFileExist( sourceAbsolutePath ) then
+        local effect = dofile( sourceAbsolutePath )
+        -- EAE6320_TODO Get the source shader paths from the effect table and then do something like:
+		--local path_vertexShader = "Shaders/Vertex/standard.shader";
+		--local path_fragmentShader = "Shaders/Fragment/standard.shader";
+        RegisterAssetToBeBuilt( "Shaders/Vertex/standard.shader", "shaders", { "vertex" } )
+        RegisterAssetToBeBuilt( "Shaders/Fragment/standard.shader", "shaders", { "fragment" } )
+      end
+    end
 	}
 )
 
