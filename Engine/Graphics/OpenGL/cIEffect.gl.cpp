@@ -203,16 +203,5 @@ namespace eae6320
 			}
 			return result;
 		}
-		eae6320::cResult cEffect::LoadBinary(const char* path, cEffect*& i_instance)
-		{
-			{
-				auto result = Results::Success;
-				//Read the binary files from the address
-				std::ifstream infile(i_path.c_str(), std::ofstream::binary);
-				//The buffer to store all the inputs Hard limite 10000 bytes 
-				char* buffer = new char[1000000];
-				infile.read(buffer, 1000000);
-			}
-		}
 	}
 }

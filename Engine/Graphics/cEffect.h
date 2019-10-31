@@ -37,7 +37,7 @@ namespace eae6320
 				//Read the binary files from the address
 				//auto start = std::chrono::high_resolution_clock::now();
 				std::ifstream infile(i_path, std::ofstream::binary);
-				//The buffer to store all the inputs Hard limite 10000 bytes 
+				//The buffer to store all the inputs Hard limite 1000000 bytes 
 				char* buffer = new char[1000000];
 				infile.read(buffer, 1000000);
 				char* vertex_shader = buffer;
