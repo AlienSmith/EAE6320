@@ -158,15 +158,16 @@ eae6320::cResult eae6320::cExampleGame::Initialize()
 	triangle.indexdata = triangle_indexData;
 	DefaultGeometry::Create(triangle, m_triangle);
 
-	sDataRequriedToIntializeEffect flesh_data;
+	/*sDataRequriedToIntializeEffect flesh_data;
 	flesh_data.vertex_shader_path = "data/Shaders/Vertex/standard.shader";
 	flesh_data.fragment_shader_path = "data/Shaders/Fragment/test.shader";
 	cEffect::Create(flesh_data, m_flash_Effect);
-
 	sDataRequriedToIntializeEffect white_data;
 	white_data.vertex_shader_path = "data/Shaders/Vertex/standard.shader";
 	white_data.fragment_shader_path = "data/Shaders/Fragment/standard.shader";
-	cEffect::Create(white_data, m_white_Effect);
+	cEffect::Create(white_data, m_white_Effect);*/
+	eae6320::Graphics::cEffect::LoadBinary("data/effect/basic.lua", m_white_Effect);
+	eae6320::Graphics::cEffect::LoadBinary("data/effect/flashy.lua", m_flash_Effect);
 	int a = sizeof(cEffect);
 	int b = sizeof(DefaultGeometry);
 	m_camera.position = Math::sVector(0.0f,0.0f,10.0f);

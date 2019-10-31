@@ -14,10 +14,11 @@ return
 {
 shaders =
 	{
-		{ path = "Shaders/Vertex/standard.shader", arguments = { "vertex" } },
+		{ path = "Shaders/Vertex/vertexInputLayout_3dObject.shader", arguments = { "vertex" } },
 	},
-	effect = {
-		path = "Effect/basic.lua"
+	effects = {
+		{ path = "Effect/basic.lua"},
+		{ path = "Effect/flashy.lua"},
 	},
 	geometry ={
 		{ path = "Geometry/Triangle.lua"},

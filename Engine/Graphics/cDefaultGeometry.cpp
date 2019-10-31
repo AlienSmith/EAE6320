@@ -242,7 +242,7 @@ namespace eae6320 {
 		{	
 			auto result = Results::Success;
 			//Read the binary files from the address
-			auto start = std::chrono::high_resolution_clock::now();
+			//auto start = std::chrono::high_resolution_clock::now();
 			std::ifstream infile(i_path.c_str(), std::ofstream::binary);
 			//The buffer to store all the inputs Hard limite 10000 bytes 
 			char* buffer = new char[1000000];
@@ -256,9 +256,9 @@ namespace eae6320 {
 			// two uint16_t and vertexdata
 			size_t vertexdata_size = sizeof(eae6320::Graphics::VertexFormats::s3dObject) * geometry.vertexcount;
 			geometry.indexdata = reinterpret_cast<uint16_t*>(buffer + 4 + vertexdata_size);
-			auto stop = std::chrono::high_resolution_clock::now();
-			auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
-			auto temp = duration.count();
+			//auto stop = std::chrono::high_resolution_clock::now();
+			//auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
+			//auto temp = duration.count();
 			DefaultGeometry::Create(geometry, o_instance);
 			delete[] buffer;
 			return result;

@@ -14,6 +14,9 @@
 #elif defined EAE6320_PLATFORM_D3D
 #include "Direct3D/Includes.h"
 #endif
+#include <iostream>
+#include <fstream> 
+#include <chrono> 
 namespace eae6320
 {
 	namespace Graphics {
@@ -29,6 +32,25 @@ namespace eae6320
 			cResult CleanUp();
 			cResult InitializeShadingData(const sDataRequriedToIntializeEffect& data);
 		public:
+			static eae6320::cResult LoadBinary(const char* i_path, cEffect*& i_instance) {
+				auto result = Results::Success;
+				//Read the binary files from the address
+				//auto start = std::chrono::high_resolution_clock::now();
+				std::ifstream infile(i_path, std::ofstream::binary);
+				//The buffer to store all the inputs Hard limite 10000 bytes 
+				char* buffer = new char[1000000];
+				infile.read(buffer, 1000000);
+				char* vertex_shader = buffer;
+				char* fragment_shader = buffer + strlen(buffer)+1;
+				sDataRequriedToIntializeEffect temp;
+				temp.fragment_shader_path = fragment_shader;
+				temp.vertex_shader_path = vertex_shader;
+				cEffect* instance = new cEffect();
+				result = instance->InitializeShadingData(temp);
+				i_instance = instance;
+				delete[] buffer;
+				return result;
+			}
 			static eae6320::cResult Create(const sDataRequriedToIntializeEffect& data, cEffect* & i_instance) {
 				cEffect* instance = new cEffect();
 				eae6320::cResult result = instance->InitializeShadingData(data);

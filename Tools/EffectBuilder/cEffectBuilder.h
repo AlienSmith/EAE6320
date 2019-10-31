@@ -12,8 +12,7 @@ namespace eae6320
 			//=========================
 		public:
 			static eae6320::cResult LoadAsset(const char* const i_path, lua_State*& io_luaState);
-			static eae6320::cResult LoadTableValues_Vertexs(lua_State& io_luaState, eae6320::Graphics::VertexFormats::s3dObject*& vertex_Data, uint16_t& vertex_count);
-			static eae6320::cResult LoadTableValues_Index(lua_State& io_luaState, uint16_t*& index_Data, uint16_t& index_Count);
+			static eae6320::cResult LoadShader(lua_State& io_luaState, const char*& vertex_shader,const char*& fragment_shader);
 			static eae6320::cResult Load(const std::string& i_path, const std::string& o_path);
 		private:
 
