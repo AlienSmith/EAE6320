@@ -21,6 +21,9 @@
     <ClCompile Include="Chapter3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="winsock.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Chapter2.h">
@@ -31,6 +34,9 @@
     </ClInclude>
     <ClInclude Include="Chapter3.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Scope_thread.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
