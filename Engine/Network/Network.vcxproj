@@ -162,6 +162,7 @@
     <ClCompile Include="Chapter3.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="Network.cpp" />
+    <ClCompile Include="Server.cpp" />
     <ClCompile Include="winsock.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -169,6 +170,7 @@
     <ClInclude Include="Chapter3.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="Scope_thread.h" />
+    <ClInclude Include="Server.h" />
     <ClInclude Include="stack.h" />
     <ClInclude Include="ThreadGuard.h" />
     <ClInclude Include="WindowsTCPTestFunctions.h" />
