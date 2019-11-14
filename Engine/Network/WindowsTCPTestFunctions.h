@@ -162,6 +162,7 @@ int server() {
 		iResult = recv(ClientSocket, recvbuf, recvbuflen, 0);
 		if (iResult > 0) {
 			printf("Bytes recieved %d\n", iResult);
+			printf(recvbuf);
 			iSendResult = send(ClientSocket, recvbuf, iResult, 0);
 			if (iSendResult == SOCKET_ERROR) {
 				printf("send failed: %d\n", WSAGetLastError());

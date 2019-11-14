@@ -1,10 +1,20 @@
 // winsock.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 #include"WindowsTCPTestFunctions.h"
+#include<iostream>
+#include "Client.h"
 
 int main()
 {
-	return server();
+	std::string local_host = "127.0.0.1";
+	std::string port_num = "3333";
+	//server();
+	Network::TCP::Client client;
+	Network::network_error_code error_code;
+	client.Obtain_id(local_host,port_num,error_code);
+	int a;
+	std::cin >> a;
+	return a;
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu

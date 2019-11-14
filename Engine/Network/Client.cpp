@@ -1,6 +1,27 @@
 #include "Client.h"
 
-Network::TCP::Client::Client() :m_wsaData(), m_result(NULL), m_ptr(NULL), m_hints(),m_socket(INVALID_SOCKET) {}
+Network::TCP::Client::Client() :m_wsaData(), m_result(NULL), m_ptr(NULL), m_hints(),m_socket(INVALID_SOCKET),id(0) {}
+
+bool Network::TCP::Client::Obtain_id(const std::string& host, const std::string& port_number,network_error_code& o_error_code)
+{
+	char* temp = nullptr;
+	if (Connect(host, port_number, o_error_code)) {
+		if (Send("REQUEST_ID", o_error_code)) {
+			if (Recieve(temp,o_error_code)) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+		else {
+			return false;
+		}
+	}
+	else {
+		return false;
+	}
+}
 
 bool Network::TCP::Client::Connect(const std::string& host, const std::string& port_number, network_error_code& o_error_code)
 {
@@ -70,11 +91,36 @@ bool Network::TCP::Client::Send(const char* data, network_error_code& o_error_co
 
 bool Network::TCP::Client::Recieve(char* o_data, network_error_code& o_error_code)
 {
-	return false;
+	int iResult;
+	int recvbuf_length = 100;
+	char* recvbuf = new char[recvbuf_length];
+	do {
+		iResult = recv(m_socket, recvbuf, 100, 0);
+		if (iResult > 0) {
+			printf("Byte recieved %d \n", iResult);
+		}
+		else if (iResult == 0) {
+			printf("Connection Closed \n");
+			o_data = recvbuf;
+		}
+		else {
+			o_error_code.code = "recv failed %d\n";
+			return false;
+		}
+	} while (iResult > 0);
+	return true;
 }
 
-bool Network::TCP::Client::Recieve()
+void Network::TCP::Client::Reset()
 {
-	return false;
+	closesocket(m_socket);
+	WSACleanup();
+	m_wsaData = WSADATA();
+	m_result = NULL;
+	m_ptr = NULL;
+	m_hints = addrinfo();
+	m_socket = INVALID_SOCKET;
 }
+
+
 
