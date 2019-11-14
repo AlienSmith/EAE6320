@@ -98,7 +98,7 @@ int client() {
 int server() {
 	//Get address infomation
 	int iResult;
-	struct addrinfo* result = NULL, * ptr = NULL, hints;
+	addrinfo* result = NULL, * ptr = NULL, hints;
 	//A macro fill a block of memory with zeros, In this case
 	//Before doing that hints are stored with rundom values.
 	ZeroMemory(&hints, sizeof(hints));
@@ -142,6 +142,7 @@ int server() {
 		return 1;
 	}
 	//Acception connection from client
+	printf("Waiting for connection.\n");
 	SOCKET ClientSocket;
 	ClientSocket = INVALID_SOCKET;
 	ClientSocket = accept(ListenSocket, NULL, NULL);
@@ -151,11 +152,11 @@ int server() {
 		WSACleanup();
 		return 1;
 	}
-	return 0;
 	static const int DEFAULT_BUFLENGTH = 512;
 	char recvbuf[DEFAULT_BUFLEN];
 	int iSendResult;
 	int recvbuflen = DEFAULT_BUFLEN;
+	printf("Connected to client");
 	//Recive until the peer shuts down the connection
 	do {
 		iResult = recv(ClientSocket, recvbuf, recvbuflen, 0);
@@ -174,7 +175,7 @@ int server() {
 			printf("Connection closing ... \n");
 		}
 		else {
-			printf("recv filed: %d\n", WSAGetLastError());
+			printf("recv failed: %d\n", WSAGetLastError());
 			closesocket(ClientSocket);
 			WSACleanup();
 			return 1;
@@ -186,6 +187,7 @@ int server() {
 		printf("shutdown failed %d\n", WSAGetLastError());
 		closesocket(ClientSocket);
 		WSACleanup();
-		return 0;
+		return 1;
 	}
+	return 0;
 }

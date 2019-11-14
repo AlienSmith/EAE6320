@@ -160,14 +160,18 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Chapter3.cpp" />
+    <ClCompile Include="Client.cpp" />
     <ClCompile Include="Network.cpp" />
     <ClCompile Include="winsock.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Chapter2.h" />
     <ClInclude Include="Chapter3.h" />
+    <ClInclude Include="Client.h" />
     <ClInclude Include="Scope_thread.h" />
+    <ClInclude Include="stack.h" />
     <ClInclude Include="ThreadGuard.h" />
+    <ClInclude Include="WindowsTCPTestFunctions.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -6,13 +6,13 @@
 #include <iostream>
 #include "Scope_thread.h"
 #include <thread>
-int main()
-{
-	//The function will copy the arguemnts use constructors in stead of assignement operators
-	std::thread t{ [] {std::cout << "Hello" << std::endl; } };
-	scope_thread guard(std::move(t));
-	return 0;
-}
+//int main()
+//{
+//	//The function will copy the arguemnts use constructors in stead of assignement operators
+//	std::thread t{ [] {std::cout << "Hello" << std::endl; } };
+//	scope_thread guard(std::move(t));
+//	return 0;
+//}
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
 // Debug program: F5 or Debug > Start Debugging menu

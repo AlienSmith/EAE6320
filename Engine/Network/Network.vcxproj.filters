@@ -13,30 +13,45 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Experimental">
+      <UniqueIdentifier>{900929cf-4057-4fce-9fb4-1f0091c990fa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Network.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Chapter3.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="winsock.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Chapter3.cpp">
+      <Filter>Experimental</Filter>
+    </ClCompile>
+    <ClCompile Include="Network.cpp">
+      <Filter>Experimental</Filter>
+    </ClCompile>
+    <ClCompile Include="Client.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Chapter2.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="ThreadGuard.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="Chapter2.h">
+      <Filter>Experimental</Filter>
+    </ClInclude>
     <ClInclude Include="Chapter3.h">
+      <Filter>Experimental</Filter>
+    </ClInclude>
+    <ClInclude Include="Client.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="stack.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowsTCPTestFunctions.h">
+      <Filter>Experimental</Filter>
+    </ClInclude>
     <ClInclude Include="Scope_thread.h">
-      <Filter>Header Files</Filter>
+      <Filter>Experimental</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
