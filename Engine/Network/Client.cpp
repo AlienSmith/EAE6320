@@ -81,7 +81,7 @@ bool Network::TCP::Client::Send(const char* data, network_error_code& o_error_co
 	//shutdown the connection for sending, cause no more data to send. However, the client can still recieve data
 	iResult = shutdown(m_socket, SD_SEND);
 	if (iResult == SOCKET_ERROR) {
-		o_error_code.code = "shutdown sending failed: %d\n";
+		o_error_code.code = "shutdown sending failed: \n";
 		closesocket(m_socket);
 		WSACleanup();
 		return false;
@@ -93,7 +93,7 @@ bool Network::TCP::Client::Recieve(char* o_data, network_error_code& o_error_cod
 {
 	int iResult;
 	int recvbuf_length = 100;
-	char* recvbuf = new char[recvbuf_length];
+	char recvbuf[100];
 	do {
 		iResult = recv(m_socket, recvbuf, 100, 0);
 		if (iResult > 0) {

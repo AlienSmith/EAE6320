@@ -6,14 +6,13 @@ namespace Network {
 		public:
 			Server();
 			bool Start(const std::string& port_number, network_error_code& o_error_code);
-			bool accept();
+			bool Accept(network_error_code& o_error_code);
 			bool Send(const char* data, network_error_code& o_error_code);
 			bool Recieve(char* o_data, network_error_code& o_error_code);
 			void Reset();
 			void Main_GameLoop();
 		private:
 #ifdef _WIN32
-			WSADATA m_wsaData;
 			addrinfo* m_result;
 			addrinfo* m_ptr;
 			addrinfo m_hints;
