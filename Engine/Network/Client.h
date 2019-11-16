@@ -14,7 +14,8 @@ namespace Network {
 			bool Obtain_id(const std::string& host, const std::string& port_number, network_error_code& o_error_code);
 			bool Connect(const std::string& host, const std::string& port_number, network_error_code& o_error_code);
 			bool Send(const char* data, network_error_code& o_error_code);
-			bool Recieve(char* o_data, network_error_code& o_error_code);
+			// number of bytes recieved 0 if failed
+			int Recieve(char* o_data, network_error_code& o_error_code);
 			void Reset();
 		private:
 #ifdef _WIN32

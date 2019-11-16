@@ -1,7 +1,23 @@
 #include "Server.h"
 
-Network::TCP::Server::Server():m_result(NULL), m_ptr(NULL), m_hints(), m_Listen_Socket(INVALID_SOCKET),m_Connect_Socket(INVALID_SOCKET)
+Network::TCP::Server::Server():m_result(NULL), m_ptr(NULL), m_hints(), m_Listen_Socket(INVALID_SOCKET),m_Connect_Socket(INVALID_SOCKET),num_client(0)
 {
+}
+
+bool Network::TCP::Server::Run(const std::string& port_number, network_error_code& o_error_code)
+{
+	char* recv_data = nullptr;
+	if(Start(port_number, o_error_code)) {
+		if (Accept(o_error_code)) {
+			if (Recieve(recv_data, o_error_code)) {
+				if (Send("Recieved", o_error_code)) {
+					Reset();
+					return true;
+				}
+			}
+		}
+	}
+	return false;
 }
 
 bool Network::TCP::Server::Start(const std::string& port_number, network_error_code& o_error_code)
@@ -63,7 +79,7 @@ bool Network::TCP::Server::Accept(network_error_code& o_error_code)
 
 bool Network::TCP::Server::Send(const char* data, network_error_code& o_error_code)
 {
-	int iSendResult = send(m_Connect_Socket, data, (int)strlen(data), 0);
+	int iSendResult = send(m_Connect_Socket, data, (int)strlen(data)+1, 0);
 	if (iSendResult == SOCKET_ERROR) {
 		o_error_code.code = "send failed: \n";
 		closesocket(m_Connect_Socket);
@@ -71,6 +87,13 @@ bool Network::TCP::Server::Send(const char* data, network_error_code& o_error_co
 		return false;
 	}
 	printf("Bytes sent: %d\n", iSendResult);
+	iSendResult = shutdown(m_Connect_Socket, SD_SEND);
+	if (iSendResult == SOCKET_ERROR) {
+		o_error_code.code = "shutdown sending failed: \n";
+		closesocket(m_Connect_Socket);
+		WSACleanup();
+		return false;
+	}
 	return true;
 }
 
@@ -105,3 +128,28 @@ bool Network::TCP::Server::Recieve(char* o_data, network_error_code& o_error_cod
 	}
 	return true;
 }
+
+bool Network::TCP::Server::IntepretRequest(network_error_code& o_error_code)
+{
+	char* recv_data = nullptr;
+	if (Recieve(recv_data, o_error_code)) {
+		
+		if (Send("Recieved", o_error_code)) {
+			Reset();
+			return true;
+		}
+	}
+	return false;
+}
+
+void Network::TCP::Server::Reset()
+{
+	closesocket(m_Connect_Socket);
+	WSACleanup();
+	m_result = NULL;
+	m_ptr = NULL;
+	m_hints = addrinfo();
+	m_Connect_Socket = INVALID_SOCKET;
+	m_Listen_Socket = INVALID_SOCKET;
+}
+

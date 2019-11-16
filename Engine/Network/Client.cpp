@@ -7,20 +7,14 @@ bool Network::TCP::Client::Obtain_id(const std::string& host, const std::string&
 	char* temp = nullptr;
 	if (Connect(host, port_number, o_error_code)) {
 		if (Send("REQUEST_ID", o_error_code)) {
-			if (Recieve(temp,o_error_code)) {
+			if (Recieve(temp, o_error_code)) {
+				id = *(reinterpret_cast<int*> (temp));
+				printf("My id is %d", id);
 				return true;
 			}
-			else {
-				return false;
-			}
-		}
-		else {
-			return false;
 		}
 	}
-	else {
-		return false;
-	}
+	return false;
 }
 
 bool Network::TCP::Client::Connect(const std::string& host, const std::string& port_number, network_error_code& o_error_code)
@@ -70,7 +64,7 @@ bool Network::TCP::Client::Send(const char* data, network_error_code& o_error_co
 {
 	int iResult;
 	//Send an buffer notice here used strlen to measure the length of the data.
-	iResult = send(m_socket, data, (int)strlen(data), 0);
+	iResult = send(m_socket, data, (int)strlen(data)+1, 0);
 	if (iResult == SOCKET_ERROR) {
 		o_error_code.code = "send failed:%d \n";
 		closesocket(m_socket);
@@ -89,15 +83,17 @@ bool Network::TCP::Client::Send(const char* data, network_error_code& o_error_co
 	return true;
 }
 
-bool Network::TCP::Client::Recieve(char* o_data, network_error_code& o_error_code)
+int Network::TCP::Client::Recieve(char* o_data, network_error_code& o_error_code)
 {
 	int iResult;
 	int recvbuf_length = 100;
 	char recvbuf[100];
+	int Byte_recieved = 0;
 	do {
 		iResult = recv(m_socket, recvbuf, 100, 0);
 		if (iResult > 0) {
 			printf("Byte recieved %d \n", iResult);
+			Byte_recieved += iResult;
 		}
 		else if (iResult == 0) {
 			printf("Connection Closed \n");
@@ -105,10 +101,10 @@ bool Network::TCP::Client::Recieve(char* o_data, network_error_code& o_error_cod
 		}
 		else {
 			o_error_code.code = "recv failed %d\n";
-			return false;
+			return 0;
 		}
 	} while (iResult > 0);
-	return true;
+	return iResult;
 }
 
 void Network::TCP::Client::Reset()

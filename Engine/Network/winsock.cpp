@@ -3,15 +3,25 @@
 #include"WindowsTCPTestFunctions.h"
 #include<iostream>
 #include "Client.h"
+#include "Server.h"
 
 int main()
 {
 	std::string local_host = "127.0.0.1";
 	std::string port_num = "3333";
 	//server();
-	Network::TCP::Client client;
-	Network::network_error_code error_code;
-	client.Obtain_id(local_host,port_num,error_code);
+	//Server
+	{
+		Network::TCP::Server server;
+		Network::network_error_code error_code;
+		server.Run(port_num, error_code);
+	}
+	//Client
+	/*{
+		Network::TCP::Client client;
+		Network::network_error_code error_code;
+		client.Obtain_id(local_host, port_num, error_code);
+	}*/
 	int a;
 	std::cin >> a;
 	return a;
