@@ -3,6 +3,7 @@
 #include<WS2tcpip.h>
 #include<stdio.h>
 #include<string>
+#include<memory>
 namespace Network {
 	struct network_error_code {
 		std::string code;
@@ -13,9 +14,9 @@ namespace Network {
 			Client();
 			bool Obtain_id(const std::string& host, const std::string& port_number, network_error_code& o_error_code);
 			bool Connect(const std::string& host, const std::string& port_number, network_error_code& o_error_code);
-			bool Send(const char* data, network_error_code& o_error_code);
+			bool Send(const char* data, network_error_code& o_error_code, int str_length);
 			// number of bytes recieved 0 if failed
-			int Recieve(char* o_data, network_error_code& o_error_code);
+			int Recieve(std::shared_ptr<char[]>& o_data, network_error_code& o_error_code);
 			void Reset();
 		private:
 #ifdef _WIN32

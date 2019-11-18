@@ -4,11 +4,11 @@ Network::TCP::Client::Client() :m_wsaData(), m_result(NULL), m_ptr(NULL), m_hint
 
 bool Network::TCP::Client::Obtain_id(const std::string& host, const std::string& port_number,network_error_code& o_error_code)
 {
-	char* temp = nullptr;
+	std::shared_ptr<char[]> temp;
 	if (Connect(host, port_number, o_error_code)) {
-		if (Send("REQUEST_ID", o_error_code)) {
-			if (Recieve(temp, o_error_code)) {
-				id = *(reinterpret_cast<int*> (temp));
+		if (Send("REQUEST_ID", o_error_code, ((int)strlen("REQUEST_ID")) + 1)) {
+			if (Recieve(temp, o_error_code) != -1) {
+				id = *(reinterpret_cast<int*> (temp.get()));
 				printf("My id is %d", id);
 				return true;
 			}
@@ -60,11 +60,11 @@ bool Network::TCP::Client::Connect(const std::string& host, const std::string& p
 	return true;
 }
 
-bool Network::TCP::Client::Send(const char* data, network_error_code& o_error_code)
+bool Network::TCP::Client::Send(const char* data, network_error_code& o_error_code, int str_length)
 {
 	int iResult;
 	//Send an buffer notice here used strlen to measure the length of the data.
-	iResult = send(m_socket, data, (int)strlen(data)+1, 0);
+	iResult = send(m_socket, data, str_length, 0);
 	if (iResult == SOCKET_ERROR) {
 		o_error_code.code = "send failed:%d \n";
 		closesocket(m_socket);
@@ -83,28 +83,35 @@ bool Network::TCP::Client::Send(const char* data, network_error_code& o_error_co
 	return true;
 }
 
-int Network::TCP::Client::Recieve(char* o_data, network_error_code& o_error_code)
+int Network::TCP::Client::Recieve(std::shared_ptr<char[]>& o_data, network_error_code& o_error_code)
 {
 	int iResult;
 	int recvbuf_length = 100;
-	char recvbuf[100];
+	std::shared_ptr<char[]> recvbuf(new char[recvbuf_length]);
 	int Byte_recieved = 0;
 	do {
-		iResult = recv(m_socket, recvbuf, 100, 0);
+		iResult = recv(m_socket, recvbuf.get(), 100, 0);
 		if (iResult > 0) {
 			printf("Byte recieved %d \n", iResult);
 			Byte_recieved += iResult;
 		}
 		else if (iResult == 0) {
 			printf("Connection Closed \n");
-			o_data = recvbuf;
 		}
 		else {
 			o_error_code.code = "recv failed %d\n";
-			return 0;
+			return -1;
 		}
 	} while (iResult > 0);
-	return iResult;
+	o_data = recvbuf;
+	iResult = shutdown(m_socket, SD_RECEIVE);
+	if (iResult == SOCKET_ERROR) {
+		o_error_code.code = "shutdown sending failed \n";
+		closesocket(m_socket);
+		WSACleanup();
+		return -1;
+	}
+	return Byte_recieved;
 }
 
 void Network::TCP::Client::Reset()

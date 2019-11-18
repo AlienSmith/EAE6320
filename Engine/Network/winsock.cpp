@@ -14,13 +14,19 @@ int main()
 	{
 		Network::TCP::Server server;
 		Network::network_error_code error_code;
-		server.Run(port_num, error_code);
+		if (!server.Run(port_num, error_code)) {
+			printf(error_code.code.c_str());
+		}
 	}
 	//Client
 	/*{
 		Network::TCP::Client client;
 		Network::network_error_code error_code;
-		client.Obtain_id(local_host, port_num, error_code);
+		if (!client.Obtain_id(local_host, port_num, error_code)) {
+			printf("Error \n");
+			printf(error_code.code.c_str());
+		}
+
 	}*/
 	int a;
 	std::cin >> a;
