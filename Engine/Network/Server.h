@@ -22,10 +22,11 @@ namespace Network {
 			bool Send(const char* data, network_error_code& o_error_code,int str_length, const std::shared_ptr<SOCKET>& socket);
 			bool Recieve(std::shared_ptr<char[]>& o_data, network_error_code& o_error_code, const std::shared_ptr<SOCKET>& socket);
 			bool Recieve(char* o_data, network_error_code& o_error_code, const std::shared_ptr<SOCKET>& socket,int str_length);
-			bool Send(UpdateStruct* data, network_error_code& o_error_code, int str_length, const std::shared_ptr<SOCKET>& socket);
+			bool Send(UpdateStruct* data, network_error_code& o_error_code, const std::shared_ptr<SOCKET>& socket);
 			bool Recieve(InputWrapper<InputStruct>* o_data, network_error_code& o_error_code, const std::shared_ptr<SOCKET>& socket);
 			bool IntepretRequest(network_error_code& o_error_code, const std::shared_ptr<SOCKET>& socket);
 			void Reset();
+			void SetServerLogic(ServerLogic* serverlogic);
 		private:
 #ifdef _WIN32
 			addrinfo* m_result;
@@ -34,11 +35,13 @@ namespace Network {
 			SOCKET m_Listen_Socket;
 #endif
 			std::vector<std::thread> m_thread_pool;
-			threadsafe_stack<std::shared_ptr<SOCKET>> m_socket_pool;
+			std::vector<std::shared_ptr<SOCKET>> m_socket_pool;
+			threadsafe_stack<InputWrapper<InputStruct>> m_wrapper_pool;
 			int m_num_client;
 			int max_clients_num;
 			Server_Phase m_Phase;
 			std::mutex num_client_mutex;
+			ServerLogic* m_serverlogic;
 		};
 	}
 }

@@ -12,8 +12,6 @@ Network::UpdateStruct* Network::ServerLogic::GetUpdateStructure()
 //Run the logic of the updates
 void Network::ServerLogic::Update()
 {
-	m_input_data[0].input_x_axies = 1;
-	m_input_data[1].input_x_axies = 2;
 	m_update_structure.position[0] += eae6320::Math::sVector((float)m_input_data[0].input_x_axies, (float)m_input_data[0].input_y_axies, 0.0f);
 	m_update_structure.position[1] += eae6320::Math::sVector((float)m_input_data[1].input_x_axies, (float)m_input_data[1].input_y_axies, 0.0f);
 	return;

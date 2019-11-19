@@ -24,6 +24,7 @@ namespace Network {
 			int Recieve(std::shared_ptr<char[]>& o_data, network_error_code& o_error_code);
 			bool Recieve(char* o_data, network_error_code& o_error_code,int str_length);
 			void Reset();
+			void SetLogicClas(ClientLogic* logic);
 		private:
 #ifdef _WIN32
 			WSADATA m_wsaData;

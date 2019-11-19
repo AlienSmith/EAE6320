@@ -157,15 +157,20 @@ bool Network::TCP::Client::run(const std::string& host, const std::string& port_
 {
 	//Obtain ID
 	{
-		Obtain_id(host, port_number, o_error_code);
+		if (!Obtain_id(host, port_number, o_error_code)) {
+			return false;
+		}
 		Reset();
 	}
-	Sleep(2000);
-	{
-		Send(m_client_logic->GetInputStructure(), o_error_code);
-		Recieve(m_client_logic->GetUpdateStructure(), o_error_code);
-		m_client_logic->Update();
-		Reset();
+	Sleep(5000);
+	while(true){
+		if (Connect(host, port_number, o_error_code))
+			if(Send(m_client_logic->GetInputStructure(), o_error_code))
+				if (Recieve(m_client_logic->GetUpdateStructure(), o_error_code)) {
+					m_client_logic->Update();
+					Reset();
+					return true;
+				}
 	}
 	return false;
 }
@@ -178,6 +183,11 @@ void Network::TCP::Client::Reset()
 	m_ptr = NULL;
 	m_hints = addrinfo();
 	m_socket = INVALID_SOCKET;
+}
+
+void Network::TCP::Client::SetLogicClas(ClientLogic* logic)
+{
+	m_client_logic = logic;
 }
 
 

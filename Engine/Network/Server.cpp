@@ -1,6 +1,6 @@
 #include "Server.h"
 const std::string Network::TCP::Server::REQUEST_ID = std::string("REQUEST_ID");
-Network::TCP::Server::Server():m_result(NULL), m_ptr(NULL), m_hints(), m_Listen_Socket(INVALID_SOCKET),m_thread_pool(),m_socket_pool(),m_num_client(0),max_clients_num(MAX_CLIENT_NUMBER), m_Phase(Server_Phase::INVALID)
+Network::TCP::Server::Server():m_result(NULL), m_ptr(NULL), m_hints(), m_Listen_Socket(INVALID_SOCKET),m_thread_pool(),m_socket_pool(),m_num_client(0),max_clients_num(MAX_CLIENT_NUMBER), m_Phase(Server_Phase::INVALID),m_serverlogic(nullptr)
 {
 }
 
@@ -31,25 +31,47 @@ bool Network::TCP::Server::Run(const std::string& port_number, network_error_cod
 			printf("all ids distributed\n");
 			m_Phase = Server_Phase::GAMELOOP_UPDATE;
 		}
-		{
+		//Game Loop
+		while(true){
 			for (int i = 0; i < max_clients_num; i++) {
-				std::shared_ptr<SOCKET> temp(new SOCKET());
-				*temp = INVALID_SOCKET;
+				std::shared_ptr<SOCKET> temp_socket(new SOCKET());
+				*temp_socket = INVALID_SOCKET;
 				Sleep(1);
-				if (Accept(o_error_code, temp)) {
-					std::thread temp_thread{ [this,temp]() {
+				if (Accept(o_error_code, temp_socket)) {
+					m_socket_pool.push_back(temp_socket);
+					std::thread temp_thread{ [this,temp_socket]() {
 						Network::network_error_code error_code;
-						if (!IntepretRequest(error_code, temp)) {
+						Network::InputWrapper<InputStruct> temp_input;
+						if (Recieve(&temp_input, error_code, temp_socket)) {
+							m_wrapper_pool.push(temp_input);
+						}
+						else {
 							printf(error_code.code.c_str());
 						}
 					} };
+					//in main thread
 					m_thread_pool.push_back(std::move(temp_thread));
 				}
 			}
 			for (auto it = begin(m_thread_pool); it != end(m_thread_pool); it++) {
-				it->join();
+				if (it->joinable()) {
+					it->join();
+				}
 			}
 			m_thread_pool.clear();
+			//Put Inputs to ServerLogic class
+			for (int i = 0; i < m_num_client; i++) {
+				Network::InputWrapper<InputStruct> temp_input;
+				m_wrapper_pool.pop(temp_input);
+				(m_serverlogic->GetInputStructure())[temp_input.Socket_id] = temp_input.t;				
+			}
+			m_serverlogic->Update();
+			//This is not multithreaded Send the updated result to all clients
+			for (auto it = begin(m_socket_pool); it != end(m_socket_pool); it++) {
+				Send(reinterpret_cast<char*>( m_serverlogic->GetUpdateStructure()), o_error_code, sizeof(*(m_serverlogic->GetUpdateStructure())),*it);
+				closesocket(*(it->get()));
+			}
+			m_socket_pool.clear();
 		}
 	}
 	return false;
@@ -194,16 +216,16 @@ bool Network::TCP::Server::Recieve(char* o_data, network_error_code& o_error_cod
 	return true;
 }
 
-bool Network::TCP::Server::Send(UpdateStruct* data, network_error_code& o_error_code, int str_length, const std::shared_ptr<SOCKET>& socket)
+bool Network::TCP::Server::Send(UpdateStruct* data, network_error_code& o_error_code, const std::shared_ptr<SOCKET>& socket)
 {
-	Send(reinterpret_cast<char>(data))
+	return Send(reinterpret_cast<char*>(data), o_error_code, sizeof(*data), socket);
 }
 
 bool Network::TCP::Server::Recieve(InputWrapper<InputStruct>* o_data, network_error_code& o_error_code, const std::shared_ptr<SOCKET>& socket)
 {
 	return Recieve(reinterpret_cast<char*>(o_data), o_error_code, socket, sizeof(*o_data));
 }
-
+//This function is not thread safe now
 bool Network::TCP::Server::IntepretRequest(network_error_code& o_error_code, const std::shared_ptr<SOCKET>& socket)
 {
 	std::shared_ptr<char[]> recv_data = nullptr;
@@ -228,5 +250,10 @@ void Network::TCP::Server::Reset()
 	m_ptr = NULL;
 	m_hints = addrinfo();
 	m_Listen_Socket = INVALID_SOCKET;
+}
+
+void Network::TCP::Server::SetServerLogic(ServerLogic* serverlogic)
+{
+	m_serverlogic = serverlogic;
 }
 

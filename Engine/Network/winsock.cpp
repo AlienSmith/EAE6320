@@ -16,23 +16,27 @@ int main()
 	server.Update();*/
 	//server();
 	//Server
-	/*{
+	{
+		Network::ServerLogic server_logic;
 		Network::TCP::Server server;
+		server.SetServerLogic(&server_logic);
 		Network::network_error_code error_code;
 		if (!server.Run(port_num, error_code)) {
 			printf(error_code.code.c_str());
 		}
-	}*/
+	}
 	//Client
-	{
+	/*{
+		Network::ClientLogic clientlogic;
 		Network::TCP::Client client;
+		client.SetLogicClas(&clientlogic);
 		Network::network_error_code error_code;
 		if (!client.run(local_host, port_num, error_code)) {
 			printf("Error \n");
 			printf(error_code.code.c_str());
 		}
 
-	}
+	}*/
 	std::cout << "End\n";
 	int a;
 	std::cin >> a;
