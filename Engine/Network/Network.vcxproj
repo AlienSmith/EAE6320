@@ -161,6 +161,7 @@
   <ItemGroup>
     <ClCompile Include="Chapter3.cpp" />
     <ClCompile Include="Client.cpp" />
+    <ClCompile Include="IO_Struct.cpp" />
     <ClCompile Include="Network.cpp" />
     <ClCompile Include="Server.cpp" />
     <ClCompile Include="winsock.cpp" />
@@ -169,11 +170,18 @@
     <ClInclude Include="Chapter2.h" />
     <ClInclude Include="Chapter3.h" />
     <ClInclude Include="Client.h" />
+    <ClInclude Include="InputWrapper.h" />
+    <ClInclude Include="IO_Struct.h" />
     <ClInclude Include="Scope_thread.h" />
     <ClInclude Include="Server.h" />
     <ClInclude Include="stack.h" />
     <ClInclude Include="ThreadGuard.h" />
     <ClInclude Include="WindowsTCPTestFunctions.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Math\Math.vcxproj">
+      <Project>{999c3d5f-7f79-4bd7-ae21-92eeed0c5962}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

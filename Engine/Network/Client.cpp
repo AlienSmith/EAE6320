@@ -1,6 +1,6 @@
 #include "Client.h"
 
-Network::TCP::Client::Client() :m_wsaData(), m_result(NULL), m_ptr(NULL), m_hints(),m_socket(INVALID_SOCKET),id(0) {}
+Network::TCP::Client::Client() :m_wsaData(), m_result(NULL), m_ptr(NULL), m_hints(),m_socket(INVALID_SOCKET),m_id(0), m_client_logic(nullptr) {}
 
 bool Network::TCP::Client::Obtain_id(const std::string& host, const std::string& port_number,network_error_code& o_error_code)
 {
@@ -8,8 +8,8 @@ bool Network::TCP::Client::Obtain_id(const std::string& host, const std::string&
 	if (Connect(host, port_number, o_error_code)) {
 		if (Send("REQUEST_ID", o_error_code, ((int)strlen("REQUEST_ID")) + 1)) {
 			if (Recieve(temp, o_error_code) != -1) {
-				id = *(reinterpret_cast<int*> (temp.get()));
-				printf("My id is %d", id);
+				m_id = *(reinterpret_cast<int*> (temp.get()));
+				printf("My id is %d", m_id);
 				return true;
 			}
 		}
@@ -114,10 +114,65 @@ int Network::TCP::Client::Recieve(std::shared_ptr<char[]>& o_data, network_error
 	return Byte_recieved;
 }
 
+bool Network::TCP::Client::Recieve(char* o_data, network_error_code& o_error_code, int str_length)
+{
+	int iResult;
+	do {
+		iResult = recv(m_socket, o_data, str_length, 0);
+		if (iResult > 0) {
+			printf("Byte recieved %d \n", iResult);
+		}
+		else if (iResult == 0) {
+			printf("Connection Closed \n");
+		}
+		else {
+			o_error_code.code = "recv failed %d\n";
+			return false;
+		}
+	} while (iResult > 0);
+	iResult = shutdown(m_socket, SD_RECEIVE);
+	if (iResult == SOCKET_ERROR) {
+		o_error_code.code = "shutdown sending failed \n";
+		closesocket(m_socket);
+		WSACleanup();
+		return false;
+	}
+	return true;
+}
+
+bool Network::TCP::Client::Send(InputStruct* data, network_error_code& o_error_code)
+{
+	Network::InputWrapper<InputStruct> temp;
+	temp.t = *data;
+	temp.Socket_id = m_id;
+	return Send(reinterpret_cast<char*>(&temp), o_error_code, sizeof(temp));
+}
+
+bool Network::TCP::Client::Recieve(UpdateStruct* data, network_error_code& o_error_code)
+{
+	return Recieve(reinterpret_cast<char*>(data), o_error_code,sizeof(*data) );
+}
+
+bool Network::TCP::Client::run(const std::string& host, const std::string& port_number, network_error_code& o_error_code)
+{
+	//Obtain ID
+	{
+		Obtain_id(host, port_number, o_error_code);
+		Reset();
+	}
+	Sleep(2000);
+	{
+		Send(m_client_logic->GetInputStructure(), o_error_code);
+		Recieve(m_client_logic->GetUpdateStructure(), o_error_code);
+		m_client_logic->Update();
+		Reset();
+	}
+	return false;
+}
+
 void Network::TCP::Client::Reset()
 {
 	closesocket(m_socket);
-	WSACleanup();
 	m_wsaData = WSADATA();
 	m_result = NULL;
 	m_ptr = NULL;

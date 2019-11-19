@@ -4,30 +4,36 @@
 #include<iostream>
 #include "Client.h"
 #include "Server.h"
+#include "IO_Struct.h"
 
 int main()
 {
 	std::string local_host = "127.0.0.1";
 	std::string port_num = "3333";
+	/*Network::ClientLogic client;
+	client.Update();
+	Network::ServerLogic server;
+	server.Update();*/
 	//server();
 	//Server
-	{
+	/*{
 		Network::TCP::Server server;
 		Network::network_error_code error_code;
 		if (!server.Run(port_num, error_code)) {
 			printf(error_code.code.c_str());
 		}
-	}
+	}*/
 	//Client
-	/*{
+	{
 		Network::TCP::Client client;
 		Network::network_error_code error_code;
-		if (!client.Obtain_id(local_host, port_num, error_code)) {
+		if (!client.run(local_host, port_num, error_code)) {
 			printf("Error \n");
 			printf(error_code.code.c_str());
 		}
 
-	}*/
+	}
+	std::cout << "End\n";
 	int a;
 	std::cin >> a;
 	return a;

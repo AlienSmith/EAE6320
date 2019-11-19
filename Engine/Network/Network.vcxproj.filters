@@ -16,11 +16,11 @@
     <Filter Include="Experimental">
       <UniqueIdentifier>{900929cf-4057-4fce-9fb4-1f0091c990fa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Example">
+      <UniqueIdentifier>{6decd57e-42dc-49d7-9ca3-bc7adcc96ec0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="winsock.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Chapter3.cpp">
       <Filter>Experimental</Filter>
     </ClCompile>
@@ -32,6 +32,12 @@
     </ClCompile>
     <ClCompile Include="Server.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IO_Struct.cpp">
+      <Filter>Example</Filter>
+    </ClCompile>
+    <ClCompile Include="winsock.cpp">
+      <Filter>Example</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -57,6 +63,12 @@
       <Filter>Experimental</Filter>
     </ClInclude>
     <ClInclude Include="Server.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IO_Struct.h">
+      <Filter>Example</Filter>
+    </ClInclude>
+    <ClInclude Include="InputWrapper.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
