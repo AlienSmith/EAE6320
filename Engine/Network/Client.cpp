@@ -164,13 +164,14 @@ bool Network::TCP::Client::run(const std::string& host, const std::string& port_
 	}
 	Sleep(5000);
 	while(true){
-		if (Connect(host, port_number, o_error_code))
-			if(Send(m_client_logic->GetInputStructure(), o_error_code))
+		if (Connect(host, port_number, o_error_code)) {
+			if (Send(m_client_logic->GetInputStructure(), o_error_code)) {
 				if (Recieve(m_client_logic->GetUpdateStructure(), o_error_code)) {
 					m_client_logic->Update();
 					Reset();
-					return true;
 				}
+			}
+		}
 	}
 	return false;
 }

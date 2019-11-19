@@ -63,7 +63,7 @@ bool Network::TCP::Server::Run(const std::string& port_number, network_error_cod
 			for (int i = 0; i < m_num_client; i++) {
 				Network::InputWrapper<InputStruct> temp_input;
 				m_wrapper_pool.pop(temp_input);
-				(m_serverlogic->GetInputStructure())[temp_input.Socket_id] = temp_input.t;				
+				(m_serverlogic->GetInputStructure())[temp_input.Socket_id-1] = temp_input.t;				
 			}
 			m_serverlogic->Update();
 			//This is not multithreaded Send the updated result to all clients
