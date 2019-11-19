@@ -172,6 +172,7 @@
     <ClInclude Include="Client.h" />
     <ClInclude Include="InputWrapper.h" />
     <ClInclude Include="IO_Struct.h" />
+    <ClInclude Include="ProxyServer.h" />
     <ClInclude Include="Scope_thread.h" />
     <ClInclude Include="Server.h" />
     <ClInclude Include="stack.h" />
