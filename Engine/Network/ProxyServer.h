@@ -1,11 +1,5 @@
 ﻿#pragma once
 #include "Server.h"
-#ifndef SOCK
-#ifdef _WIN32
-#define SOCK SOCKET
-#define SOCK_INITIALIZE INVALID_SOCKET
-#endif
-#endif // !SOCK
 
 namespace Network {
 	namespace TCP {

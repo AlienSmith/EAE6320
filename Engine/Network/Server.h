@@ -14,20 +14,21 @@ namespace Network {
 		};
 		class Server {
 		public:
-			const static std::string REQUEST_ID;
 			Server();
 			bool Run(const std::string& port_number, network_error_code& o_error_code);
-			bool Start(const std::string& port_number, network_error_code& o_error_code);
-			bool Accept(network_error_code& o_error_code, std::shared_ptr<SOCKET>& socket);
-			bool Send(const char* data, network_error_code& o_error_code,int str_length, const std::shared_ptr<SOCKET>& socket);
-			bool Recieve(std::shared_ptr<char[]>& o_data, network_error_code& o_error_code, const std::shared_ptr<SOCKET>& socket);
-			bool Recieve(char* o_data, network_error_code& o_error_code, const std::shared_ptr<SOCKET>& socket,int str_length);
-			bool Send(UpdateStruct* data, network_error_code& o_error_code, const std::shared_ptr<SOCKET>& socket);
-			bool Recieve(InputWrapper<InputStruct>* o_data, network_error_code& o_error_code, const std::shared_ptr<SOCKET>& socket);
-			bool IntepretRequest(network_error_code& o_error_code, const std::shared_ptr<SOCKET>& socket);
-			void Reset();
+			bool Send(UpdateStruct* data, network_error_code& o_error_code, const std::shared_ptr<SOCK>& socket);
+			bool Recieve(InputWrapper<InputStruct>* o_data, network_error_code& o_error_code, const std::shared_ptr<SOCK>& socket);
+			bool IntepretRequest(network_error_code& o_error_code, const std::shared_ptr<SOCK>& socket);
 			void SetServerLogic(ServerLogic* serverlogic);
 		private:
+			bool Start(const std::string& port_number, network_error_code& o_error_code);
+			bool Accept(network_error_code& o_error_code, std::shared_ptr<SOCK>& socket);
+			bool Send(const char* data, network_error_code& o_error_code, int str_length, const std::shared_ptr<SOCK>& socket);
+			bool Recieve(std::shared_ptr<char[]>& o_data, network_error_code& o_error_code, const std::shared_ptr<SOCK>& socket);
+			bool Recieve(char* o_data, network_error_code& o_error_code, const std::shared_ptr<SOCK>& socket, int str_length);
+			void Reset();
+			void Close_Socket(SOCK s);
+			const static std::string REQUEST_ID;
 #ifdef _WIN32
 			addrinfo* m_result;
 			addrinfo* m_ptr;

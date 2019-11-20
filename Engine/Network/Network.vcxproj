@@ -160,11 +160,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Chapter3.cpp" />
+    <ClCompile Include="Client.cpp" />
     <ClCompile Include="IO_Struct.cpp" />
     <ClCompile Include="Network.cpp" />
+    <ClCompile Include="Server.cpp" />
     <ClCompile Include="Windows\Client.win.cpp" />
     <ClCompile Include="Windows\Server.win.cpp" />
-    <ClCompile Include="winsock.cpp" />
+    <ClCompile Include="Entrance.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Chapter2.h" />

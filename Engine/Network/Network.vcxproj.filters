@@ -25,14 +25,20 @@
     <ClCompile Include="IO_Struct.cpp">
       <Filter>Example</Filter>
     </ClCompile>
-    <ClCompile Include="winsock.cpp">
-      <Filter>Example</Filter>
-    </ClCompile>
     <ClCompile Include="Windows\Server.win.cpp">
       <Filter>Windows</Filter>
     </ClCompile>
     <ClCompile Include="Windows\Client.win.cpp">
       <Filter>Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="Entrance.cpp">
+      <Filter>Example</Filter>
+    </ClCompile>
+    <ClCompile Include="Client.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Server.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -51,9 +57,6 @@
     <ClInclude Include="stack.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="Scope_thread.h">
-      <Filter>Experimental</Filter>
-    </ClInclude>
     <ClInclude Include="Server.h">
       <Filter>Source Files</Filter>
     </ClInclude>
@@ -63,11 +66,14 @@
     <ClInclude Include="InputWrapper.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="ProxyServer.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="Windows\WindowsTCPTestFunctions.win.h">
       <Filter>Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Scope_thread.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ProxyServer.h">
+      <Filter>Experimental</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
