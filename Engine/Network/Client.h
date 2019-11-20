@@ -1,6 +1,4 @@
 #pragma once
-#include<WinSock2.h>
-#include<WS2tcpip.h>
 #include<stdio.h>
 #include<string>
 #include<memory>
@@ -10,11 +8,19 @@
 #include <mutex>
 #ifndef SOCK
 #ifdef _WIN32
+#include<WinSock2.h>
+#include<WS2tcpip.h>
+#pragma comment(lib,"Ws2_32.lib")
 #define SOCK SOCKET
 #define SOCK_INITIALIZE INVALID_SOCKET
 #endif
 #endif // !SOCK
 namespace Network {
+	enum class Client_Phase {
+		REQUEST_ID,
+		UPDATE_LOOP,
+		INVALID,
+	};
 	struct network_error_code {
 		std::string code;
 	};
@@ -43,6 +49,8 @@ namespace Network {
 			bool Recieve(UpdateStruct* data, network_error_code& o_error_code);
 			void SetLogicClas(ClientLogic* logic);
 			void Stop();
+			static float TimeSinceLastTimeStamp(time_t& last_time);
+			void EnterningUpdatePhase();
 		private:
 			InputStruct* InputStructure();
 			UpdateStruct* UpdateStructure();
@@ -65,6 +73,7 @@ namespace Network {
 			int m_id;
 			bool flag_running;
 			ClientLogic* m_client_logic;
+			Client_Phase m_phase;
 		};
 	}
 }

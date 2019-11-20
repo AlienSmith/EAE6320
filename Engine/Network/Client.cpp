@@ -1,8 +1,9 @@
 #include "Client.h"
+#include <time.h>
 std::shared_ptr<Network::TCP::Client> Network::TCP::Client::Create_and_Run(const std::string& host, const std::string& port_number)
 {
 	std::shared_ptr<Network::TCP::Client> client(new Client());
-	std::thread temp{ [client,&host,&port_number]() {
+	std::thread temp{ [client,host,port_number]() {
 		Network::network_error_code error_code;
 		if (!client->run(host, port_number, error_code)) {
 			printf("Error \n");
@@ -51,11 +52,13 @@ bool Network::TCP::Client::run(const std::string& host, const std::string& port_
 	}
 	Sleep(5000);
 	while (flag_running) {
-		if (Connect(host, port_number, o_error_code)) {
-			if (Send(InputStructure(), o_error_code)) {
-				if (Recieve(UpdateStructure(), o_error_code)) {
-					SwapUpdateStructure();
-					Reset();
+		while (flag_running && m_phase == Client_Phase::UPDATE_LOOP) {
+			if (Connect(host, port_number, o_error_code)) {
+				if (Send(InputStructure(), o_error_code)) {
+					if (Recieve(UpdateStructure(), o_error_code)) {
+						SwapUpdateStructure();
+						Reset();
+					}
 				}
 			}
 		}
@@ -72,6 +75,19 @@ void Network::TCP::Client::SetLogicClas(ClientLogic* logic)
 void Network::TCP::Client::Stop()
 {
 	flag_running = false;
+}
+
+float Network::TCP::Client::TimeSinceLastTimeStamp(time_t& last_time)
+{
+	time_t current_time = time(NULL);
+	return (float)difftime(current_time, last_time);
+}
+
+void Network::TCP::Client::EnterningUpdatePhase()
+{
+	if (m_phase == Client_Phase::REQUEST_ID) {
+		m_phase = Client_Phase::UPDATE_LOOP;
+	}
 }
 
 void Network::TCP::Client::SubmitInputStruct(const Network::InputStruct& inputs) {

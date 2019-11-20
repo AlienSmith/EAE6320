@@ -1,5 +1,5 @@
 #include "../Client.h"
-Network::TCP::Client::Client() :m_wsaData(), m_result(NULL), m_ptr(NULL), m_hints(),m_socket(INVALID_SOCKET), flag_running(true), m_id(0), m_client_logic(nullptr) {}
+Network::TCP::Client::Client() :m_wsaData(), m_result(NULL), m_ptr(NULL), m_hints(),m_socket(INVALID_SOCKET), flag_running(true), m_id(0), m_client_logic(nullptr),m_phase(Network::Client_Phase::REQUEST_ID) {}
 
 
 bool Network::TCP::Client::Connect(const std::string& host, const std::string& port_number, network_error_code& o_error_code)

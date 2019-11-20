@@ -44,6 +44,9 @@
     <ProjectReference Include="..\..\Engine\Math\Math.vcxproj">
       <Project>{999c3d5f-7f79-4bd7-ae21-92eeed0c5962}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\..\Engine\Network\Network.vcxproj">
+      <Project>{6e0c7584-7dd1-4bdd-a93d-43011e28f38b}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\Engine\Physics\Physics.vcxproj">
       <Project>{30e6bb9f-138d-4b44-9733-869263f7bad5}</Project>
     </ProjectReference>

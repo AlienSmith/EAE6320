@@ -66,9 +66,6 @@
     <ClInclude Include="InputWrapper.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="Windows\WindowsTCPTestFunctions.win.h">
-      <Filter>Windows</Filter>
-    </ClInclude>
     <ClInclude Include="Scope_thread.h">
       <Filter>Source Files</Filter>
     </ClInclude>

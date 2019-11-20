@@ -2,10 +2,10 @@
 //=========
 
 #include "cMyGame.h"
-
 #include <Engine/Asserts/Asserts.h>
 #include <Engine/UserInput/UserInput.h>
 #include<Engine/Math/cMatrix_transformation.h>
+
 // Inherited Implementation
 //=========================
 
@@ -25,8 +25,8 @@ void eae6320::cExampleGame::SubmitDataToBeRendered(const float i_elapsedSecondCo
 			m_camera.PredictFutureTransform(i_elapsedSecondCount_sinceLastSimulationUpdate)));
 	Graphics::SubmitCameraPerspectiveData(Math::cMatrix_transformation::CreateCameraToProjectedTransform_perspective(0.785398f,	1.0f,	0.1f,	100.0f));
 	//Object
-	Math::cMatrix_transformation trans = m_object.PredictFutureTransform(i_elapsedSecondCount_sinceLastSimulationUpdate);
-	Graphics::SubmitdrawCallConstant(m_object.PredictFutureTransform(i_elapsedSecondCount_sinceLastSimulationUpdate));
+	//Math::cMatrix_transformation trans = m_object.PredictFutureTransform(i_elapsedSecondCount_sinceLastSimulationUpdate);
+	Graphics::SubmitdrawCallConstant(m_object.PredictFutureTransform(Network::TCP::Client::TimeSinceLastTimeStamp(m_update_struct.last_time)));
 	if (m_showotherobject) {
 		Graphics::SubmitEffectWithObject(m_flash_Effect, Graphics::DefaultGeometry::s_manager.Get(m_sphere_handle));
 	}
@@ -36,6 +36,9 @@ void eae6320::cExampleGame::SubmitDataToBeRendered(const float i_elapsedSecondCo
 	//Plane
 	Graphics::SubmitdrawCallConstant(m_Plane.PredictFutureTransform(i_elapsedSecondCount_sinceLastSimulationUpdate));
 	Graphics::SubmitEffectWithObject(m_flash_Effect, Graphics::DefaultGeometry::s_manager.Get(m_plane_handle));
+	//M other Object
+	Graphics::SubmitdrawCallConstant(m_other_object.PredictFutureTransform(Network::TCP::Client::TimeSinceLastTimeStamp(m_update_struct.last_time)));
+	Graphics::SubmitEffectWithObject(m_white_Effect, Graphics::DefaultGeometry::s_manager.Get(m_cube_handle));
 }
 
 void eae6320::cExampleGame::UpdateSimulationBasedOnTime(const float i_elapsedSecondCount_sinceLastUpdate)
@@ -61,20 +64,32 @@ void eae6320::cExampleGame::UpdateBasedOnInput()
 		temp_vol.x = 10.0f;
 	}
 	m_camera.velocity = temp_vol;
+	//Update the inputs to server
 	Math::sVector temp_Object_vol = Math::sVector(0.0f, 0.0f, 0.0f);
 	if (UserInput::IsKeyPressed(UserInput::KeyCodes::Home)) {
-		temp_Object_vol.y = 10.0f;
+		m_input_struct.input_y_axies = 10;
 	}
 	else if (UserInput::IsKeyPressed(UserInput::KeyCodes::End)) {
-		temp_Object_vol.y = -10.0f;
+		m_input_struct.input_y_axies = -10;
 	}
 	if (UserInput::IsKeyPressed(UserInput::KeyCodes::Delete)) {
-		temp_Object_vol.x = -10.0f;
+		m_input_struct.input_x_axies = -10;
 	}
 	else if (UserInput::IsKeyPressed(UserInput::KeyCodes::PageDown)) {
-		temp_Object_vol.x = 10.0f;
+		m_input_struct.input_x_axies = 10;
 	}
-	m_object.velocity = temp_Object_vol;
+	m_client->SubmitInputStruct(m_input_struct);
+	//Get the updated result from the Server
+	{
+		m_client->EnterningUpdatePhase();
+		m_update_struct = m_client->GetUpdateStruct();
+		m_object.position = m_update_struct.position[0];
+		m_other_object.position = m_update_struct.position[1];
+		m_object.velocity = m_update_struct.speed[0];
+		m_other_object.velocity = m_update_struct.speed[1];
+	}
+
+	//m_object.velocity = temp_Object_vol;
 	// Is the user pressing the ESC key?
 	if ( UserInput::IsKeyPressed( UserInput::KeyCodes::Escape ) )
 	{
@@ -101,6 +116,12 @@ void eae6320::cExampleGame::UpdateBasedOnInput()
 
 eae6320::cResult eae6320::cExampleGame::Initialize()
 {
+	//Networking
+	{
+		std::string local_host = "127.0.0.1";
+		std::string port_num = "3333";
+		m_client = Network::TCP::Client::Create_and_Run(local_host, port_num);
+	}
 	//data/geometry/trangle.geometry
 	Graphics::DefaultGeometry::s_manager.Load("data/geometry/sphere.lua", m_sphere_handle);
 	Graphics::DefaultGeometry::s_manager.Load("data/geometry/cube.lua", m_cube_handle);
@@ -171,7 +192,8 @@ eae6320::cResult eae6320::cExampleGame::Initialize()
 	int a = sizeof(cEffect);
 	int b = sizeof(DefaultGeometry);
 	m_camera.position = Math::sVector(0.0f,0.0f,10.0f);
-	m_object.position = Math::sVector(0.0f, 0.0f, 5.0f);
+	m_object.position = Math::sVector(1.0f, 0.0f, 5.0f);
+	m_other_object.position = Math::sVector(-1.0f, 0.0f, 5.0f);
 	m_Plane.position = Math::sVector(0.0f, -3.0f, 0.0f);
 	return Results::Success;
 }
