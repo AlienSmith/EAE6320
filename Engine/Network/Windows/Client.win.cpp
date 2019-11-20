@@ -1,4 +1,4 @@
-#include "Client.h"
+#include "../Client.h"
 
 Network::TCP::Client::Client() :m_wsaData(), m_result(NULL), m_ptr(NULL), m_hints(),m_socket(INVALID_SOCKET),m_id(0), m_client_logic(nullptr) {}
 

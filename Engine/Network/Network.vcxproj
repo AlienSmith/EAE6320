@@ -160,10 +160,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Chapter3.cpp" />
-    <ClCompile Include="Client.cpp" />
     <ClCompile Include="IO_Struct.cpp" />
     <ClCompile Include="Network.cpp" />
-    <ClCompile Include="Server.cpp" />
+    <ClCompile Include="Windows\Client.win.cpp" />
+    <ClCompile Include="Windows\Server.win.cpp" />
     <ClCompile Include="winsock.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -177,7 +177,7 @@
     <ClInclude Include="Server.h" />
     <ClInclude Include="stack.h" />
     <ClInclude Include="ThreadGuard.h" />
-    <ClInclude Include="WindowsTCPTestFunctions.h" />
+    <ClInclude Include="Windows\WindowsTCPTestFunctions.win.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Math\Math.vcxproj">

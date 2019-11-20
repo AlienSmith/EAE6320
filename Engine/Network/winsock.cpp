@@ -1,6 +1,5 @@
 // winsock.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
-#include"WindowsTCPTestFunctions.h"
 #include<iostream>
 #include "Client.h"
 #include "Server.h"

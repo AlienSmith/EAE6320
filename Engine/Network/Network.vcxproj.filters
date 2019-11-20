@@ -5,19 +5,14 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
     <Filter Include="Experimental">
       <UniqueIdentifier>{900929cf-4057-4fce-9fb4-1f0091c990fa}</UniqueIdentifier>
     </Filter>
     <Filter Include="Example">
       <UniqueIdentifier>{6decd57e-42dc-49d7-9ca3-bc7adcc96ec0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Windows">
+      <UniqueIdentifier>{59adb80d-f237-4773-9ea2-7f7fa3d303db}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -27,17 +22,17 @@
     <ClCompile Include="Network.cpp">
       <Filter>Experimental</Filter>
     </ClCompile>
-    <ClCompile Include="Client.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Server.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="IO_Struct.cpp">
       <Filter>Example</Filter>
     </ClCompile>
     <ClCompile Include="winsock.cpp">
       <Filter>Example</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\Server.win.cpp">
+      <Filter>Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\Client.win.cpp">
+      <Filter>Windows</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -56,9 +51,6 @@
     <ClInclude Include="stack.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="WindowsTCPTestFunctions.h">
-      <Filter>Experimental</Filter>
-    </ClInclude>
     <ClInclude Include="Scope_thread.h">
       <Filter>Experimental</Filter>
     </ClInclude>
@@ -73,6 +65,9 @@
     </ClInclude>
     <ClInclude Include="ProxyServer.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Windows\WindowsTCPTestFunctions.win.h">
+      <Filter>Windows</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
