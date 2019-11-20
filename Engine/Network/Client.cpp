@@ -1,4 +1,17 @@
 #include "Client.h"
+std::shared_ptr<Network::TCP::Client> Network::TCP::Client::Create_and_Run(const std::string& host, const std::string& port_number)
+{
+	std::shared_ptr<Network::TCP::Client> client(new Client());
+	std::thread temp{ [client,&host,&port_number]() {
+		Network::network_error_code error_code;
+		if (!client->run(host, port_number, error_code)) {
+			printf("Error \n");
+			printf(error_code.code.c_str());
+		}
+	} };
+	temp.detach();
+	return client;
+}
 bool Network::TCP::Client::Obtain_id(const std::string& host, const std::string& port_number, network_error_code& o_error_code)
 {
 	std::shared_ptr<char[]> temp;
@@ -37,22 +50,28 @@ bool Network::TCP::Client::run(const std::string& host, const std::string& port_
 		Reset();
 	}
 	Sleep(5000);
-	while (true) {
+	while (flag_running) {
 		if (Connect(host, port_number, o_error_code)) {
-			if (Send(m_client_logic->GetInputStructure(), o_error_code)) {
-				if (Recieve(m_client_logic->GetUpdateStructure(), o_error_code)) {
-					m_client_logic->Update();
+			if (Send(InputStructure(), o_error_code)) {
+				if (Recieve(UpdateStructure(), o_error_code)) {
+					SwapUpdateStructure();
 					Reset();
 				}
 			}
 		}
 	}
+	Reset();
 	return false;
 }
 
 void Network::TCP::Client::SetLogicClas(ClientLogic* logic)
 {
 	m_client_logic = logic;
+}
+
+void Network::TCP::Client::Stop()
+{
+	flag_running = false;
 }
 
 void Network::TCP::Client::SubmitInputStruct(const Network::InputStruct& inputs) {
@@ -64,23 +83,34 @@ Network::UpdateStruct Network::TCP::Client::GetUpdateStruct()
 	std::scoped_lock lock(m_data.update_mutex);
 	return *(m_data.m_update_Front);
 }
-Network::InputStruct* Network::TCP::Client::GetInputStructure()
+Network::InputStruct* Network::TCP::Client::InputStructure()
+{
+	SwapInputStructure();
+	return m_data.m_input_Front;
+}
+
+Network::UpdateStruct* Network::TCP::Client::UpdateStructure()
+{
+	return m_data.m_update_Back;
+}
+
+void Network::TCP::Client::SwapInputStructure()
 {
 	std::scoped_lock lock(m_data.inputs_mutex);
 	InputStruct* temp;
 	temp = m_data.m_input_Back;
 	m_data.m_input_Back = m_data.m_input_Front;
 	m_data.m_input_Front = temp;
-	return m_data.m_input_Front;
+	return;
 }
 
-void Network::TCP::Client::SetUpdateStruct(const UpdateStruct& data)
+void Network::TCP::Client::SwapUpdateStructure()
 {
 	std::scoped_lock lock(m_data.update_mutex);
-	*m_data.m_update_Back = data;
 	UpdateStruct* temp;
 	temp = m_data.m_update_Back;
 	m_data.m_update_Back = m_data.m_update_Front;
 	m_data.m_update_Front = temp;
-	return;
 }
+
+

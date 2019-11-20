@@ -1,6 +1,5 @@
 #include "../Client.h"
-
-Network::TCP::Client::Client() :m_wsaData(), m_result(NULL), m_ptr(NULL), m_hints(),m_socket(INVALID_SOCKET),m_id(0), m_client_logic(nullptr) {}
+Network::TCP::Client::Client() :m_wsaData(), m_result(NULL), m_ptr(NULL), m_hints(),m_socket(INVALID_SOCKET), flag_running(true), m_id(0), m_client_logic(nullptr) {}
 
 
 bool Network::TCP::Client::Connect(const std::string& host, const std::string& port_number, network_error_code& o_error_code)
@@ -57,7 +56,7 @@ bool Network::TCP::Client::Send(const char* data, network_error_code& o_error_co
 		WSACleanup();
 		return false;
 	}
-	printf("Bytes Sent: %d\n", iResult);
+	//printf("Bytes Sent: %d\n", iResult);
 	//shutdown the connection for sending, cause no more data to send. However, the client can still recieve data
 	iResult = shutdown(m_socket, SD_SEND);
 	if (iResult == SOCKET_ERROR) {
@@ -78,11 +77,11 @@ int Network::TCP::Client::Recieve(std::shared_ptr<char[]>& o_data, network_error
 	do {
 		iResult = recv(m_socket, recvbuf.get(), 100, 0);
 		if (iResult > 0) {
-			printf("Byte recieved %d \n", iResult);
+			//printf("Byte recieved %d \n", iResult);
 			Byte_recieved += iResult;
 		}
 		else if (iResult == 0) {
-			printf("Connection Closed \n");
+			//printf("Connection Closed \n");
 		}
 		else {
 			o_error_code.code = "recv failed %d\n";
@@ -106,10 +105,10 @@ bool Network::TCP::Client::Recieve(char* o_data, network_error_code& o_error_cod
 	do {
 		iResult = recv(m_socket, o_data, str_length, 0);
 		if (iResult > 0) {
-			printf("Byte recieved %d \n", iResult);
+			//printf("Byte recieved %d \n", iResult);
 		}
 		else if (iResult == 0) {
-			printf("Connection Closed \n");
+			//printf("Connection Closed \n");
 		}
 		else {
 			o_error_code.code = "recv failed %d\n";
@@ -128,12 +127,14 @@ bool Network::TCP::Client::Recieve(char* o_data, network_error_code& o_error_cod
 
 void Network::TCP::Client::Reset()
 {
-	closesocket(m_socket);
-	m_wsaData = WSADATA();
-	m_result = NULL;
-	m_ptr = NULL;
-	m_hints = addrinfo();
-	m_socket = INVALID_SOCKET;
+	if (m_socket != INVALID_SOCKET) {
+		closesocket(m_socket);
+		m_wsaData = WSADATA();
+		m_result = NULL;
+		m_ptr = NULL;
+		m_hints = addrinfo();
+		m_socket = INVALID_SOCKET;
+	}
 }
 
 

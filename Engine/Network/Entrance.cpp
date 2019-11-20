@@ -27,15 +27,25 @@ int main()
 	//Client
 	/*{
 		Network::ClientLogic clientlogic;
+		std::shared_ptr<Network::TCP::Client> client = Network::TCP::Client::Create_and_Run(local_host, port_num);
+		while (true) {
+			clientlogic.GenerateRandomInputs();
+			client->SubmitInputStruct(*clientlogic.GetInputStructure());
+			*(clientlogic.GetUpdateStructure()) = client->GetUpdateStruct();
+			clientlogic.Draw();
+			Sleep(1000);
+		}
+	}*/
+	{
+		/*Network::ClientLogic clientlogic;
 		Network::TCP::Client client;
 		client.SetLogicClas(&clientlogic);
 		Network::network_error_code error_code;
 		if (!client.run(local_host, port_num, error_code)) {
 			printf("Error \n");
 			printf(error_code.code.c_str());
-		}
-
-	}*/
+		}*/
+	}
 	std::cout << "End\n";
 	int a;
 	std::cin >> a;

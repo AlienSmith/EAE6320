@@ -97,6 +97,7 @@ namespace eae6320
 		Assets::cHandle<Graphics::DefaultGeometry> m_cube_handle;
 		Assets::cHandle<Graphics::DefaultGeometry> m_sphere_handle;
 		Assets::cHandle<Graphics::DefaultGeometry> m_plane_handle;
+
 		bool m_showotherobject = false;
 		bool m_changeeffect = false;
 	};

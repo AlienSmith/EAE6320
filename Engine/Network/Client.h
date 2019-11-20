@@ -29,11 +29,11 @@ namespace Network {
 		UpdateStruct* m_update_Back = &m_Updates;
 		UpdateStruct* m_update_Front = &m_OtherUpdates;
 		std::mutex update_mutex;
-
 	};
 	namespace TCP {
 		class Client {
 		public:
+			static std::shared_ptr<Client> Create_and_Run(const std::string& host, const std::string& port_number);
 			Client();
 			void SubmitInputStruct(const InputStruct& inputs);
 			UpdateStruct GetUpdateStruct();
@@ -42,9 +42,12 @@ namespace Network {
 			bool Send(InputStruct* data, network_error_code& o_error_code);
 			bool Recieve(UpdateStruct* data, network_error_code& o_error_code);
 			void SetLogicClas(ClientLogic* logic);
+			void Stop();
 		private:
-			InputStruct* GetInputStructure();
-			void SetUpdateStruct(const UpdateStruct& data);
+			InputStruct* InputStructure();
+			UpdateStruct* UpdateStructure();
+			void SwapInputStructure();
+			void SwapUpdateStructure();
 			bool Connect(const std::string& host, const std::string& port_number, network_error_code& o_error_code);
 			bool Send(const char* data, network_error_code& o_error_code, int str_length);
 			// number of bytes recieved 0 if failed
@@ -60,6 +63,7 @@ namespace Network {
 			SOCKET m_socket;
 #endif
 			int m_id;
+			bool flag_running;
 			ClientLogic* m_client_logic;
 		};
 	}
