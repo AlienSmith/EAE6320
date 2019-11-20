@@ -2,6 +2,7 @@
 
 Network::TCP::Client::Client() :m_wsaData(), m_result(NULL), m_ptr(NULL), m_hints(),m_socket(INVALID_SOCKET),m_id(0), m_client_logic(nullptr) {}
 
+
 bool Network::TCP::Client::Connect(const std::string& host, const std::string& port_number, network_error_code& o_error_code)
 {
 	int iResult;
