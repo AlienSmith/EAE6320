@@ -59,8 +59,7 @@ bool Network::TCP::Server::Run(const std::string& port_number, network_error_cod
 				Network::InputWrapper<InputStruct> temp_input;
 				m_wrapper_pool.pop(temp_input);
 				(m_serverlogic->GetInputStructure())[temp_input.Socket_id - 1] = temp_input.t;
-			}
-			m_serverlogic->Update();
+			}		m_serverlogic->Update();
 			//This is not multithreaded Send the updated result to all clients
 			for (auto it = begin(m_socket_pool); it != end(m_socket_pool); it++) {
 				Send(reinterpret_cast<char*>(m_serverlogic->GetUpdateStructure()), o_error_code, sizeof(*(m_serverlogic->GetUpdateStructure())), *it);
