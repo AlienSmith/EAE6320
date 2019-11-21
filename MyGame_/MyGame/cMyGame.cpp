@@ -66,6 +66,10 @@ void eae6320::cExampleGame::UpdateBasedOnInput()
 	m_camera.velocity = temp_vol;
 	//Update the inputs to server
 	Math::sVector temp_Object_vol = Math::sVector(0.0f, 0.0f, 0.0f);
+	m_input_struct.input_y_axies = 0;
+	m_input_struct.input_y_axies = 0;
+	m_input_struct.input_x_axies = 0;
+	m_input_struct.input_x_axies = 0;
 	if (UserInput::IsKeyPressed(UserInput::KeyCodes::Home)) {
 		m_input_struct.input_y_axies = 10;
 	}
