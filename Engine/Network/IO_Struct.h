@@ -7,8 +7,8 @@ namespace Network {
 		int input_y_axies = 0;
 	};
 	struct UpdateStruct {
-		eae6320::Math::sVector position[2] = { eae6320::Math::sVector(0.0f,0.0f,0.0f),eae6320::Math::sVector(0.0f,0.0f,0.0f) };
-		eae6320::Math::sVector speed[2] = { eae6320::Math::sVector(0.0f,0.0f,0.0f),eae6320::Math::sVector(0.0f,0.0f,0.0f) };
+		eae6320::Math::sVector position[2]        = { eae6320::Math::sVector(0.0f,0.0f,0.0f),eae6320::Math::sVector(0.0f,0.0f,0.0f) };
+		eae6320::Math::sVector speed[2]       = { eae6320::Math::sVector(0.0f,0.0f,0.0f),eae6320::Math::sVector(0.0f,0.0f,0.0f) };
 		time_t last_time = 0;
 	};
 	class ClientLogic {
