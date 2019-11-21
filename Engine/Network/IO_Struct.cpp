@@ -22,7 +22,7 @@ void Network::ServerLogic::Update()
 		delta_time = (float)difftime(current_time, m_update_structure.last_time);
 	}
 	m_update_structure.speed[0] = eae6320::Math::sVector((float)m_input_data[0].input_x_axies, (float)m_input_data[0].input_y_axies, 0.0f);
-	m_update_structure.speed[1] = eae6320::Math::sVector((float)m_input_data[1].input_x_axies, (float)m_input_data[1].input_y_axies, 0.0f);
+	m_update_structure.speed[1] = eae6320::Math::sVector((float)m_input_data[1].input_x_axies * -1, (float)m_input_data[1].input_y_axies*-1, 0.0f);
 	m_update_structure.speed[0] *= 0.01f;
 	m_update_structure.speed[1] *= 0.01f;
 	m_update_structure.position[0] += m_update_structure.speed[0] * delta_time;

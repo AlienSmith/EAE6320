@@ -3,7 +3,7 @@
 #include <mutex>
 #include <vector>
 #include "stack.h"
-#define MAX_CLIENT_NUMBER 1
+#define MAX_CLIENT_NUMBER 2
 #include "InputWrapper.h"
 namespace Network {
 	namespace TCP {
