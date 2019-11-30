@@ -1,5 +1,25 @@
 #include "Client.h"
 #include <time.h>
+#include <iostream>
+///This will block the thread invoking this function until an ip is provided
+std::shared_ptr<Network::TCP::Client> Network::TCP::Client::Create_and_Run()
+{
+	std::shared_ptr<Network::TCP::Client> client(new Client());
+	std::string port(GAMELOOP_PORT);
+	std::string host;
+	std::cout << "Please enter Server IP" << std::endl;
+	std::getline(std::cin, host);
+	std::cout << "Initializing Client" << std::endl;
+	std::thread temp{ [client,host,port]() {
+		Network::network_error_code error_code;
+		if (!client->run(host, port, error_code)) {
+			printf("Error \n");
+			printf(error_code.code.c_str());
+		}
+	} };
+	temp.detach();
+	return client;
+}
 std::shared_ptr<Network::TCP::Client> Network::TCP::Client::Create_and_Run(const std::string& host, const std::string& port_number)
 {
 	std::shared_ptr<Network::TCP::Client> client(new Client());

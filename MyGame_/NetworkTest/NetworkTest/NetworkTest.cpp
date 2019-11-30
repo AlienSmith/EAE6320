@@ -8,7 +8,7 @@
 int main()
 {
 	std::string local_host = "127.0.0.1";
-	std::string port_num = "3334";
+	std::string port_num = "3333";
 	//server();
 	//Server
 	{

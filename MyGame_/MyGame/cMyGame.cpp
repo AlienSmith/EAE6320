@@ -125,7 +125,8 @@ eae6320::cResult eae6320::cExampleGame::Initialize()
 		//std::string local_host = "155.97.7.99";
 		std::string local_host = "127.0.0.1";
 		std::string port_num = "3333";
-		m_client = Network::TCP::Client::Create_and_Run(local_host, port_num);
+		//m_client = Network::TCP::Client::Create_and_Run(local_host, port_num);
+		m_client = Network::TCP::Client::Create_and_Run();
 	}
 	//data/geometry/trangle.geometry
 	Graphics::DefaultGeometry::s_manager.Load("data/geometry/sphere.lua", m_sphere_handle);

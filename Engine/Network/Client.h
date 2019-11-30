@@ -16,6 +16,7 @@
 #endif
 #endif // !SOCK
 namespace Network {
+	static const char* GAMELOOP_PORT = "3333";
 	enum class Client_Phase {
 		REQUEST_ID,
 		UPDATE_LOOP,
@@ -39,6 +40,7 @@ namespace Network {
 	namespace TCP {
 		class Client {
 		public:
+			static std::shared_ptr<Client> Create_and_Run();
 			static std::shared_ptr<Client> Create_and_Run(const std::string& host, const std::string& port_number);
 			Client();
 			void SubmitInputStruct(const InputStruct& inputs);
