@@ -1,5 +1,14 @@
 #include "../Client.h"
-Network::TCP::Client::Client() :m_wsaData(), m_result(NULL), m_ptr(NULL), m_hints(),m_socket(INVALID_SOCKET), flag_running(true), m_id(0), m_client_logic(nullptr),m_phase(Network::Client_Phase::REQUEST_ID) {}
+Network::TCP::Client::Client() :m_wsaData(), m_result(NULL), m_ptr(NULL), m_hints(),m_socket(INVALID_SOCKET), flag_running(true), m_id(0), m_client_logic(nullptr),m_phase(Network::Client_Phase::REQUEST_ID) {
+	//This code can only be invoked once or the system or you get a corrupted heap error c0000374
+	//TODO make both client and server singleton.
+	WSADATA wsaData;
+	int iResult;
+	iResult = WSAStartup(MAKEWORD(2, 2), &wsaData);
+	if (iResult != 0) {
+		printf("WSAStartup Failed: %d\n", iResult);
+	}
+}
 
 
 bool Network::TCP::Client::Connect(const std::string& host, const std::string& port_number, network_error_code& o_error_code)

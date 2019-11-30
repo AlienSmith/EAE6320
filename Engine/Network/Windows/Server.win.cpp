@@ -1,19 +1,25 @@
 #include "../Server.h"
 const std::string Network::TCP::Server::REQUEST_ID = std::string("REQUEST_ID");
-Network::TCP::Server::Server():m_result(NULL), m_ptr(NULL), m_hints(), m_Listen_Socket(INVALID_SOCKET),m_thread_pool(),m_socket_pool(),m_num_client(0),max_clients_num(MAX_CLIENT_NUMBER), m_Phase(Server_Phase::INVALID),m_serverlogic(nullptr)
-{
-}
-
-
-bool Network::TCP::Server::Start(const std::string& port_number, network_error_code& o_error_code)
+Network::TCP::Server::Server():m_result(NULL), m_ptr(NULL), m_hints(), m_Listen_Socket(INVALID_SOCKET),m_Emergency_Socket(INVALID_SOCKET),m_thread_pool(),m_socket_pool(),m_num_client(0),max_clients_num(MAX_CLIENT_NUMBER), m_Phase(Server_Phase::INVALID),m_serverlogic(nullptr)
 {
 	WSADATA wsaData;
 	int iResult;
 	iResult = WSAStartup(MAKEWORD(2, 2), &wsaData);
 	if (iResult != 0) {
 		printf("WSAStartup Failed: %d\n", iResult);
-		return 1;
 	}
+}
+
+
+bool Network::TCP::Server::Start(const std::string& port_number, network_error_code& o_error_code,SOCK& listenner)
+{
+	//WSADATA wsaData;
+	int iResult;
+	//iResult = WSAStartup(MAKEWORD(2, 2), &wsaData);
+	//if (iResult != 0) {
+	//	printf("WSAStartup Failed: %d\n", iResult);
+	//	return 1;
+	//}
 	ZeroMemory(&m_hints, sizeof(m_hints));
 	// IPv4
 	m_hints.ai_family = AF_INET;
@@ -29,25 +35,25 @@ bool Network::TCP::Server::Start(const std::string& port_number, network_error_c
 		return false;
 	}
 	//Initialize listensocket
-	m_Listen_Socket = socket(m_result->ai_family, m_result->ai_socktype, m_result->ai_protocol);
-	if (m_Listen_Socket == INVALID_SOCKET) {
+	listenner = socket(m_result->ai_family, m_result->ai_socktype, m_result->ai_protocol);
+	if (listenner == INVALID_SOCKET) {
 		o_error_code.code = "Error at socket()\n";
 		WSACleanup();
 		return false;
 	}
 	//Bind listensocket
-	iResult = bind(m_Listen_Socket, m_result->ai_addr, (int)m_result->ai_addrlen);
+	iResult = bind(listenner, m_result->ai_addr, (int)m_result->ai_addrlen);
 	if (iResult == SOCKET_ERROR) {
 		o_error_code.code = "bind failed with error:\n";
 		freeaddrinfo(m_result);
-		closesocket(m_Listen_Socket);
+		closesocket(listenner);
 		WSACleanup();
 		return false;
 	}
 	freeaddrinfo(m_result);
-	if (listen(m_Listen_Socket, SOMAXCONN) == SOCKET_ERROR) {
+	if (listen(listenner, SOMAXCONN) == SOCKET_ERROR) {
 		o_error_code.code = "Listen failed with error \n";
-		closesocket(m_Listen_Socket);
+		closesocket(listenner);
 		WSACleanup();
 		return false;
 	}
@@ -56,13 +62,14 @@ bool Network::TCP::Server::Start(const std::string& port_number, network_error_c
 	return true;
 }
 
-bool Network::TCP::Server::Accept(network_error_code& o_error_code, std::shared_ptr<SOCKET>& socket)
+
+bool Network::TCP::Server::Accept(network_error_code& o_error_code, std::shared_ptr<SOCKET>& socket, const SOCK& listener)
 {
 	printf("Waiting for connection.\n");
-	*socket = accept(m_Listen_Socket, NULL, NULL);
+	*socket = accept(listener, NULL, NULL);
 	if (*socket == INVALID_SOCKET) {
 		o_error_code.code = "accept fialed %d\n";
-		closesocket(m_Listen_Socket);
+		closesocket(listener);
 		WSACleanup();
 		return false;
 	}

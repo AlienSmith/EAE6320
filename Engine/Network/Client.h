@@ -17,6 +17,7 @@
 #endif // !SOCK
 namespace Network {
 	static const char* GAMELOOP_PORT = "3333";
+	static const char* EMERGENCY_PORT = "3334";
 	enum class Client_Phase {
 		REQUEST_ID,
 		UPDATE_LOOP,

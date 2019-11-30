@@ -65,7 +65,7 @@ bool Network::TCP::Client::run(const std::string& host, const std::string& port_
 {
 	//Obtain ID
 	{
-		if (!Obtain_id(host, port_number, o_error_code)) {
+		if (!Obtain_id(host, EMERGENCY_PORT, o_error_code)) {
 			return false;
 		}
 		Reset();
@@ -73,7 +73,7 @@ bool Network::TCP::Client::run(const std::string& host, const std::string& port_
 	Sleep(5000);
 	while (flag_running) {
 		while (flag_running && m_phase == Client_Phase::UPDATE_LOOP) {
-			if (Connect(host, port_number, o_error_code)) {
+			if (Connect(host, GAMELOOP_PORT, o_error_code)) {
 				if (Send(InputStructure(), o_error_code)) {
 					if (Recieve(UpdateStructure(), o_error_code)) {
 						SwapUpdateStructure();

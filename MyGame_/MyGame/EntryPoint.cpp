@@ -14,6 +14,7 @@
 int WINAPI WinMain( HINSTANCE i_thisInstanceOfTheApplication, HINSTANCE, char* i_commandLineArguments, int i_initialWindowDisplayState )
 {
 	//Allocate a windows and read and write to it
+	//Considering write out this output log
 	{
 		AllocConsole();
 		FILE* fDummy;

@@ -21,8 +21,8 @@ namespace Network {
 			bool IntepretRequest(network_error_code& o_error_code, const std::shared_ptr<SOCK>& socket);
 			void SetServerLogic(ServerLogic* serverlogic);
 		private:
-			bool Start(const std::string& port_number, network_error_code& o_error_code);
-			bool Accept(network_error_code& o_error_code, std::shared_ptr<SOCK>& socket);
+			bool Start(const std::string& port_number, network_error_code& o_error_code, SOCK& listener);
+			bool Accept(network_error_code& o_error_code, std::shared_ptr<SOCK>& socket, const SOCK& listener);
 			bool Send(const char* data, network_error_code& o_error_code, int str_length, const std::shared_ptr<SOCK>& socket);
 			bool Recieve(std::shared_ptr<char[]>& o_data, network_error_code& o_error_code, const std::shared_ptr<SOCK>& socket);
 			bool Recieve(char* o_data, network_error_code& o_error_code, const std::shared_ptr<SOCK>& socket, int str_length);
@@ -34,6 +34,7 @@ namespace Network {
 			addrinfo* m_ptr;
 			addrinfo m_hints;
 			SOCKET m_Listen_Socket;
+			SOCKET m_Emergency_Socket;
 #endif
 			std::vector<std::thread> m_thread_pool;
 			std::vector<std::shared_ptr<SOCKET>> m_socket_pool;
