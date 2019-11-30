@@ -4,8 +4,8 @@
 #include<stdio.h>
 #include<string>
 //#pragma comment(lib,"Ws2_32.lib")
-//#define DEFAULT_PORT "3333"
-//#define DEFAULT_BUFLEN 512
+#define DEFAULT_PORT "3333"
+#define DEFAULT_BUFLEN 512
 int client() {
 	//contain data about the socket
 	WSADATA wsaData;

@@ -179,6 +179,7 @@
     <ClInclude Include="Server.h" />
     <ClInclude Include="stack.h" />
     <ClInclude Include="ThreadGuard.h" />
+    <ClInclude Include="Windows\WindowsTCPTestFunctions.win.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Math\Math.vcxproj">

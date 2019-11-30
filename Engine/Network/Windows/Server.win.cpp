@@ -7,7 +7,13 @@ Network::TCP::Server::Server():m_result(NULL), m_ptr(NULL), m_hints(), m_Listen_
 
 bool Network::TCP::Server::Start(const std::string& port_number, network_error_code& o_error_code)
 {
+	WSADATA wsaData;
 	int iResult;
+	iResult = WSAStartup(MAKEWORD(2, 2), &wsaData);
+	if (iResult != 0) {
+		printf("WSAStartup Failed: %d\n", iResult);
+		return 1;
+	}
 	ZeroMemory(&m_hints, sizeof(m_hints));
 	// IPv4
 	m_hints.ai_family = AF_INET;

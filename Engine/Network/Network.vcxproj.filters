@@ -72,5 +72,8 @@
     <ClInclude Include="ProxyServer.h">
       <Filter>Experimental</Filter>
     </ClInclude>
+    <ClInclude Include="Windows\WindowsTCPTestFunctions.win.h">
+      <Filter>Windows</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

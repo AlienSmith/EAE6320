@@ -10,7 +10,7 @@
 #ifdef _WIN32
 #include<WinSock2.h>
 #include<WS2tcpip.h>
-#pragma comment(lib,"Ws2_32.lib")
+//#pragma comment(lib,"Ws2_32.lib")
 #define SOCK SOCKET
 #define SOCK_INITIALIZE INVALID_SOCKET
 #endif

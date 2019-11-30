@@ -15,6 +15,7 @@
 	#include "Resource Files/Resource.h"
 #endif
 
+#include<Engine/Network/Server.h>
 // Class Declaration
 //==================
 

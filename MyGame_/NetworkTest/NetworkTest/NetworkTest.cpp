@@ -2,13 +2,13 @@
 //
 
 #include <iostream>
-#include <Engine/Network/Client.h>
+//#include <Engine/Network/Client.h>
 #include <Engine/Network/Server.h>
-#include <Engine/Network/IO_Struct.h>
+//#include <Engine/Network/IO_Struct.h>
 int main()
 {
 	std::string local_host = "127.0.0.1";
-	std::string port_num = "3333";
+	std::string port_num = "3334";
 	/*Network::ClientLogic client;
 	client.Update();
 	Network::ServerLogic server;
