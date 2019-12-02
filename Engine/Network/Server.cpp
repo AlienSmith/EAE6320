@@ -153,17 +153,14 @@ void Network::TCP::Server::SubmitInputrecord(const InputWrapper<InputStruct>& o_
 	assert(m_buffer.ptr_back);
 	printf("Recieve inputs form %d", o_data.Socket_id);
 	m_buffer.need_swap = true;
-	(*(m_buffer.ptr_back))[o_data.Socket_id] = o_data.t;
+	(*(m_buffer.ptr_back))[o_data.Socket_id-1] = o_data.t;
 	(m_buffer.Ptr_socket_back)->push_back(Socket);
-	assert(m_buffer.ptr_back);
 	return;
 }
 bool Network::TCP::Server::SwapInputBuffers()
 {
 	std::scoped_lock lock(m_buffer.inputsmutex);
 	if (m_buffer.need_swap) {
-		assert(m_buffer.ptr_front);
-		assert(m_buffer.ptr_back);
 		InputStruct(*ptr_temp)[MAX_CLIENT_NUMBER];
 		ptr_temp = m_buffer.ptr_back;
 		m_buffer.ptr_back = m_buffer.ptr_front;
@@ -173,18 +170,14 @@ bool Network::TCP::Server::SwapInputBuffers()
 		m_buffer.Ptr_socket_back = m_buffer.Ptr_socket_front;
 		m_buffer.Ptr_socket_front = ptr_sockets_temp;
 		m_buffer.need_swap = false;
-		assert(m_buffer.ptr_front);
-		assert(m_buffer.ptr_back);
 		return true;
 	}
 	return false;
 }
 void Network::TCP::Server::UpdateServerLogic()
 {
-	assert(m_buffer.ptr_front);
 	//Copy the input buffer to server and do update on it.
 	m_serverlogic->SetInputStructPtr(m_buffer.ptr_front);
-	assert(m_buffer.ptr_front);
 	m_serverlogic->Update();
 }
 bool Network::TCP::Server::Send(UpdateStruct* data, network_error_code& o_error_code, const std::shared_ptr<SOCK>& socket)

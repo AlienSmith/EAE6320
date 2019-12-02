@@ -12,9 +12,10 @@ Network::UpdateStruct* Network::ServerLogic::GetUpdateStructure()
 }
 void Network::ServerLogic::SetInputStructPtr(const InputStruct(*InputStruct)[MAX_CLIENT_NUMBER])
 {
-	for (int i = 0; i < MAX_CLIENT_NUMBER; i++) {
-		m_input_data[i] = (*InputStruct)[i];
-	}
+	m_ptr_inputs = InputStruct;
+	//for (int i = 0; i < MAX_CLIENT_NUMBER; i++) {
+	//	m_input_data[i] = (*InputStruct)[i];
+	//}
 	return;
 }
 void Network::ServerLogic::Update()
