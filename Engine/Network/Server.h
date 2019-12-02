@@ -3,7 +3,6 @@
 #include <mutex>
 #include <vector>
 #include "stack.h"
-#define MAX_CLIENT_NUMBER 2
 #include "InputWrapper.h"
 namespace Network {
 	namespace TCP {
@@ -11,6 +10,14 @@ namespace Network {
 			DISTRIBUTE_ID,
 			GAMELOOP_UPDATE,
 			INVALID,
+		};
+		struct ServerInputBuffers {
+			InputStruct front_buffer[MAX_CLIENT_NUMBER];
+			InputStruct back_buffer[MAX_CLIENT_NUMBER];
+			InputStruct(*ptr_front)[MAX_CLIENT_NUMBER] = &front_buffer;
+			InputStruct(*ptr_back)[MAX_CLIENT_NUMBER] = &back_buffer;
+			bool need_swap = false;
+			std::mutex inputsmutex;
 		};
 		class Server {
 		public:
@@ -21,6 +28,10 @@ namespace Network {
 			bool IntepretRequest(network_error_code& o_error_code, const std::shared_ptr<SOCK>& socket);
 			void SetServerLogic(ServerLogic* serverlogic);
 		private:
+			//I have not implement the move assignment operator 
+			void SubmitInputrecord(const InputWrapper<InputStruct>& o_data);
+			void SwapInputBuffers();
+			void UpdateServerLogic();
 			bool Start(const std::string& port_number, network_error_code& o_error_code, SOCK& listener);
 			bool Accept(network_error_code& o_error_code, std::shared_ptr<SOCK>& socket, const SOCK& listener);
 			bool Send(const char* data, network_error_code& o_error_code, int str_length, const std::shared_ptr<SOCK>& socket);
@@ -36,6 +47,7 @@ namespace Network {
 			SOCKET m_Listen_Socket;
 			SOCKET m_Emergency_Socket;
 #endif
+			ServerInputBuffers m_buffer;
 			std::vector<std::thread> m_thread_pool;
 			std::vector<std::shared_ptr<SOCKET>> m_socket_pool;
 			threadsafe_stack<InputWrapper<InputStruct>> m_wrapper_pool;

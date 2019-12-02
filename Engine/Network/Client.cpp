@@ -70,7 +70,6 @@ bool Network::TCP::Client::run(const std::string& host, const std::string& port_
 		}
 		Reset();
 	}
-	Sleep(5000);
 	while (flag_running) {
 		while (flag_running && m_phase == Client_Phase::UPDATE_LOOP) {
 			if (Connect(host, GAMELOOP_PORT, o_error_code)) {
@@ -113,6 +112,7 @@ void Network::TCP::Client::EnterningUpdatePhase()
 void Network::TCP::Client::SubmitInputStruct(const Network::InputStruct& inputs) {
 	std::scoped_lock lock(m_data.inputs_mutex);
 	*m_data.m_input_Back = inputs;
+	m_data.Input_Changed = true;
 }
 Network::UpdateStruct Network::TCP::Client::GetUpdateStruct()
 {
@@ -133,10 +133,12 @@ Network::UpdateStruct* Network::TCP::Client::UpdateStructure()
 void Network::TCP::Client::SwapInputStructure()
 {
 	std::scoped_lock lock(m_data.inputs_mutex);
-	InputStruct* temp;
-	temp = m_data.m_input_Back;
-	m_data.m_input_Back = m_data.m_input_Front;
-	m_data.m_input_Front = temp;
+	if (m_data.Input_Changed) {
+		InputStruct* temp;
+		temp = m_data.m_input_Back;
+		m_data.m_input_Back = m_data.m_input_Front;
+		m_data.m_input_Front = temp;
+	}
 	return;
 }
 

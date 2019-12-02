@@ -31,6 +31,7 @@ namespace Network {
 		InputStruct m_OtherInputs;
 		InputStruct* m_input_Back = &m_Inputs;
 		InputStruct* m_input_Front = &m_OtherInputs;
+		bool Input_Changed = false;
 		std::mutex inputs_mutex;
 		UpdateStruct m_Updates;
 		UpdateStruct m_OtherUpdates;

@@ -1,6 +1,6 @@
 #include "../Server.h"
 const std::string Network::TCP::Server::REQUEST_ID = std::string("REQUEST_ID");
-Network::TCP::Server::Server():m_result(NULL), m_ptr(NULL), m_hints(), m_Listen_Socket(INVALID_SOCKET),m_Emergency_Socket(INVALID_SOCKET),m_thread_pool(),m_socket_pool(),m_num_client(0),max_clients_num(MAX_CLIENT_NUMBER), m_Phase(Server_Phase::INVALID),m_serverlogic(nullptr)
+Network::TCP::Server::Server():m_result(NULL), m_ptr(NULL), m_hints(), m_Listen_Socket(INVALID_SOCKET),m_Emergency_Socket(INVALID_SOCKET),m_buffer(),m_thread_pool(),m_socket_pool(),m_num_client(0),max_clients_num(MAX_CLIENT_NUMBER), m_Phase(Server_Phase::INVALID),m_serverlogic(nullptr)
 {
 	WSADATA wsaData;
 	int iResult;

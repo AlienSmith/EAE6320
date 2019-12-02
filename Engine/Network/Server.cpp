@@ -75,7 +75,8 @@ bool Network::TCP::Server::Run(const std::string& port_number, network_error_cod
 					Network::InputWrapper<InputStruct> temp_input;
 					m_wrapper_pool.pop(temp_input);
 					(m_serverlogic->GetInputStructure())[temp_input.Socket_id - 1] = temp_input.t;
-				}		m_serverlogic->Update();
+				}		
+				m_serverlogic->Update();
 				//This is not multithreaded Send the updated result to all clients
 				for (auto it = begin(m_socket_pool); it != end(m_socket_pool); it++) {
 					Send(reinterpret_cast<char*>(m_serverlogic->GetUpdateStructure()), o_error_code, sizeof(*(m_serverlogic->GetUpdateStructure())), *it);
@@ -87,7 +88,34 @@ bool Network::TCP::Server::Run(const std::string& port_number, network_error_cod
 	}
 	return true;
 }
-
+void Network::TCP::Server::SubmitInputrecord(const InputWrapper<InputStruct>& o_data)
+{
+	std::scoped_lock lock(m_buffer.inputsmutex);
+	m_buffer.need_swap = true;
+	(*m_buffer.ptr_back)[o_data.Socket_id] = o_data.t;
+	return;
+}
+void Network::TCP::Server::SwapInputBuffers()
+{
+	std::scoped_lock lock(m_buffer.inputsmutex);
+	if (m_buffer.need_swap) {
+		InputStruct(*ptr_temp)[MAX_CLIENT_NUMBER];
+		ptr_temp = m_buffer.ptr_back;
+		m_buffer.ptr_back = m_buffer.ptr_front;
+		m_buffer.ptr_front = ptr_temp;
+	}
+	return;
+}
+void Network::TCP::Server::UpdateServerLogic()
+{
+	SwapInputBuffers();
+	//Copy the input buffer to server and do update on it.
+	for (int i = 0; i < m_num_client; i++) {
+		Network::InputWrapper<InputStruct> temp_input;
+		m_wrapper_pool.pop(temp_input);
+		(m_serverlogic->GetInputStructure())[temp_input.Socket_id - 1] = temp_input.t;
+	}
+}
 bool Network::TCP::Server::Send(UpdateStruct* data, network_error_code& o_error_code, const std::shared_ptr<SOCK>& socket)
 {
 	return Send(reinterpret_cast<char*>(data), o_error_code, sizeof(*data), socket);
