@@ -16,6 +16,10 @@ namespace Network {
 			InputStruct back_buffer[MAX_CLIENT_NUMBER];
 			InputStruct(*ptr_front)[MAX_CLIENT_NUMBER] = &front_buffer;
 			InputStruct(*ptr_back)[MAX_CLIENT_NUMBER] = &back_buffer;
+			std::vector<std::shared_ptr<SOCK>> Socket_pool_front;
+			std::vector<std::shared_ptr<SOCK>> Socket_pool_back;
+			std::vector<std::shared_ptr<SOCK>>* Ptr_socket_back = & Socket_pool_back;
+			std::vector<std::shared_ptr<SOCK>>* Ptr_socket_front = &Socket_pool_front;
 			bool need_swap = false;
 			std::mutex inputsmutex;
 		};
@@ -29,8 +33,8 @@ namespace Network {
 			void SetServerLogic(ServerLogic* serverlogic);
 		private:
 			//I have not implement the move assignment operator 
-			void SubmitInputrecord(const InputWrapper<InputStruct>& o_data);
-			void SwapInputBuffers();
+			void SubmitInputrecord(const InputWrapper<InputStruct>& o_data, std::shared_ptr<SOCK> Socket);
+			bool SwapInputBuffers();
 			void UpdateServerLogic();
 			bool Start(const std::string& port_number, network_error_code& o_error_code, SOCK& listener);
 			bool Accept(network_error_code& o_error_code, std::shared_ptr<SOCK>& socket, const SOCK& listener);

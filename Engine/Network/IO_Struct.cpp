@@ -10,6 +10,13 @@ Network::UpdateStruct* Network::ServerLogic::GetUpdateStructure()
 {
 	return &m_update_structure;
 }
+void Network::ServerLogic::SetInputStructPtr(const InputStruct(*InputStruct)[MAX_CLIENT_NUMBER])
+{
+	for (int i = 0; i < MAX_CLIENT_NUMBER; i++) {
+		m_input_data[i] = (*InputStruct)[i];
+	}
+	return;
+}
 void Network::ServerLogic::Update()
 {
 	//std::this_thread::sleep_for(std::chrono::milliseconds(1000));
@@ -21,7 +28,6 @@ void Network::ServerLogic::Update()
 	else {
 		delta_time = (float)difftime(current_time, m_update_structure.last_time);
 	}
-	printf("delta time is %f \n",delta_time);
 	m_update_structure.speed[0] = eae6320::Math::sVector((float)(*m_ptr_inputs)[0].input_x_axies, (float)(*m_ptr_inputs)[0].input_y_axies, 0.0f);
 	m_update_structure.speed[1] = eae6320::Math::sVector((float)(*m_ptr_inputs)[1].input_x_axies, (float)(*m_ptr_inputs)[1].input_y_axies, 0.0f);
 	m_update_structure.speed[0] *= 0.5f;

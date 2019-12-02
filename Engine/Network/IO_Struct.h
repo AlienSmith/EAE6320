@@ -26,10 +26,11 @@ namespace Network {
 	public:
 		InputStruct* GetInputStructure();
 		UpdateStruct* GetUpdateStructure();
+		void SetInputStructPtr(const InputStruct(*InputStruct)[MAX_CLIENT_NUMBER]);
 		void Update();
 	private:
 		InputStruct m_input_data[MAX_CLIENT_NUMBER];
-		InputStruct(*m_ptr_inputs)[MAX_CLIENT_NUMBER] = & m_input_data;
+		const InputStruct(*m_ptr_inputs)[MAX_CLIENT_NUMBER] = &m_input_data;
 		UpdateStruct m_update_structure;
 	};
 }
