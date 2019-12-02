@@ -4,39 +4,39 @@ bool Network::TCP::Server::Run(const std::string& port_number, network_error_cod
 	char* recv_data = nullptr;
 	//Distribute Id on the emergency thread
 	{
-		std::thread Emergency_Thread{ [this]() {
-			bool iResult = true;
-			network_error_code emergency_error_code;
-			if (Start(EMERGENCY_PORT, emergency_error_code, m_Emergency_Socket)) {
-				while (true) {
-					std::shared_ptr<SOCK> temp(new SOCK());
-					*temp = SOCK_INITIALIZE;
-					Sleep(1);
-					if (Accept(emergency_error_code, temp, m_Emergency_Socket)) {
-						std::thread temp_thread{ [this,temp]() {
-							Network::network_error_code error_code;
-							if (!IntepretRequest(error_code, temp)) {
-								printf(error_code.code.c_str());
-							}
-							return;
+		//Interestingly the start function have to be called within the main thread 
+		//Assume it invoke functions that are not thread safe
+		if (Start(EMERGENCY_PORT, o_error_code, m_Emergency_Socket)) {
+			std::thread Emergency_Thread{
+					[this]() {
+					bool iResult = true;
+					network_error_code emergency_error_code;
+					while (true) {
+						std::shared_ptr<SOCK> temp(new SOCK());
+						*temp = SOCK_INITIALIZE;
+						Sleep(1);
+						if (Accept(emergency_error_code, temp, m_Emergency_Socket)) {
+							std::thread temp_thread{ [this,temp]() {
+								Network::network_error_code error_code;
+								if (!IntepretRequest(error_code, temp)) {
+									printf(error_code.code.c_str());
+								}
+								return;
+							} };
+							temp_thread.detach();
 						}
-						};
-						temp_thread.detach();
+						else {
+							iResult = false;
+						}
 					}
-					else {
-						iResult = false;
+					if (!iResult) {
+						printf(emergency_error_code.code.c_str());
 					}
-				}
-			}
-			else {
-				iResult = false;
-			}
-			if (!iResult) {
-				printf(emergency_error_code.code.c_str());
-			}
-			return;
-		} };
-		Emergency_Thread.detach();
+					return;
+					}
+			};
+			Emergency_Thread.detach();
+		}
 	}
 	//Run the game loop on the main thread
 	{

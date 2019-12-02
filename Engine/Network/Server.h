@@ -41,6 +41,7 @@ namespace Network {
 			threadsafe_stack<InputWrapper<InputStruct>> m_wrapper_pool;
 			int m_num_client;
 			int max_clients_num;
+			//This is not used anymore
 			Server_Phase m_Phase;
 			std::mutex num_client_mutex;
 			ServerLogic* m_serverlogic;
