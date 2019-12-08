@@ -10,7 +10,7 @@ namespace Network {
 	struct UpdateStruct {
 		eae6320::Math::sVector position[MAX_CLIENT_NUMBER];
 		eae6320::Math::sVector speed[MAX_CLIENT_NUMBER];
-		time_t last_time = 0;
+		double update_game_delta_time = 0.0;
 		UpdateStruct() {
 			for (int i = 0; i < MAX_CLIENT_NUMBER; i++) {
 				position[i] = eae6320::Math::sVector(0.0f, 0.0f, 0.0f);

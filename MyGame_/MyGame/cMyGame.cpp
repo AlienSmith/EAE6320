@@ -26,7 +26,7 @@ void eae6320::cExampleGame::SubmitDataToBeRendered(const float i_elapsedSecondCo
 	Graphics::SubmitCameraPerspectiveData(Math::cMatrix_transformation::CreateCameraToProjectedTransform_perspective(0.785398f,	1.0f,	0.1f,	100.0f));
 	//Object
 	//Math::cMatrix_transformation trans = m_object.PredictFutureTransform(i_elapsedSecondCount_sinceLastSimulationUpdate);
-	Graphics::SubmitdrawCallConstant(m_object.PredictFutureTransform(Network::TCP::Client::TimeSinceLastTimeStamp(m_update_struct.last_time)));
+	Graphics::SubmitdrawCallConstant(m_object.PredictFutureTransform(0.0f));
 	if (m_showotherobject) {
 		Graphics::SubmitEffectWithObject(m_flash_Effect, Graphics::DefaultGeometry::s_manager.Get(m_sphere_handle));
 	}
@@ -37,7 +37,7 @@ void eae6320::cExampleGame::SubmitDataToBeRendered(const float i_elapsedSecondCo
 	Graphics::SubmitdrawCallConstant(m_Plane.PredictFutureTransform(i_elapsedSecondCount_sinceLastSimulationUpdate));
 	Graphics::SubmitEffectWithObject(m_flash_Effect, Graphics::DefaultGeometry::s_manager.Get(m_plane_handle));
 	//M other Object
-	Graphics::SubmitdrawCallConstant(m_other_object.PredictFutureTransform(Network::TCP::Client::TimeSinceLastTimeStamp(m_update_struct.last_time)));
+	Graphics::SubmitdrawCallConstant(m_other_object.PredictFutureTransform(0.0f));
 	Graphics::SubmitEffectWithObject(m_white_Effect, Graphics::DefaultGeometry::s_manager.Get(m_cube_handle));
 }
 

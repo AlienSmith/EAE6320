@@ -4,6 +4,7 @@
 #include <vector>
 #include "stack.h"
 #include "InputWrapper.h"
+
 namespace Network {
 	namespace TCP {
 		enum class Server_Phase {

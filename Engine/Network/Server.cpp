@@ -3,6 +3,10 @@
 bool Network::TCP::Server::Run(const std::string& port_number, network_error_code& o_error_code)
 {
 	char* recv_data = nullptr;
+	//Start the timer
+	{
+		eae6320::Time::Initialize();
+	}
 	//Distribute Id on the emergency thread
 	{
 		//Interestingly the start function have to be called within the main thread 
@@ -97,6 +101,10 @@ bool Network::TCP::Server::Run(const std::string& port_number, network_error_cod
 				m_buffer.Ptr_socket_front->clear();
 			}
 		}
+	}
+	//Destroied the timer
+	{
+		eae6320::Time::CleanUp();
 	}
 	//{
 	//	//Use the main thread to run Game Loop

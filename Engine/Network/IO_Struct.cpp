@@ -1,6 +1,7 @@
 #include "IO_Struct.h"
 #include <iostream>
 #include <thread>
+#include "Engine/Time/Time.h"
 //Network::InputStruct* Network::ServerLogic::GetInputStructure()
 //{
 //	return m_input_data;
@@ -18,29 +19,26 @@ void Network::ServerLogic::SetInputStructPtr(const InputStruct(*InputStruct)[MAX
 	//}
 	return;
 }
+//On main thread
 void Network::ServerLogic::Update()
 {
 	//std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-	time_t current_time = time(NULL);
-	float delta_time;
-	if (m_update_structure.last_time == 0) {
-		delta_time = 0.1f;
-	}
-	else {
-		delta_time = (float)difftime(current_time, m_update_structure.last_time);
-	}
+	uint64_t start = eae6320::Time::GetCurrentSystemTimeTickCount();
+	std::this_thread::sleep_for(std::chrono::milliseconds(20));
+	//Movement
 	for (int i = 0; i < MAX_CLIENT_NUMBER; i++) {
-		m_update_structure.speed[i] = eae6320::Math::sVector((float)(*m_ptr_inputs)[i].input_x_axies, (float)(*m_ptr_inputs)[i].input_y_axies, 0.0f);
-		m_update_structure.speed[i] *= 0.5f;
-		m_update_structure.position[i] += m_update_structure.speed[i] * 0.01f * (float)(i+1);
+		m_update_structure.speed[i] = eae6320::Math::sVector((float)(*m_ptr_inputs)[i].input_x_axies, (float)(*m_ptr_inputs)[i].input_y_axies, 0.0f) * 1000.0f;
+		m_update_structure.position[i] += m_update_structure.speed[i] * static_cast<float>(m_update_structure.update_game_delta_time) * static_cast<float>(i + 1);
 	}
+	uint64_t end = eae6320::Time::GetCurrentSystemTimeTickCount();
+	m_update_structure.update_game_delta_time = eae6320::Time::ConvertTicksToSeconds(end-start);
 	//m_update_structure.speed[0] = eae6320::Math::sVector((float)(*m_ptr_inputs)[0].input_x_axies, (float)(*m_ptr_inputs)[0].input_y_axies, 0.0f);
 	//m_update_structure.speed[0] *= 0.5f;
 	//m_update_structure.position[0] += m_update_structure.speed[0] * 0.1f;
 	//m_update_structure.speed[1] *= 0.5f;
 	//m_update_structure.position[1] += m_update_structure.speed[1] * -0.2f;
 	//m_update_structure.speed[1] = eae6320::Math::sVector((float)(*m_ptr_inputs)[1].input_x_axies, (float)(*m_ptr_inputs)[1].input_y_axies, 0.0f);
-	m_update_structure.last_time = current_time;
+
 	return ;
 }
 //Run the logic of the updates
