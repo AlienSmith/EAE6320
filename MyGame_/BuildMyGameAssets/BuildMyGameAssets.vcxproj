@@ -188,6 +188,9 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Tools\AudioBuilder\AudioBuilder.vcxproj">
+      <Project>{3f5aa243-c793-408e-b92d-662d2acaf3a0}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\Tools\EffectBuilder\EffectBuilder.vcxproj">
       <Project>{514096a5-7834-420d-a145-a44d2616b449}</Project>
     </ProjectReference>

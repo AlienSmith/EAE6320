@@ -25,8 +25,8 @@ void eae6320::cExampleGame::SubmitDataToBeRendered(const float i_elapsedSecondCo
 			m_camera.PredictFutureTransform(i_elapsedSecondCount_sinceLastSimulationUpdate)));
 	Graphics::SubmitCameraPerspectiveData(Math::cMatrix_transformation::CreateCameraToProjectedTransform_perspective(0.785398f,	1.0f,	0.1f,	100.0f));
 	//Object
-	//Math::cMatrix_transformation trans = m_object.PredictFutureTransform(i_elapsedSecondCount_sinceLastSimulationUpdate);
-	Graphics::SubmitdrawCallConstant(m_object.PredictFutureTransform(0.0f));
+	Math::cMatrix_transformation trans = m_object.PredictFutureTransform(Network::TCP::Client::TimeSinceLastTimeStamp(m_update_struct.time_stamp));
+	Graphics::SubmitdrawCallConstant(m_object.PredictFutureTransform(0.0));
 	if (m_showotherobject) {
 		Graphics::SubmitEffectWithObject(m_flash_Effect, Graphics::DefaultGeometry::s_manager.Get(m_sphere_handle));
 	}
@@ -37,7 +37,7 @@ void eae6320::cExampleGame::SubmitDataToBeRendered(const float i_elapsedSecondCo
 	Graphics::SubmitdrawCallConstant(m_Plane.PredictFutureTransform(i_elapsedSecondCount_sinceLastSimulationUpdate));
 	Graphics::SubmitEffectWithObject(m_flash_Effect, Graphics::DefaultGeometry::s_manager.Get(m_plane_handle));
 	//M other Object
-	Graphics::SubmitdrawCallConstant(m_other_object.PredictFutureTransform(0.0f));
+	Graphics::SubmitdrawCallConstant(m_other_object.PredictFutureTransform(Network::TCP::Client::TimeSinceLastTimeStamp(m_update_struct.time_stamp)));
 	Graphics::SubmitEffectWithObject(m_white_Effect, Graphics::DefaultGeometry::s_manager.Get(m_cube_handle));
 }
 
@@ -119,7 +119,10 @@ void eae6320::cExampleGame::UpdateBasedOnInput()
 //--------------------------
 
 eae6320::cResult eae6320::cExampleGame::Initialize()
-{
+{	//Audio
+	{
+		auto result = eae6320::Audio3D::AudioSource::Load("data/audio/littleblimp.wav", MySource);
+	}
 	//Networking
 	{
 		//std::string local_host = "155.97.7.99";
@@ -127,6 +130,7 @@ eae6320::cResult eae6320::cExampleGame::Initialize()
 		std::string port_num = "3333";
 		//m_client = Network::TCP::Client::Create_and_Run(local_host, port_num);
 		m_client = Network::TCP::Client::Create_and_Run();
+		MySource->PlayLooped();
 	}
 	//data/geometry/trangle.geometry
 	Graphics::DefaultGeometry::s_manager.Load("data/geometry/sphere.lua", m_sphere_handle);
@@ -218,5 +222,7 @@ eae6320::cResult eae6320::cExampleGame::CleanUp()
 	m_white_Effect->DecrementReferenceCount();
 	m_quard->DecrementReferenceCount();
 	m_triangle->DecrementReferenceCount();
+	MySource->CleanUp();
+	MySource = nullptr;
 	return Results::Success;
 }

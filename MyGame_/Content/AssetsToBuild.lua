@@ -26,4 +26,8 @@ shaders =
 		{ path = "Geometry/Cube.lua"},
 		{ path = "Geometry/Sphere.lua"},
 	},
+	audiosources = 
+    {
+        { path = "Audio/littleblimp.wav" },
+    }
 }

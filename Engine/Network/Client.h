@@ -54,7 +54,7 @@ namespace Network {
 			bool Recieve(UpdateStruct* data, network_error_code& o_error_code);
 			void SetLogicClas(ClientLogic* logic);
 			void Stop();
-			static float TimeSinceLastTimeStamp(time_t& last_time);
+			static float TimeSinceLastTimeStamp(uint64_t& last_time);
 			void EnterningUpdatePhase();
 		private:
 			InputStruct* InputStructure();

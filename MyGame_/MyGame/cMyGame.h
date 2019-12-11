@@ -12,7 +12,7 @@
 #include <Engine/Graphics/cEffect.h>
 #include <Engine/Graphics/cDefaultGeometry.h>
 #include <Engine/Graphics/Graphics.h>
-
+#include <Engine/3DAudio/3DAudio.h>
 #if defined( EAE6320_PLATFORM_WINDOWS )
 	#include "Resource Files/Resource.h"
 #endif
@@ -107,6 +107,7 @@ namespace eae6320
 		std::shared_ptr<Network::TCP::Client> m_client;
 		Network::InputStruct m_input_struct;
 		Network::UpdateStruct m_update_struct;
+		eae6320::Audio3D::AudioSource* MySource = nullptr;
 	};
 }
 

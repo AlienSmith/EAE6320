@@ -23,15 +23,18 @@ void Network::ServerLogic::SetInputStructPtr(const InputStruct(*InputStruct)[MAX
 void Network::ServerLogic::Update()
 {
 	//std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-	uint64_t start = eae6320::Time::GetCurrentSystemTimeTickCount();
-	std::this_thread::sleep_for(std::chrono::milliseconds(20));
+	//uint64_t start = eae6320::Time::GetCurrentSystemTimeTickCount();
+	//std::this_thread::sleep_for(std::chrono::milliseconds(20));
 	//Movement
+	double delta_time = 0.00001;
 	for (int i = 0; i < MAX_CLIENT_NUMBER; i++) {
 		m_update_structure.speed[i] = eae6320::Math::sVector((float)(*m_ptr_inputs)[i].input_x_axies, (float)(*m_ptr_inputs)[i].input_y_axies, 0.0f) * 1000.0f;
-		m_update_structure.position[i] += m_update_structure.speed[i] * static_cast<float>(m_update_structure.update_game_delta_time) * static_cast<float>(i + 1);
+		m_update_structure.position[i] += m_update_structure.speed[i] * static_cast<float>(delta_time) * static_cast<float>(i + 1);
 	}
-	uint64_t end = eae6320::Time::GetCurrentSystemTimeTickCount();
-	m_update_structure.update_game_delta_time = eae6320::Time::ConvertTicksToSeconds(end-start);
+	//uint64_t end = eae6320::Time::GetCurrentSystemTimeTickCount();
+	//m_update_structure.update_game_delta_time = eae6320::Time::ConvertTicksToSeconds(end-start);
+
+
 	//m_update_structure.speed[0] = eae6320::Math::sVector((float)(*m_ptr_inputs)[0].input_x_axies, (float)(*m_ptr_inputs)[0].input_y_axies, 0.0f);
 	//m_update_structure.speed[0] *= 0.5f;
 	//m_update_structure.position[0] += m_update_structure.speed[0] * 0.1f;

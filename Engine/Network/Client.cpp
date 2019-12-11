@@ -75,6 +75,7 @@ bool Network::TCP::Client::run(const std::string& host, const std::string& port_
 			if (Connect(host, GAMELOOP_PORT, o_error_code)) {
 				if (Send(InputStructure(), o_error_code)) {
 					if (Recieve(UpdateStructure(), o_error_code)) {
+						m_data.m_update_Back->time_stamp = eae6320::Time::GetCurrentSystemTimeTickCount();
 						SwapUpdateStructure();
 						Reset();
 					}
@@ -96,10 +97,12 @@ void Network::TCP::Client::Stop()
 	flag_running = false;
 }
 
-float Network::TCP::Client::TimeSinceLastTimeStamp(time_t& last_time)
+float Network::TCP::Client::TimeSinceLastTimeStamp(uint64_t& last_time)
 {
-	time_t current_time = time(NULL);
-	return (float)difftime(current_time, last_time);
+	if (last_time == 0) {
+		return 0.0f;
+	}
+	return (float)eae6320::Time::ConvertTicksToSeconds(eae6320::Time::GetCurrentSystemTimeTickCount() - last_time);
 }
 
 void Network::TCP::Client::EnterningUpdatePhase()
@@ -112,6 +115,9 @@ void Network::TCP::Client::EnterningUpdatePhase()
 void Network::TCP::Client::SubmitInputStruct(const Network::InputStruct& inputs) {
 	std::scoped_lock lock(m_data.inputs_mutex);
 	*m_data.m_input_Back = inputs;
+	//Dummy player
+	m_data.m_input_Back->input_x_axies = 1;
+	m_data.m_input_Back->input_x_axies = 0;
 	m_data.Input_Changed = true;
 }
 Network::UpdateStruct Network::TCP::Client::GetUpdateStruct()

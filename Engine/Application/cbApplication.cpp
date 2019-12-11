@@ -11,7 +11,7 @@
 #include <Engine/ScopeGuard/cScopeGuard.h>
 #include <Engine/Time/Time.h>
 #include <Engine/UserOutput/UserOutput.h>
-
+#include <Engine/3DAudio/3DAudio.h>
 // Interface
 //==========
 
@@ -326,7 +326,16 @@ eae6320::cResult eae6320::Application::cbApplication::Initialize_all( const sEnt
 eae6320::cResult eae6320::Application::cbApplication::Initialize_engine()
 {
 	auto result = Results::Success;
-
+	// Audio!
+	{
+		Audio3D::sInitializationParameters initParams;
+		// you don't need to populate them. It's just a placeholder for future updates.
+		if (!(result = Audio3D::Initialize(initParams)))
+		{
+			EAE6320_ASSERTF(false, "Application can't be initialized without Audio");
+			return result;
+		}
+	}
 	// User Output
 	{
 		UserOutput::sInitializationParameters initializationParameters;

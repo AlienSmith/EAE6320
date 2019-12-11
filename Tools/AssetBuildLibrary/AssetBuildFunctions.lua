@@ -271,6 +271,18 @@ NewAssetTypeInfo( "shaders",
 		end
 	}
 )
+NewAssetTypeInfo( "audiosources",
+    {
+        ConvertSourceRelativePathToBuiltRelativePath = function( i_sourceRelativePath )
+            local relativeDirectory, file = i_sourceRelativePath:match( "(.-)([^/\\]+)$" )
+            local fileName, extensionWithPeriod = file:match( "([^%.]+)(.*)" )
+            return relativeDirectory .. fileName .. extensionWithPeriod
+        end,
+        GetBuilderRelativePath = function()
+            return "AudioBuilder.exe"
+        end
+    }
+)
 -- Geometry Asset Type
 --------------------
 NewAssetTypeInfo( "geometry",

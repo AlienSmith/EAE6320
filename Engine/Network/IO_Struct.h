@@ -1,6 +1,7 @@
 #pragma once
 #include "Engine/Math/sVector.h"
 #include <time.h>
+#include <stdint.h>
 #define MAX_CLIENT_NUMBER 2
 namespace Network {
 	struct InputStruct {
@@ -10,7 +11,7 @@ namespace Network {
 	struct UpdateStruct {
 		eae6320::Math::sVector position[MAX_CLIENT_NUMBER];
 		eae6320::Math::sVector speed[MAX_CLIENT_NUMBER];
-		double update_game_delta_time = 0.0;
+		uint64_t time_stamp = 0;
 		UpdateStruct() {
 			for (int i = 0; i < MAX_CLIENT_NUMBER; i++) {
 				position[i] = eae6320::Math::sVector(0.0f, 0.0f, 0.0f);
