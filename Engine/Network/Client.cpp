@@ -126,11 +126,11 @@ void Network::TCP::Client::Stop()
 	flag_running = false;
 }
 
-float Network::TCP::Client::TimeSinceLastTimeStamp(uint64_t& last_time)
+float Network::TCP::Client::TimeSinceLastTimeStamp(float& last_time)
 {
 	float result = 0.0f;
 	if (last_time != 0) {
-		result = (float)eae6320::Time::ConvertTicksToSeconds(eae6320::Time::GetCurrentSystemTimeTickCount() - last_time) + server_differece;
+		result = (float)eae6320::Time::ConvertTicksToSeconds(eae6320::Time::GetCurrentSystemTimeTickCount()) - last_time + server_differece;
 	}
 	return result;
 }

@@ -38,7 +38,7 @@ void Network::ServerLogic::Update()
 			m_update_structure.acceleration[i] = eae6320::Math::sVector((float)(*m_ptr_inputs)[i].input_x_axies, (float)(*m_ptr_inputs)[i].input_y_axies, 0.0f)+ resistance;
 			m_update_structure.speed[i] += m_update_structure.acceleration[i] * delta_time;
 			//m_update_structure.position[i] += m_update_structure.speed[i] * static_cast<float>((*m_ptr_inputs)[i].delta_time);
-			m_update_structure.time_stamp = new_time_stamp;
+			m_update_structure.time_stamp = (float)eae6320::Time::ConvertTicksToSeconds(new_time_stamp);
 		}
 		CollisionNResponse::Do(m_update_structure);
 		CollisionNResponse::OutofRangeReset(m_update_structure);

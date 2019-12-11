@@ -26,7 +26,7 @@ void eae6320::cExampleGame::SubmitDataToBeRendered(const float i_elapsedSecondCo
 	Graphics::SubmitCameraPerspectiveData(Math::cMatrix_transformation::CreateCameraToProjectedTransform_perspective(0.785398f,	1.0f,	0.1f,	100.0f));
 	//Object
 	float time = m_client->TimeSinceLastTimeStamp(m_update_struct.time_stamp);
-	Math::cMatrix_transformation trans = m_object.PredictFutureTransform(0.0f);
+	Math::cMatrix_transformation trans = m_object.PredictFutureTransform(time);
 	Graphics::SubmitdrawCallConstant(trans);
 	if (m_showotherobject) {
 		Graphics::SubmitEffectWithObject(m_flash_Effect, Graphics::DefaultGeometry::s_manager.Get(m_cube_handle));

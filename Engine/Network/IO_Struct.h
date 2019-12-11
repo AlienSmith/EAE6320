@@ -13,7 +13,7 @@ namespace Network {
 		eae6320::Math::sVector position[MAX_CLIENT_NUMBER];
 		eae6320::Math::sVector speed[MAX_CLIENT_NUMBER];
 		eae6320::Math::sVector acceleration[MAX_CLIENT_NUMBER];
-		uint64_t time_stamp = 0;
+		float time_stamp = 0.0f;
 		UpdateStruct() {
 			for (int i = 0; i < MAX_CLIENT_NUMBER; i++) {
 				position[i] = eae6320::Math::sVector((float)i, 0.0f, -10.0f);

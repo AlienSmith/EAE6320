@@ -55,7 +55,7 @@ namespace Network {
 			bool Recieve(UpdateStruct* data, network_error_code& o_error_code);
 			void SetLogicClas(ClientLogic* logic);
 			void Stop();
-			float TimeSinceLastTimeStamp(uint64_t& last_time);
+			float TimeSinceLastTimeStamp(float& last_time);
 			void EnterningUpdatePhase();
 		private:
 			bool synchronize_with_Server(const std::string& host, const std::string& port_number, network_error_code& o_error_code, uint64_t& latency);
