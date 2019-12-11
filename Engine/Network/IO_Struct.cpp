@@ -30,12 +30,16 @@ void Network::ServerLogic::Update()
 	uint64_t new_time_stamp = eae6320::Time::GetCurrentSystemTimeTickCount();
 	if (time_stamp != 0) {
 		float delta_time = (float)eae6320::Time::ConvertTicksToSeconds(new_time_stamp - time_stamp);
+		eae6320::Math::sVector resistance;
 		for (int i = 0; i < MAX_CLIENT_NUMBER; i++) {
-			m_update_structure.speed[i] = eae6320::Math::sVector((float)(*m_ptr_inputs)[i].input_x_axies, (float)(*m_ptr_inputs)[i].input_y_axies, 0.0f);
+			resistance = -1.0f * m_update_structure.speed[i] * 0.1f * eae6320::Math::Dot(m_update_structure.speed[i], m_update_structure.speed[i]);
+			m_update_structure.position[i] += m_update_structure.speed[i]*delta_time + 0.5* m_update_structure.acceleration[i]*delta_time*delta_time;
+			m_update_structure.acceleration[i] = eae6320::Math::sVector((float)(*m_ptr_inputs)[i].input_x_axies, (float)(*m_ptr_inputs)[i].input_y_axies, 0.0f)+ resistance;
+			m_update_structure.speed[i] += m_update_structure.acceleration[i] * delta_time;
 			//m_update_structure.position[i] += m_update_structure.speed[i] * static_cast<float>((*m_ptr_inputs)[i].delta_time);
-			m_update_structure.position[i] += m_update_structure.speed[i] * delta_time;
 			m_update_structure.time_stamp = new_time_stamp;
 		}
+
 		int a = 0;
 	}
 	time_stamp = new_time_stamp;

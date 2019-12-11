@@ -83,10 +83,10 @@ void eae6320::cExampleGame::UpdateBasedOnInput()
 		m_input_struct.input_x_axies = 10;
 	}
 	//Dummy player
-	{
+	/*{
 		m_input_struct.input_x_axies = 1;
 		m_input_struct.input_y_axies = 0; 
-	}
+	}*/
 	m_client->SubmitInputStruct(m_input_struct);
 	//Get the updated result from the Server
 	{
