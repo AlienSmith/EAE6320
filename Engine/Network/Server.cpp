@@ -76,10 +76,26 @@ bool Network::TCP::Server::Run(const std::string& port_number, network_error_cod
 	}
 	//Run the game loop on the main thread
 	{
+		float seconds_per_frame = 1.0f / SERVER_REFRESH_RATE_PER_SECOND;
 		while (true) {
+			{
+				uint64_t new_time_stamp = eae6320::Time::GetCurrentSystemTimeTickCount();
+				if (time_stamp == 0) {
+					time_stamp = new_time_stamp;
+					continue;
+				}
+				else {
+					float delta_time = (float)eae6320::Time::ConvertTicksToSeconds(new_time_stamp - time_stamp);
+					time_stamp = new_time_stamp;
+					if (delta_time < seconds_per_frame) {
+						int time =(int)((seconds_per_frame - delta_time) * 1000);
+						std::this_thread::sleep_for(std::chrono::milliseconds(time));
+					}
+
+				}
+			}
 			if (SwapInputBuffers()) {
 				UpdateServerLogic();
-				Sleep(20);
 				//Send the updated result to all the Connected sockets
 				for (auto it = begin(*m_buffer.Ptr_socket_front); it != end(*m_buffer.Ptr_socket_front); it++) {
 					std::shared_ptr<SOCK> temp_socket = *it;

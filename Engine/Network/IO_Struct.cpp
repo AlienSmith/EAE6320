@@ -26,7 +26,7 @@ void Network::ServerLogic::Update()
 	//uint64_t start = eae6320::Time::GetCurrentSystemTimeTickCount();
 	//std::this_thread::sleep_for(std::chrono::milliseconds(20));
 	//Movement
-	std::this_thread::sleep_for(std::chrono::milliseconds(50));
+	//std::this_thread::sleep_for(std::chrono::milliseconds(50));
 	uint64_t new_time_stamp = eae6320::Time::GetCurrentSystemTimeTickCount();
 	if (time_stamp != 0) {
 		float delta_time = (float)eae6320::Time::ConvertTicksToSeconds(new_time_stamp - time_stamp);

@@ -14,6 +14,7 @@
 //#pragma comment(lib,"Ws2_32.lib")
 #define SOCK SOCKET
 #define SOCK_INITIALIZE INVALID_SOCKET
+#define SERVER_REFRESH_RATE_PER_SECOND 60.0f
 #endif
 #endif // !SOCK
 namespace Network {

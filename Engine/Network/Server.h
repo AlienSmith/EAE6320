@@ -62,6 +62,7 @@ namespace Network {
 			Server_Phase m_Phase;
 			std::mutex num_client_mutex;
 			ServerLogic* m_serverlogic;
+			uint64_t time_stamp = 0;
 		};
 	}
 }
