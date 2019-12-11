@@ -25,7 +25,7 @@ void eae6320::cExampleGame::SubmitDataToBeRendered(const float i_elapsedSecondCo
 			m_camera.PredictFutureTransform(i_elapsedSecondCount_sinceLastSimulationUpdate)));
 	Graphics::SubmitCameraPerspectiveData(Math::cMatrix_transformation::CreateCameraToProjectedTransform_perspective(0.785398f,	1.0f,	0.1f,	100.0f));
 	//Object
-	float time = m_client->TimeSinceLastTimeStamp(m_update_struct.time_stamp);
+	/*float time = m_client->TimeSinceLastTimeStamp(m_update_struct.time_stamp);
 	Math::cMatrix_transformation trans = m_object.PredictFutureTransform(time);
 	Graphics::SubmitdrawCallConstant(trans);
 	if (m_showotherobject) {
@@ -33,19 +33,21 @@ void eae6320::cExampleGame::SubmitDataToBeRendered(const float i_elapsedSecondCo
 	}
 	else {
 		Graphics::SubmitEffectWithObject(m_flash_Effect, Graphics::DefaultGeometry::s_manager.Get(m_sphere_handle));
-	}
+	}*/
 	//Plane
 	//Graphics::SubmitdrawCallConstant(m_Plane.PredictFutureTransform(i_elapsedSecondCount_sinceLastSimulationUpdate));
 	//Graphics::SubmitEffectWithObject(m_flash_Effect, Graphics::DefaultGeometry::s_manager.Get(m_plane_handle));
 	//M other Object
-	Graphics::SubmitdrawCallConstant(m_other_object.PredictFutureTransform(m_client->TimeSinceLastTimeStamp(m_update_struct.time_stamp)));
-	Graphics::SubmitEffectWithObject(m_white_Effect, Graphics::DefaultGeometry::s_manager.Get(m_sphere_handle));
+	for (int i = 0; i < MAX_CLIENT_NUMBER; i++) {
+		Graphics::SubmitdrawCallConstant(m_object[i].PredictFutureTransform(m_client->TimeSinceLastTimeStamp(m_update_struct.time_stamp)));
+		Graphics::SubmitEffectWithObject(m_white_Effect, Graphics::DefaultGeometry::s_manager.Get(m_sphere_handle));
+	}
 }
 
 void eae6320::cExampleGame::UpdateSimulationBasedOnTime(const float i_elapsedSecondCount_sinceLastUpdate)
 {
 	m_camera.position += m_camera.velocity * i_elapsedSecondCount_sinceLastUpdate;
-	m_object.position += m_object.velocity * i_elapsedSecondCount_sinceLastUpdate;
+	//m_object.position += m_object.velocity * i_elapsedSecondCount_sinceLastUpdate;
 }
 
 void eae6320::cExampleGame::UpdateBasedOnInput()
@@ -84,20 +86,24 @@ void eae6320::cExampleGame::UpdateBasedOnInput()
 		m_input_struct.input_x_axies = 10;
 	}
 	//Dummy player
-	/*{
+	{
 		m_input_struct.input_x_axies = 1;
 		m_input_struct.input_y_axies = 0; 
-	}*/
+	}
 	m_client->SubmitInputStruct(m_input_struct);
 	//Get the updated result from the Server
 	{
 		m_client->EnterningUpdatePhase();
 		m_update_struct = m_client->GetUpdateStruct();
-		m_object.position = m_update_struct.position[0];
-		//printf("%f,%f\n", m_object.position.x, m_object.position.y);
-		m_other_object.position = m_update_struct.position[1];
-		m_object.velocity = m_update_struct.speed[0];
-		m_other_object.velocity = m_update_struct.speed[1];
+		for (int i = 0; i < MAX_CLIENT_NUMBER; i++) {
+			m_object[i].position = m_update_struct.position[i];
+			m_object[i].velocity = m_update_struct.speed[i];
+		}
+		//m_object.position = m_update_struct.position[0];
+		////printf("%f,%f\n", m_object.position.x, m_object.position.y);
+		//m_other_object.position = m_update_struct.position[1];
+		//m_object.velocity = m_update_struct.speed[0];
+		//m_other_object.velocity = m_update_struct.speed[1];
 	}
 
 	//m_object.velocity = temp_Object_vol;
@@ -209,8 +215,8 @@ eae6320::cResult eae6320::cExampleGame::Initialize()
 	int a = sizeof(cEffect);
 	int b = sizeof(DefaultGeometry);
 	m_camera.position = Math::sVector(0.0f,0.0f,10.0f);
-	m_object.position = Math::sVector(1.0f, 0.0f, 5.0f);
-	m_other_object.position = Math::sVector(-1.0f, 0.0f, 5.0f);
+	//m_object.position = Math::sVector(1.0f, 0.0f, 5.0f);
+	//m_other_object.position = Math::sVector(-1.0f, 0.0f, 5.0f);
 	m_Plane.position = Math::sVector(0.0f, -3.0f, 0.0f);
 	return Results::Success;
 }

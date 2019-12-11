@@ -2,7 +2,7 @@
 #include "Engine/Math/sVector.h"
 #include <time.h>
 #include <stdint.h>
-#define MAX_CLIENT_NUMBER 2
+#define MAX_CLIENT_NUMBER 3
 namespace Network {
 	struct InputStruct {
 		int input_x_axies = 0;

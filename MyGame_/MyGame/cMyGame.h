@@ -93,8 +93,7 @@ namespace eae6320
 		Graphics::DefaultGeometry* m_quard = nullptr;
 		Graphics::DefaultGeometry* m_triangle = nullptr;
 		eae6320::Physics::sRigidBodyState m_camera;
-		eae6320::Physics::sRigidBodyState m_object;
-		eae6320::Physics::sRigidBodyState m_other_object;
+		eae6320::Physics::sRigidBodyState m_object[MAX_CLIENT_NUMBER];
 		eae6320::Physics::sRigidBodyState m_Plane;
 		Assets::cHandle<Graphics::DefaultGeometry> m_triangle_handle;
 		Assets::cHandle<Graphics::DefaultGeometry> m_cube_handle;
