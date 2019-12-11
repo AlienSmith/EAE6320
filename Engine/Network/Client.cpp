@@ -115,9 +115,6 @@ void Network::TCP::Client::EnterningUpdatePhase()
 void Network::TCP::Client::SubmitInputStruct(const Network::InputStruct& inputs) {
 	std::scoped_lock lock(m_data.inputs_mutex);
 	*m_data.m_input_Back = inputs;
-	//Dummy player
-	m_data.m_input_Back->input_x_axies = 1;
-	m_data.m_input_Back->input_x_axies = 0;
 	m_data.Input_Changed = true;
 }
 Network::UpdateStruct Network::TCP::Client::GetUpdateStruct()

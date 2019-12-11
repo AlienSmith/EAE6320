@@ -26,7 +26,7 @@ void eae6320::cExampleGame::SubmitDataToBeRendered(const float i_elapsedSecondCo
 	Graphics::SubmitCameraPerspectiveData(Math::cMatrix_transformation::CreateCameraToProjectedTransform_perspective(0.785398f,	1.0f,	0.1f,	100.0f));
 	//Object
 	Math::cMatrix_transformation trans = m_object.PredictFutureTransform(Network::TCP::Client::TimeSinceLastTimeStamp(m_update_struct.time_stamp));
-	Graphics::SubmitdrawCallConstant(m_object.PredictFutureTransform(0.0));
+	Graphics::SubmitdrawCallConstant(trans);
 	if (m_showotherobject) {
 		Graphics::SubmitEffectWithObject(m_flash_Effect, Graphics::DefaultGeometry::s_manager.Get(m_sphere_handle));
 	}
@@ -81,6 +81,11 @@ void eae6320::cExampleGame::UpdateBasedOnInput()
 	}
 	else if (UserInput::IsKeyPressed(UserInput::KeyCodes::PageDown)) {
 		m_input_struct.input_x_axies = 10;
+	}
+	//Dummy player
+	{
+		m_input_struct.input_x_axies = 1;
+		m_input_struct.input_y_axies = 0; 
 	}
 	m_client->SubmitInputStruct(m_input_struct);
 	//Get the updated result from the Server
