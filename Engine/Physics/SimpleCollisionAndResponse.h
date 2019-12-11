@@ -20,6 +20,7 @@ namespace CollisionNResponse {
 					updatestructure.position[j] -= collision_axies * difference;
 					float speed_on_aixes = eae6320::Math::Dot((updatestructure.speed[i] - updatestructure.speed[j]),collision_axies);
 					speed_on_aixes /= 2.0f;
+					speed_on_aixes *= 2.5f;
 					updatestructure.speed[i] -= speed_on_aixes * collision_axies;
 					updatestructure.speed[j] += speed_on_aixes * collision_axies;
 				}

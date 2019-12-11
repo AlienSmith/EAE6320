@@ -34,8 +34,8 @@ void eae6320::cExampleGame::SubmitDataToBeRendered(const float i_elapsedSecondCo
 		Graphics::SubmitEffectWithObject(m_flash_Effect, Graphics::DefaultGeometry::s_manager.Get(m_sphere_handle));
 	}
 	//Plane
-	Graphics::SubmitdrawCallConstant(m_Plane.PredictFutureTransform(i_elapsedSecondCount_sinceLastSimulationUpdate));
-	Graphics::SubmitEffectWithObject(m_flash_Effect, Graphics::DefaultGeometry::s_manager.Get(m_plane_handle));
+	//Graphics::SubmitdrawCallConstant(m_Plane.PredictFutureTransform(i_elapsedSecondCount_sinceLastSimulationUpdate));
+	//Graphics::SubmitEffectWithObject(m_flash_Effect, Graphics::DefaultGeometry::s_manager.Get(m_plane_handle));
 	//M other Object
 	Graphics::SubmitdrawCallConstant(m_other_object.PredictFutureTransform(m_client->TimeSinceLastTimeStamp(m_update_struct.time_stamp)));
 	Graphics::SubmitEffectWithObject(m_white_Effect, Graphics::DefaultGeometry::s_manager.Get(m_sphere_handle));
@@ -51,18 +51,18 @@ void eae6320::cExampleGame::UpdateBasedOnInput()
 {
 	//Make camera trasform
 	Math::sVector temp_vol = Math::sVector(0.0f, 0.0f, 0.0f);
-	if (UserInput::IsKeyPressed(UserInput::KeyCodes::Up)) {
-		temp_vol.z = -10.0f;
-	}
-	else if (UserInput::IsKeyPressed(UserInput::KeyCodes::Down)) {
-		temp_vol.z = 10.0f;
-	}
-	if (UserInput::IsKeyPressed(UserInput::KeyCodes::Left)) {
-		temp_vol.x = -10.0f;
-	}
-	else if (UserInput::IsKeyPressed(UserInput::KeyCodes::Right)) {
-		temp_vol.x = 10.0f;
-	}
+	//if (UserInput::IsKeyPressed(UserInput::KeyCodes::Up)) {
+	//	temp_vol.z = -10.0f;
+	//}
+	//else if (UserInput::IsKeyPressed(UserInput::KeyCodes::Down)) {
+	//	temp_vol.z = 10.0f;
+	//}
+	//if (UserInput::IsKeyPressed(UserInput::KeyCodes::Left)) {
+	//	temp_vol.x = -10.0f;
+	//}
+	//else if (UserInput::IsKeyPressed(UserInput::KeyCodes::Right)) {
+	//	temp_vol.x = 10.0f;
+	//}
 	m_camera.velocity = temp_vol;
 	//Update the inputs to server
 	Math::sVector temp_Object_vol = Math::sVector(0.0f, 0.0f, 0.0f);
@@ -70,16 +70,16 @@ void eae6320::cExampleGame::UpdateBasedOnInput()
 	m_input_struct.input_y_axies = 0;
 	m_input_struct.input_x_axies = 0;
 	m_input_struct.input_x_axies = 0;
-	if (UserInput::IsKeyPressed(UserInput::KeyCodes::Home)) {
+	if (UserInput::IsKeyPressed(UserInput::KeyCodes::Up)) {
 		m_input_struct.input_y_axies = 10;
 	}
-	else if (UserInput::IsKeyPressed(UserInput::KeyCodes::End)) {
+	else if (UserInput::IsKeyPressed(UserInput::KeyCodes::Down)) {
 		m_input_struct.input_y_axies = -10;
 	}
-	if (UserInput::IsKeyPressed(UserInput::KeyCodes::Delete)) {
+	if (UserInput::IsKeyPressed(UserInput::KeyCodes::Left)) {
 		m_input_struct.input_x_axies = -10;
 	}
-	else if (UserInput::IsKeyPressed(UserInput::KeyCodes::PageDown)) {
+	else if (UserInput::IsKeyPressed(UserInput::KeyCodes::Right)) {
 		m_input_struct.input_x_axies = 10;
 	}
 	//Dummy player
