@@ -79,6 +79,7 @@ namespace Network {
 			bool flag_running;
 			ClientLogic* m_client_logic;
 			Client_Phase m_phase;
+			float delta_time = 0.0f;
 		};
 	}
 }

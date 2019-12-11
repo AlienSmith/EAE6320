@@ -28,8 +28,8 @@ void Network::ServerLogic::Update()
 	//Movement
 	double delta_time = 0.00001;
 	for (int i = 0; i < MAX_CLIENT_NUMBER; i++) {
-		m_update_structure.speed[i] = eae6320::Math::sVector((float)(*m_ptr_inputs)[i].input_x_axies, (float)(*m_ptr_inputs)[i].input_y_axies, 0.0f) * 1000.0f;
-		m_update_structure.position[i] += m_update_structure.speed[i] * static_cast<float>(delta_time) * static_cast<float>(i + 1);
+		m_update_structure.speed[i] = eae6320::Math::sVector((float)(*m_ptr_inputs)[i].input_x_axies, (float)(*m_ptr_inputs)[i].input_y_axies, 0.0f);
+		m_update_structure.position[i] += m_update_structure.speed[i] * static_cast<float>((*m_ptr_inputs)[i].delta_time);
 	}
 	int a = 0;
 	//uint64_t end = eae6320::Time::GetCurrentSystemTimeTickCount();

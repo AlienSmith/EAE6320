@@ -7,6 +7,7 @@ namespace Network {
 	struct InputStruct {
 		int input_x_axies = 0;
 		int input_y_axies = 0;
+		float delta_time = 0;
 	};
 	struct UpdateStruct {
 		eae6320::Math::sVector position[MAX_CLIENT_NUMBER];

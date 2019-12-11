@@ -78,6 +78,7 @@ bool Network::TCP::Server::Run(const std::string& port_number, network_error_cod
 		while (true) {
 			if (SwapInputBuffers()) {
 				UpdateServerLogic();
+				Sleep(20);
 				//Send the updated result to all the Connected sockets
 				for (auto it = begin(*m_buffer.Ptr_socket_front); it != end(*m_buffer.Ptr_socket_front); it++) {
 					std::shared_ptr<SOCK> temp_socket = *it;
@@ -207,6 +208,14 @@ bool Network::TCP::Server::IntepretRequest(network_error_code& o_error_code, con
 			m_num_client++;
 			char* send = reinterpret_cast<char*>(&m_num_client);
 			int buf_length = sizeof(m_num_client);
+			if (Send(send, o_error_code, buf_length, socket)) {
+				return true;
+			}
+		}
+		else {
+			uint64_t time_stamp = eae6320::Time::GetCurrentSystemTimeTickCount();
+			char* send = reinterpret_cast<char*>(&time_stamp);
+			int buf_length = sizeof(time_stamp);
 			if (Send(send, o_error_code, buf_length, socket)) {
 				return true;
 			}

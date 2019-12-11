@@ -73,9 +73,12 @@ bool Network::TCP::Client::run(const std::string& host, const std::string& port_
 	while (flag_running) {
 		while (flag_running && m_phase == Client_Phase::UPDATE_LOOP) {
 			if (Connect(host, GAMELOOP_PORT, o_error_code)) {
+				uint64_t start = eae6320::Time::GetCurrentSystemTimeTickCount();
 				if (Send(InputStructure(), o_error_code)) {
 					if (Recieve(UpdateStructure(), o_error_code)) {
 						m_data.m_update_Back->time_stamp = eae6320::Time::GetCurrentSystemTimeTickCount();
+						delta_time = (float)eae6320::Time::ConvertTicksToSeconds(m_data.m_update_Back->time_stamp - start);
+						printf("%f\n", delta_time);
 						SwapUpdateStructure();
 						Reset();
 					}
@@ -115,6 +118,7 @@ void Network::TCP::Client::EnterningUpdatePhase()
 void Network::TCP::Client::SubmitInputStruct(const Network::InputStruct& inputs) {
 	std::scoped_lock lock(m_data.inputs_mutex);
 	*m_data.m_input_Back = inputs;
+	m_data.m_input_Back->delta_time = delta_time;
 	m_data.Input_Changed = true;
 }
 Network::UpdateStruct Network::TCP::Client::GetUpdateStruct()
