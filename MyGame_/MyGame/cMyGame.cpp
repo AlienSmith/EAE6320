@@ -28,17 +28,17 @@ void eae6320::cExampleGame::SubmitDataToBeRendered(const float i_elapsedSecondCo
 	Math::cMatrix_transformation trans = m_object.PredictFutureTransform(m_client->TimeSinceLastTimeStamp(m_update_struct.time_stamp));
 	Graphics::SubmitdrawCallConstant(trans);
 	if (m_showotherobject) {
-		Graphics::SubmitEffectWithObject(m_flash_Effect, Graphics::DefaultGeometry::s_manager.Get(m_sphere_handle));
+		Graphics::SubmitEffectWithObject(m_flash_Effect, Graphics::DefaultGeometry::s_manager.Get(m_cube_handle));
 	}
 	else {
-		Graphics::SubmitEffectWithObject(m_flash_Effect, Graphics::DefaultGeometry::s_manager.Get(m_cube_handle));
+		Graphics::SubmitEffectWithObject(m_flash_Effect, Graphics::DefaultGeometry::s_manager.Get(m_sphere_handle));
 	}
 	//Plane
 	Graphics::SubmitdrawCallConstant(m_Plane.PredictFutureTransform(i_elapsedSecondCount_sinceLastSimulationUpdate));
 	Graphics::SubmitEffectWithObject(m_flash_Effect, Graphics::DefaultGeometry::s_manager.Get(m_plane_handle));
 	//M other Object
-	//Graphics::SubmitdrawCallConstant(m_other_object.PredictFutureTransform(m_client->TimeSinceLastTimeStamp(m_update_struct.time_stamp)));
-	//Graphics::SubmitEffectWithObject(m_white_Effect, Graphics::DefaultGeometry::s_manager.Get(m_cube_handle));
+	Graphics::SubmitdrawCallConstant(m_other_object.PredictFutureTransform(m_client->TimeSinceLastTimeStamp(m_update_struct.time_stamp)));
+	Graphics::SubmitEffectWithObject(m_white_Effect, Graphics::DefaultGeometry::s_manager.Get(m_sphere_handle));
 }
 
 void eae6320::cExampleGame::UpdateSimulationBasedOnTime(const float i_elapsedSecondCount_sinceLastUpdate)

@@ -2,6 +2,7 @@
 #include <iostream>
 #include <thread>
 #include "Engine/Time/Time.h"
+#include <Engine/Physics/SimpleCollisionAndResponse.h>
 //Network::InputStruct* Network::ServerLogic::GetInputStructure()
 //{
 //	return m_input_data;
@@ -39,7 +40,8 @@ void Network::ServerLogic::Update()
 			//m_update_structure.position[i] += m_update_structure.speed[i] * static_cast<float>((*m_ptr_inputs)[i].delta_time);
 			m_update_structure.time_stamp = new_time_stamp;
 		}
-
+		CollisionNResponse::Do(m_update_structure);
+		CollisionNResponse::OutofRangeReset(m_update_structure);
 		int a = 0;
 	}
 	time_stamp = new_time_stamp;

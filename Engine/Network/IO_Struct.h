@@ -16,7 +16,7 @@ namespace Network {
 		uint64_t time_stamp = 0;
 		UpdateStruct() {
 			for (int i = 0; i < MAX_CLIENT_NUMBER; i++) {
-				position[i] = eae6320::Math::sVector(0.0f, 0.0f, 0.0f);
+				position[i] = eae6320::Math::sVector((float)i, 0.0f, -10.0f);
 				speed[i] = eae6320::Math::sVector(0.0f, 0.0f, 0.0f);
 				acceleration[i] = eae6320::Math::sVector(0.0f, 0.0f, 0.0f);
 			}
