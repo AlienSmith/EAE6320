@@ -8,6 +8,11 @@ bool Network::TCP::Server::Run(const std::string& port_number, network_error_cod
 	{
 		eae6320::Time::Initialize();
 	}
+	//print ip address
+	{
+		IpAddress();
+	}
+
 	//Distribute Id on the emergency thread
 	{
 		//Interestingly the start function have to be called within the main thread 
@@ -231,10 +236,11 @@ bool Network::TCP::Server::IntepretRequest(network_error_code& o_error_code, con
 		}
 		else {
 			uint64_t time_stamp = eae6320::Time::GetCurrentSystemTimeTickCount();
-			char* send = reinterpret_cast<char*>(&time_stamp);
-			int buf_length = sizeof(time_stamp);
+			float time = (float)eae6320::Time::ConvertTicksToSeconds(time_stamp);
+			char* send = reinterpret_cast<char*>(&time);
+			int buf_length = sizeof(time);
 			if (Send(send, o_error_code, buf_length, socket)) {
-				printf("Send time stamp % " PRIu64 "\n", time_stamp);
+				printf("Send time stamp % f \n", time);
 				return true;
 			}
 		}

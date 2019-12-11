@@ -1,4 +1,5 @@
 #include "../Server.h"
+#include<iostream>
 const std::string Network::TCP::Server::REQUEST_ID = std::string("REQUEST_ID");
 Network::TCP::Server::Server():m_result(NULL), m_ptr(NULL), m_hints(), m_Listen_Socket(INVALID_SOCKET),m_Emergency_Socket(INVALID_SOCKET),m_buffer(),m_thread_pool(),m_socket_pool(),m_num_client(0),max_clients_num(MAX_CLIENT_NUMBER), m_Phase(Server_Phase::INVALID),m_serverlogic(nullptr)
 {
@@ -171,6 +172,55 @@ void Network::TCP::Server::Reset()
 void Network::TCP::Server::Close_Socket(SOCK s)
 {
 	closesocket(s);
+}
+
+int Network::TCP::Server::IpAddress()
+{
+#pragma warning( disable : 4996)
+	using namespace std;
+	SOCKET sd = WSASocket(AF_INET, SOCK_DGRAM, 0, 0, 0, 0);
+	if (sd == SOCKET_ERROR) {
+		cerr << "Failed to get a socket. Error " << WSAGetLastError() <<
+			endl; return 1;
+	}
+
+	INTERFACE_INFO InterfaceList[20];
+	unsigned long nBytesReturned;
+	if (WSAIoctl(sd, SIO_GET_INTERFACE_LIST, 0, 0, &InterfaceList,
+		sizeof(InterfaceList), &nBytesReturned, 0, 0) == SOCKET_ERROR) {
+		cerr << "Failed calling WSAIoctl: error " << WSAGetLastError() <<
+			endl;
+		return 1;
+	}
+
+	int nNumInterfaces = nBytesReturned / sizeof(INTERFACE_INFO);
+	cout << "There are " << nNumInterfaces << " interfaces:" << endl;
+	for (int i = 0; i < nNumInterfaces; ++i) {
+		cout << endl;
+
+		sockaddr_in* pAddress;
+		pAddress = (sockaddr_in*) & (InterfaceList[i].iiAddress);
+		cout << " " << inet_ntoa(pAddress->sin_addr);
+
+		pAddress = (sockaddr_in*) & (InterfaceList[i].iiBroadcastAddress);
+		cout << " has bcast " << inet_ntoa(pAddress->sin_addr);
+
+		pAddress = (sockaddr_in*) & (InterfaceList[i].iiNetmask);
+		cout << " and netmask " << inet_ntoa(pAddress->sin_addr) << endl;
+
+		cout << " Iface is ";
+		u_long nFlags = InterfaceList[i].iiFlags;
+		if (nFlags & IFF_UP) cout << "up";
+		else                 cout << "down";
+		if (nFlags & IFF_POINTTOPOINT) cout << ", is point-to-point";
+		if (nFlags & IFF_LOOPBACK)     cout << ", is a loopback iface";
+		cout << ", and can do: ";
+		if (nFlags & IFF_BROADCAST) cout << "bcast ";
+		if (nFlags & IFF_MULTICAST) cout << "multicast ";
+		cout << endl;
+	}
+
+	return 0;
 }
 
 

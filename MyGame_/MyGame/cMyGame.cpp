@@ -25,7 +25,8 @@ void eae6320::cExampleGame::SubmitDataToBeRendered(const float i_elapsedSecondCo
 			m_camera.PredictFutureTransform(i_elapsedSecondCount_sinceLastSimulationUpdate)));
 	Graphics::SubmitCameraPerspectiveData(Math::cMatrix_transformation::CreateCameraToProjectedTransform_perspective(0.785398f,	1.0f,	0.1f,	100.0f));
 	//Object
-	Math::cMatrix_transformation trans = m_object.PredictFutureTransform(m_client->TimeSinceLastTimeStamp(m_update_struct.time_stamp));
+	float time = m_client->TimeSinceLastTimeStamp(m_update_struct.time_stamp);
+	Math::cMatrix_transformation trans = m_object.PredictFutureTransform(0.0f);
 	Graphics::SubmitdrawCallConstant(trans);
 	if (m_showotherobject) {
 		Graphics::SubmitEffectWithObject(m_flash_Effect, Graphics::DefaultGeometry::s_manager.Get(m_cube_handle));
@@ -93,6 +94,7 @@ void eae6320::cExampleGame::UpdateBasedOnInput()
 		m_client->EnterningUpdatePhase();
 		m_update_struct = m_client->GetUpdateStruct();
 		m_object.position = m_update_struct.position[0];
+		//printf("%f,%f\n", m_object.position.x, m_object.position.y);
 		m_other_object.position = m_update_struct.position[1];
 		m_object.velocity = m_update_struct.speed[0];
 		m_other_object.velocity = m_update_struct.speed[1];

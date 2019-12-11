@@ -128,10 +128,11 @@ void Network::TCP::Client::Stop()
 
 float Network::TCP::Client::TimeSinceLastTimeStamp(uint64_t& last_time)
 {
-	if (last_time == 0) {
-		return 0.0f;
+	float result = 0.0f;
+	if (last_time != 0) {
+		result = (float)eae6320::Time::ConvertTicksToSeconds(eae6320::Time::GetCurrentSystemTimeTickCount() - last_time) + server_differece;
 	}
-	return (float)eae6320::Time::ConvertTicksToSeconds(eae6320::Time::GetCurrentSystemTimeTickCount() - last_time) + server_differece;
+	return result;
 }
 
 void Network::TCP::Client::EnterningUpdatePhase()
@@ -154,7 +155,7 @@ Network::UpdateStruct Network::TCP::Client::GetUpdateStruct()
 }
 bool Network::TCP::Client::synchronize_with_Server(const std::string& host, const std::string& port_number, network_error_code& o_error_code,uint64_t& latency)
 {
-	uint64_t data;
+	float data;
 	if (Connect(host, port_number, o_error_code)) {
 		uint64_t start =eae6320::Time::GetCurrentSystemTimeTickCount();
 		if (Send("nada", o_error_code, ((int)strlen("nada")) + 1)) {
@@ -162,7 +163,9 @@ bool Network::TCP::Client::synchronize_with_Server(const std::string& host, cons
 				uint64_t end = eae6320::Time::GetCurrentSystemTimeTickCount();
 				if ((end - start-100) < latency) {
 					uint64_t estimated_time = (end + start) / 2;
-					if (estimated_time > data) {
+					float estimated = (float)eae6320::Time::ConvertTicksToSeconds(estimated_time);
+					server_differece = data - estimated;
+					/*if (estimated_time > data) {
 						server_differece = -1.0f * (float)eae6320::Time::ConvertTicksToSeconds(estimated_time - data);
 					}
 					else if (estimated_time < data) {
@@ -170,13 +173,14 @@ bool Network::TCP::Client::synchronize_with_Server(const std::string& host, cons
 					}
 					else {
 						server_differece = 0.0f;
-					}
-					printf("%f \n", server_differece);
+					}*/
+					printf("\n");
+					printf("server_difference %f \n", server_differece);
 					printf("before % " PRIu64 "\n", latency);
 					latency = end - start;
 					printf("after % " PRIu64 "\n", latency);
 				}
-				printf("recieve time stamp % " PRIu64 "\n", data);
+				printf("recieve time  %f \n", data);
 				return true;
 			}
 		}

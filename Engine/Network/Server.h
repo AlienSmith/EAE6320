@@ -45,6 +45,7 @@ namespace Network {
 			void Reset();
 			void Close_Socket(SOCK s);
 			const static std::string REQUEST_ID;
+			int IpAddress();
 #ifdef _WIN32
 			addrinfo* m_result;
 			addrinfo* m_ptr;
