@@ -41,5 +41,6 @@ namespace Network {
 		//const InputStruct(*m_ptr_inputs)[MAX_CLIENT_NUMBER] = &m_input_data;
 		const InputStruct(*m_ptr_inputs)[MAX_CLIENT_NUMBER] = nullptr;
 		UpdateStruct m_update_structure;
+		uint64_t time_stamp = 0;
 	};
 }

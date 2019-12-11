@@ -26,12 +26,19 @@ void Network::ServerLogic::Update()
 	//uint64_t start = eae6320::Time::GetCurrentSystemTimeTickCount();
 	//std::this_thread::sleep_for(std::chrono::milliseconds(20));
 	//Movement
-	double delta_time = 0.00001;
-	for (int i = 0; i < MAX_CLIENT_NUMBER; i++) {
-		m_update_structure.speed[i] = eae6320::Math::sVector((float)(*m_ptr_inputs)[i].input_x_axies, (float)(*m_ptr_inputs)[i].input_y_axies, 0.0f);
-		m_update_structure.position[i] += m_update_structure.speed[i] * static_cast<float>((*m_ptr_inputs)[i].delta_time);
+	std::this_thread::sleep_for(std::chrono::milliseconds(50));
+	uint64_t new_time_stamp = eae6320::Time::GetCurrentSystemTimeTickCount();
+	if (time_stamp != 0) {
+		float delta_time = (float)eae6320::Time::ConvertTicksToSeconds(new_time_stamp - time_stamp);
+		for (int i = 0; i < MAX_CLIENT_NUMBER; i++) {
+			m_update_structure.speed[i] = eae6320::Math::sVector((float)(*m_ptr_inputs)[i].input_x_axies, (float)(*m_ptr_inputs)[i].input_y_axies, 0.0f);
+			//m_update_structure.position[i] += m_update_structure.speed[i] * static_cast<float>((*m_ptr_inputs)[i].delta_time);
+			m_update_structure.position[i] += m_update_structure.speed[i] * delta_time;
+			m_update_structure.time_stamp = new_time_stamp;
+		}
+		int a = 0;
 	}
-	int a = 0;
+	time_stamp = new_time_stamp;
 	//uint64_t end = eae6320::Time::GetCurrentSystemTimeTickCount();
 	//m_update_structure.update_game_delta_time = eae6320::Time::ConvertTicksToSeconds(end-start);
 
