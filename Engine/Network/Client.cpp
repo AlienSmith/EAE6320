@@ -1,6 +1,7 @@
 #include "Client.h"
 #include <time.h>
 #include <iostream>
+#include <inttypes.h>
 ///This will block the thread invoking this function until an ip is provided
 std::shared_ptr<Network::TCP::Client> Network::TCP::Client::Create_and_Run()
 {
@@ -70,6 +71,31 @@ bool Network::TCP::Client::run(const std::string& host, const std::string& port_
 		}
 		Reset();
 	}
+	//synchronize with server
+	{
+		Sleep(20);
+		uint64_t latency = UINT64_MAX;
+		if (!synchronize_with_Server(host, EMERGENCY_PORT, o_error_code, latency)) {
+			return false;
+		}
+		Reset();
+		Sleep(20);
+		if (!synchronize_with_Server(host, EMERGENCY_PORT, o_error_code, latency)) {
+			return false;
+		}
+		Reset();
+		Sleep(20);
+		if (!synchronize_with_Server(host, EMERGENCY_PORT, o_error_code, latency)) {
+			return false;
+		}
+		Reset();
+		Sleep(20);
+		if (!synchronize_with_Server(host, EMERGENCY_PORT, o_error_code, latency)) {
+			return false;
+		}
+		Reset();
+		Sleep(20);
+	}
 	while (flag_running) {
 		while (flag_running && m_phase == Client_Phase::UPDATE_LOOP) {
 			if (Connect(host, GAMELOOP_PORT, o_error_code)) {
@@ -125,6 +151,37 @@ Network::UpdateStruct Network::TCP::Client::GetUpdateStruct()
 {
 	std::scoped_lock lock(m_data.update_mutex);
 	return *(m_data.m_update_Front);
+}
+bool Network::TCP::Client::synchronize_with_Server(const std::string& host, const std::string& port_number, network_error_code& o_error_code,uint64_t& latency)
+{
+	uint64_t data;
+	if (Connect(host, port_number, o_error_code)) {
+		uint64_t start =eae6320::Time::GetCurrentSystemTimeTickCount();
+		if (Send("nada", o_error_code, ((int)strlen("nada")) + 1)) {
+			if (Recieve(reinterpret_cast<char*>(&data), o_error_code, sizeof(data))) {
+				uint64_t end = eae6320::Time::GetCurrentSystemTimeTickCount();
+				if ((end - start-100) < latency) {
+					uint64_t estimated_time = (end + start) / 2;
+					if (estimated_time > data) {
+						server_differece = -1.0f * (float)eae6320::Time::ConvertTicksToSeconds(estimated_time - data);
+					}
+					else if (estimated_time < data) {
+						server_differece = (float)eae6320::Time::ConvertTicksToSeconds(data - estimated_time);
+					}
+					else {
+						server_differece = 0.0f;
+					}
+					printf("%f \n", server_differece);
+					printf("before % " PRIu64 "\n", latency);
+					latency = end - start;
+					printf("after % " PRIu64 "\n", latency);
+				}
+				printf("recieve time stamp % " PRIu64 "\n", data);
+				return true;
+			}
+		}
+	}
+	return false;
 }
 Network::InputStruct* Network::TCP::Client::InputStructure()
 {

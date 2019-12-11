@@ -1,5 +1,6 @@
 #include "Server.h"
 #include <assert.h>
+#include <inttypes.h>
 bool Network::TCP::Server::Run(const std::string& port_number, network_error_code& o_error_code)
 {
 	char* recv_data = nullptr;
@@ -217,6 +218,7 @@ bool Network::TCP::Server::IntepretRequest(network_error_code& o_error_code, con
 			char* send = reinterpret_cast<char*>(&time_stamp);
 			int buf_length = sizeof(time_stamp);
 			if (Send(send, o_error_code, buf_length, socket)) {
+				printf("Send time stamp % " PRIu64 "\n", time_stamp);
 				return true;
 			}
 		}
