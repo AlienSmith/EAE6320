@@ -33,9 +33,9 @@ void Network::ServerLogic::Update()
 		float delta_time = (float)eae6320::Time::ConvertTicksToSeconds(new_time_stamp - time_stamp);
 		eae6320::Math::sVector resistance;
 		for (int i = 0; i < MAX_CLIENT_NUMBER; i++) {
-			resistance = -1.0f * m_update_structure.speed[i] * 0.1f * eae6320::Math::Dot(m_update_structure.speed[i], m_update_structure.speed[i]);
+			resistance = -1.0f * m_update_structure.speed[i] * 0.01f * eae6320::Math::Dot(m_update_structure.speed[i], m_update_structure.speed[i]);
 			m_update_structure.position[i] += m_update_structure.speed[i]*delta_time + 0.5* m_update_structure.acceleration[i]*delta_time*delta_time;
-			m_update_structure.acceleration[i] = eae6320::Math::sVector((float)(*m_ptr_inputs)[i].input_x_axies, (float)(*m_ptr_inputs)[i].input_y_axies, 0.0f)+ resistance;
+			m_update_structure.acceleration[i] = eae6320::Math::sVector((float)(*m_ptr_inputs)[i].input_x_axies, (float)(*m_ptr_inputs)[i].input_y_axies, 0.0f)*2.0f+ resistance;
 			m_update_structure.speed[i] += m_update_structure.acceleration[i] * delta_time;
 			//m_update_structure.position[i] += m_update_structure.speed[i] * static_cast<float>((*m_ptr_inputs)[i].delta_time);
 			m_update_structure.time_stamp = (float)eae6320::Time::ConvertTicksToSeconds(new_time_stamp);
