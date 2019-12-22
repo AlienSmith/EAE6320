@@ -5,6 +5,7 @@
 #include <Engine/Asserts/Asserts.h>
 #include <Engine/UserInput/UserInput.h>
 #include<Engine/Math/cMatrix_transformation.h>
+#include "Engine/Math/sVectorF4.h"
 
 // Inherited Implementation
 //=========================
@@ -86,10 +87,10 @@ void eae6320::cExampleGame::UpdateBasedOnInput()
 		m_input_struct.input_x_axies = 10;
 	}
 	//Dummy player
-	{
+	/*{
 		m_input_struct.input_x_axies = 1;
 		m_input_struct.input_y_axies = 0; 
-	}
+	}*/
 	m_client->SubmitInputStruct(m_input_struct);
 	//Get the updated result from the Server
 	{
@@ -132,10 +133,12 @@ void eae6320::cExampleGame::UpdateBasedOnInput()
 //--------------------------
 
 eae6320::cResult eae6320::cExampleGame::Initialize()
-{	//Audio
-	{
-		auto result = eae6320::Audio3D::AudioSource::Load("data/audio/littleblimp.wav", MySource);
-	}
+{	
+	DXMath::sVectorF4 temp(1, 2, 3, 4);
+	DXMath::sVectorF4 another(1, 2, 3, 4);
+	float temp_result = temp.dot(another);
+	//Audio
+	auto result = eae6320::Audio3D::AudioSource::Load("data/audio/littleblimp.wav", MySource);
 	//Networking
 	{
 		//std::string local_host = "155.97.7.99";
@@ -143,7 +146,9 @@ eae6320::cResult eae6320::cExampleGame::Initialize()
 		std::string port_num = "3333";
 		//m_client = Network::TCP::Client::Create_and_Run(local_host, port_num);
 		m_client = Network::TCP::Client::Create_and_Run();
-		MySource->PlayLooped();
+		if (result) {
+			MySource->PlayLooped();
+		}
 	}
 	//data/geometry/trangle.geometry
 	Graphics::DefaultGeometry::s_manager.Load("data/geometry/sphere.lua", m_sphere_handle);

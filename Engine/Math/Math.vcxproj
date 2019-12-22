@@ -30,6 +30,8 @@
     <ClInclude Include="cQuaternion.h" />
     <ClInclude Include="Functions.h" />
     <ClInclude Include="sVector.h" />
+    <ClInclude Include="sVectorF4.h" />
+    <ClInclude Include="sVectorF4_inl.win.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Functions.inl" />

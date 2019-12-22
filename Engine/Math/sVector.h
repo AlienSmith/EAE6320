@@ -4,7 +4,6 @@
 
 #ifndef EAE6320_MATH_SVECTOR_H
 #define EAE6320_MATH_SVECTOR_H
-
 // Struct Declaration
 //===================
 
@@ -79,7 +78,7 @@ namespace eae6320
 			// Initialization / Clean Up
 			//--------------------------
 
-			sVector() = default;
+			sVector() = default;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
 			sVector( const float i_x, const float i_y, const float i_z );
 		};
 
