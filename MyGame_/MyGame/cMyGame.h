@@ -6,6 +6,7 @@
 
 // Includes
 //=========
+///this have to be the first include
 #include"Engine/Physics/sRigidBodyState.h"
 #include <Engine/Application/cbApplication.h>
 #include <Engine/Results/Results.h>
@@ -16,7 +17,6 @@
 #if defined( EAE6320_PLATFORM_WINDOWS )
 	#include "Resource Files/Resource.h"
 #endif
-
 #include <Engine/Network/Client.h>
 
 // Class Declaration

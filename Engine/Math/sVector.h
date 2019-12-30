@@ -4,6 +4,10 @@
 
 #ifndef EAE6320_MATH_SVECTOR_H
 #define EAE6320_MATH_SVECTOR_H
+#if defined(_WIN32) || defined(WIN32)
+#include <DirectXMath.h>
+#include <DirectXPackedVector.h>
+#endif
 // Struct Declaration
 //===================
 
@@ -17,7 +21,12 @@ namespace eae6320
 			//=====
 
 			float x = 0.0f, y = 0.0f, z = 0.0f;
-
+#if defined(_WIN32) || defined(WIN32)
+		public:
+			DirectX::XMVECTOR LoadsVector() {
+				return DirectX::XMLoadFloat3(reinterpret_cast<const DirectX::XMFLOAT3*>(this));
+			}
+#endif
 			// Interface
 			//==========
 

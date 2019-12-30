@@ -1,6 +1,5 @@
 #pragma once
 #if defined(_WIN32) || defined(WIN32)
-#include <Windows.h>
 #include <DirectXMath.h>
 #include <DirectXPackedVector.h>
 #else 

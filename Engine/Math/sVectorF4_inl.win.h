@@ -4,4 +4,5 @@ namespace DXMath {
 	{
 		return DirectX::XMVectorGetX(DirectX::XMVector4Dot(data, other.data));
 	}
+	
 }
