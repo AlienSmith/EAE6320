@@ -33,24 +33,6 @@ eae6320::Math::sVector& eae6320::Math::sVector::operator +=( const sVector i_rhs
 	return *this;
 }
 
-eae6320::Math::sVector eae6320::Math::sVector::operator +( const float i_rhs ) const
-{
-	return sVector( x + i_rhs, y + i_rhs, z + i_rhs );
-}
-
-eae6320::Math::sVector& eae6320::Math::sVector::operator +=( const float i_rhs )
-{
-	x += i_rhs;
-	y += i_rhs;
-	z += i_rhs;
-	return *this;
-}
-
-eae6320::Math::sVector eae6320::Math::operator +( const float i_lhs, const sVector i_rhs )
-{
-	return i_rhs + i_lhs;
-}
-
 // Subtraction / Negation
 //-----------------------
 
@@ -72,24 +54,6 @@ eae6320::Math::sVector eae6320::Math::sVector::operator -() const
 	return sVector( -x, -y, -z );
 }
 
-eae6320::Math::sVector eae6320::Math::sVector::operator -( const float i_rhs ) const
-{
-	return sVector( x - i_rhs, y - i_rhs, z - i_rhs );
-}
-
-eae6320::Math::sVector& eae6320::Math::sVector::operator -=( const float i_rhs )
-{
-	x -= i_rhs;
-	y -= i_rhs;
-	z -= i_rhs;
-	return *this;
-}
-
-eae6320::Math::sVector eae6320::Math::operator -( const float i_lhs, const sVector i_rhs )
-{
-	return sVector( i_lhs - i_rhs.x, i_lhs - i_rhs.y, i_lhs - i_rhs.z );
-}
-
 // Multiplication
 //---------------
 
@@ -106,7 +70,7 @@ eae6320::Math::sVector& eae6320::Math::sVector::operator *=( const float i_rhs )
 	return *this;
 }
 
-eae6320::Math::sVector eae6320::Math::operator *( const float i_lhs, const sVector i_rhs )
+eae6320::Math::sVector eae6320::Math::operator *( const float i_lhs, const eae6320::Math::sVector i_rhs )
 {
 	return i_rhs * i_lhs;
 }
@@ -186,8 +150,8 @@ bool eae6320::Math::sVector::operator !=( const sVector i_rhs ) const
 	return ( x != i_rhs.x ) | ( y != i_rhs.y ) | ( z != i_rhs.z );
 }
 
-// Initialization / Clean Up
-//--------------------------
+// Initialization / Shut Down
+//---------------------------
 
 eae6320::Math::sVector::sVector( const float i_x, const float i_y, const float i_z )
 	:

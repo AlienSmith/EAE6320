@@ -71,7 +71,7 @@ namespace
 	eae6320::cResult CreateDevice( const unsigned int i_resolutionWidth, const unsigned int i_resolutionHeight )
 	{
 		auto& g_context = eae6320::Graphics::sContext::g_context;
-
+		//Use primary display adaptor
 		IDXGIAdapter* const useDefaultAdapter = nullptr;
 		constexpr D3D_DRIVER_TYPE useHardwareRendering = D3D_DRIVER_TYPE_HARDWARE;
 		constexpr HMODULE dontUseSoftwareRendering = NULL;
