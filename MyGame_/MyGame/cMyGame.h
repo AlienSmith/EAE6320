@@ -29,7 +29,7 @@ namespace eae6320
 		Graphics::cEffect* m_effect;
 		Graphics::DefaultGeometry* m_Geometry;
 	};
-	class cExampleGame : public Application::cbApplication
+	class cMyGame: public Application::cbApplication
 	{
 		// Inherited Implementation
 		//=========================

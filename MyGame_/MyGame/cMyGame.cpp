@@ -13,7 +13,7 @@
 // Run
 //----
 
-void eae6320::cExampleGame::SubmitDataToBeRendered(const float i_elapsedSecondCount_systemTime, const float i_elapsedSecondCount_sinceLastSimulationUpdate)
+void eae6320::cMyGame::SubmitDataToBeRendered(const float i_elapsedSecondCount_systemTime, const float i_elapsedSecondCount_sinceLastSimulationUpdate)
 {
 	//Update position
 	//background color
@@ -45,13 +45,13 @@ void eae6320::cExampleGame::SubmitDataToBeRendered(const float i_elapsedSecondCo
 	}
 }
 
-void eae6320::cExampleGame::UpdateSimulationBasedOnTime(const float i_elapsedSecondCount_sinceLastUpdate)
+void eae6320::cMyGame::UpdateSimulationBasedOnTime(const float i_elapsedSecondCount_sinceLastUpdate)
 {
 	m_camera.position += m_camera.velocity * i_elapsedSecondCount_sinceLastUpdate;
 	//m_object.position += m_object.velocity * i_elapsedSecondCount_sinceLastUpdate;
 }
 
-void eae6320::cExampleGame::UpdateBasedOnInput()
+void eae6320::cMyGame::UpdateBasedOnInput()
 {
 	//Make camera trasform
 	Math::sVector temp_vol = Math::sVector(0.0f, 0.0f, 0.0f);
@@ -132,7 +132,7 @@ void eae6320::cExampleGame::UpdateBasedOnInput()
 // Initialization / Clean Up
 //--------------------------
 
-eae6320::cResult eae6320::cExampleGame::Initialize()
+eae6320::cResult eae6320::cMyGame::Initialize()
 {	
 	DXMath::sVectorF4 temp(1, 2, 3, 4);
 	DXMath::sVectorF4 another(1, 2, 3, 4);
@@ -151,7 +151,7 @@ eae6320::cResult eae6320::cExampleGame::Initialize()
 		}
 	}
 	//data/geometry/trangle.geometry
-	Graphics::DefaultGeometry::s_manager.Load("data/geometry/sphere.lua", m_sphere_handle);
+ 	Graphics::DefaultGeometry::s_manager.Load("data/geometry/sphere.lua", m_sphere_handle);
 	Graphics::DefaultGeometry::s_manager.Load("data/geometry/cube.lua", m_cube_handle);
 	Graphics::DefaultGeometry::s_manager.Load("data/geometry/triangle.lua", m_triangle_handle);
 	Graphics::DefaultGeometry::s_manager.Load("data/geometry/plane.lua", m_plane_handle);
@@ -226,7 +226,7 @@ eae6320::cResult eae6320::cExampleGame::Initialize()
 	return Results::Success;
 }
 
-eae6320::cResult eae6320::cExampleGame::CleanUp()
+eae6320::cResult eae6320::cMyGame::CleanUp()
 {
 	Graphics::DefaultGeometry::s_manager.Release(m_triangle_handle);
 	Graphics::DefaultGeometry::s_manager.Release(m_plane_handle);

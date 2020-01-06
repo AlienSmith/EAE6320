@@ -1,0 +1,5 @@
+If Migrate to another device
+Change:
+MyGame -> Project property -> Configuration Properties
+Command $(GameInstallDir)$(TargetFileName)
+Working Directory $(GameInstallDir)
